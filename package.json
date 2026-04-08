@@ -1,24 +1,14 @@
 {
-  "name": "portfolio-cv-studio",
+  "name": "portfolio-workspace",
   "private": true,
   "version": "0.1.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "framer-motion": "^11.11.11",
-    "lucide-react": "^0.468.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
-  },
-  "devDependencies": {
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.3",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.10"
+    "dev": "npm --prefix front run dev",
+    "dev:front": "npm --prefix front run dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "build": "npm --prefix front run build",
+    "build:front": "npm --prefix front run build",
+    "build:backend": "npm --prefix backend run build",
+    "preview": "npm --prefix front run preview"
   }
 }

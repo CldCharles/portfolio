@@ -1,64 +1,109 @@
-# Portfolio + CV Studio
+# Portfolio & CV Studio
 
-Premiere base pour un portfolio React avec une premiere feature produit: un editeur de CV multilingue, local-first, avec export PDF via impression navigateur.
+Application web construite avec React, TypeScript et Vite.
+
+Le projet combine:
+
+- une landing page portfolio sobre et modulaire
+- un espace `CV Studio` accessible par routing
+- une base backend Node.js/Express separee pour les evolutions futures
+
+## Apercu
+
+Le frontend est organise comme une application classique:
+
+- `front/src/app` pour le routing
+- `front/src/components` pour les elements partages
+- `front/src/pages` pour les ecrans
+- `front/src/features/cv` pour la fonctionnalite CV
+
+Le backend est contenu dans `backend/` et expose une base d'API minimaliste pour l'apprentissage et l'evolution du produit.
+
+## Fonctionnalites
+
+- landing page portfolio
+- navigation avec routing
+- page dediee au `CV Studio`
+- edition locale du CV
+- variantes multilingues
+- import/export JSON
+- export PDF via impression navigateur
+- backend Express avec routes `GET /api/health` et `GET /api/cv`
 
 ## Stack
 
-- React + TypeScript + Vite
-- `framer-motion` pour des transitions legeres
-- `lucide-react` pour les icones
-- Pas de backend pour cette V1
+### Frontend
 
-## Pourquoi sans backend ?
+- React
+- TypeScript
+- Vite
+- Framer Motion
+- React Router
+- Lucide React
 
-Pour ton besoin initial, ce choix est le plus simple et le plus rentable:
+### Backend
 
-- hebergement gratuit facile sur Vercel, Netlify ou Cloudflare Pages
-- zero cout serveur
-- edition et sauvegarde locale via `localStorage`
-- export PDF cote client avec la version imprimable
-- structure prete a accueillir un backend Node.js plus tard si tu veux un compte, une synchro cloud ou une traduction automatique
+- Node.js
+- Express
+- TypeScript
 
-## Fonctionnalites incluses
+## Demarrage
 
-- landing page portfolio moderne
-- editeur de CV
-- variantes par langue: francais, anglais, espagnol
-- duplication rapide du contenu FR vers une autre langue
-- sauvegarde locale
-- export/import JSON
-- export PDF via `window.print()`
-
-## Lancer le projet
+### Frontend
 
 ```bash
+cd front
 npm install
 npm run dev
 ```
 
-## Build
+### Backend
 
 ```bash
-npm run build
+cd backend
+npm install
+npm run dev
 ```
 
-## Hebergement gratuit recommande
+### Depuis la racine
 
-### Option 1: Vercel
+```bash
+npm run dev:front
+npm run dev:backend
+```
 
-- connecte le repo GitHub
-- framework: `Vite`
-- build command: `npm run build`
-- output directory: `dist`
+## Build
 
-### Option 2: Netlify
+### Frontend
 
-- build command: `npm run build`
-- publish directory: `dist`
+```bash
+npm run build:front
+```
 
-## Suite logique que je recommande
+### Backend
 
-1. connecter le formulaire a un vrai systeme de templates de CV
-2. ajouter une section projets / experiences sur la home
-3. brancher une traduction automatique via API plus tard
-4. ajouter une auth et une synchro si tu veux retrouver ton CV sur plusieurs appareils
+```bash
+npm run build:backend
+```
+
+## Structure
+
+```text
+portfolio/
+├── backend/
+├── front/
+│   ├── src/
+│   │   ├── app/
+│   │   ├── components/
+│   │   ├── features/
+│   │   └── pages/
+│   └── package.json
+├── DEVELOPMENT.md
+└── package.json
+```
+
+## Hebergement
+
+Le frontend peut etre deploye sur une plateforme statique comme Vercel, Netlify ou Cloudflare Pages.
+
+Le backend peut rester local pendant la phase d'apprentissage, puis etre deplace plus tard vers un hebergement Node.js si necessaire.
