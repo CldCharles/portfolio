@@ -5,7 +5,7 @@ export const initialCv: CVData = {
   title: {
     fr: "Développeur full-stack orienté produit",
     en: "Product-focused full-stack developer",
-    es: "Desarrollador full-stack orientado al producto",
+    ko: "프로덕트 중심의 풀스택 개발자",
   },
   email: "charles@example.com",
   phone: "+82 10-0000-0000",
@@ -14,12 +14,12 @@ export const initialCv: CVData = {
   summary: {
     fr: "Je conçois des expériences web élégantes, performantes et utiles, avec un fort intérêt pour l'UX, l'automatisation et les produits bien finis.",
     en: "I build elegant, fast, and useful web experiences with a strong interest in UX, automation, and polished product thinking.",
-    es: "Diseño experiencias web elegantes, rápidas y útiles, con un gran interés por la UX, la automatización y los productos bien terminados.",
+    ko: "UX, 자동화, 완성도 높은 제품 감각에 집중하면서 빠르고 유용한 웹 경험을 만듭니다.",
   },
   skills: {
     fr: ["React", "TypeScript", "Node.js", "Design systems", "API REST"],
     en: ["React", "TypeScript", "Node.js", "Design systems", "REST APIs"],
-    es: ["React", "TypeScript", "Node.js", "Sistemas de diseño", "APIs REST"],
+    ko: ["React", "TypeScript", "Node.js", "디자인 시스템", "REST API"],
   },
   experience: [
     {
@@ -28,13 +28,13 @@ export const initialCv: CVData = {
       role: {
         fr: "Développeur front senior",
         en: "Senior frontend developer",
-        es: "Desarrollador frontend senior",
+        ko: "시니어 프론트엔드 개발자",
       },
       period: "2023 - Aujourd'hui",
       achievements: {
         fr: "Refonte d'une interface B2B, amélioration de la performance perçue et mise en place d'un design system partagé.",
         en: "Led a B2B interface redesign, improved perceived performance, and introduced a shared design system.",
-        es: "Dirigí el rediseño de una interfaz B2B, mejoré el rendimiento percibido y lancé un sistema de diseño compartido.",
+        ko: "B2B 인터페이스 리디자인을 이끌고 체감 성능을 개선했으며 공통 디자인 시스템을 도입했습니다.",
       },
     },
   ],
@@ -45,7 +45,7 @@ export const initialCv: CVData = {
       degree: {
         fr: "Master en ingénierie logicielle",
         en: "Master's degree in software engineering",
-        es: "Máster en ingeniería de software",
+        ko: "소프트웨어 공학 석사",
       },
       period: "2018 - 2020",
     },
