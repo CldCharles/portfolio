@@ -1,14 +1,18 @@
 import { CvStudio } from "../features/cv/CvStudio";
+import { useTranslation } from "react-i18next";
 
 export function CvStudioPage() {
+  const { t } = useTranslation();
+
   return (
-    <main className="page-shell">
-      <section className="page-header">
-        <p className="eyebrow">CV Studio</p>
-        <h1>Un espace dedie pour editer, traduire et exporter ton CV.</h1>
-        <p className="page-header-text">
-          La feature est maintenant isolee dans sa propre page, ce qui rend le portfolio plus
-          propre et le code plus facile a faire evoluer.
+    <main className="pb-10">
+      <section className="px-1 py-7">
+        <p className="section-kicker">{t("cvStudioPage.kicker")}</p>
+        <h1 className="max-w-[13ch] text-[clamp(2.4rem,5vw,4.6rem)] leading-[0.95] tracking-[-0.05em]">
+          {t("cvStudioPage.title")}
+        </h1>
+        <p className="mt-4 max-w-3xl text-muted">
+          {t("cvStudioPage.text")}
         </p>
       </section>
 

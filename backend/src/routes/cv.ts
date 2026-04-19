@@ -26,11 +26,23 @@ cvRouter.post("/", async (req, res) => {
     - res = la reponse que ton serveur renvoie
     - res.status(201).json(...) = reponse HTTP "cree avec succes"
   */
+    console.log({
+        method: req.method,
+        url: req.url,
+        params: req.params,
+        query: req.query,
+        body: req.body,
+    });
 
-  res.status(501).json({
-    message: "Route POST /api/cv a implementer par toi.",
-    receivedBody: req.body,
-  });
+    if (!req.body.name || !req.body.email)
+        return res.status(400).json({
+            message: "Missing required fields: name and email are required.",
+        })
+
+    res.status(201).json({
+        data: req.body,
+        message: "CV data received successfully.",
+    });
 });
 
 export { cvRouter };

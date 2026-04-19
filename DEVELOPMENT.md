@@ -72,6 +72,11 @@ Ce projet privilegie la clarte, la vitesse d'iteration et la simplicite.
 - Commits petits, intentionnels, faciles a relire.
 - Une PR doit porter une seule idee principale.
 - Si une PR devient difficile a resumer, elle est probablement trop grosse.
+- Interdire les gros commits sauf cas exceptionnel clairement assume.
+- Preferer plusieurs petits commits structures plutot qu'un commit massif difficile a reviewer.
+- Utiliser des messages de commit courts, directs et orientes action.
+- Favoriser des verbes simples comme `add`, `update`, `fix`, `remove`, `move`, `refactor`.
+- Un commit doit rester facile a comprendre sans explication supplementaire.
 - Ne jamais versionner ni pousser de secrets, tokens, fichiers `.env`, cles, certificats, logs sensibles ou donnees personnelles inutiles.
 - Avant chaque push, verifier explicitement le contenu du diff et la liste des fichiers suivis.
 

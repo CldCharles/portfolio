@@ -1,6 +1,10 @@
-export type Locale = "fr" | "en" | "es";
+export type Locale = "fr" | "en" | "ko";
 
 export type LocalizedText = Record<Locale, string>;
+
+export type FeatureStatus = "planned" | "in_progress" | "done" | "paused";
+
+export type TaskStatus = "todo" | "doing" | "done";
 
 export type ExperienceItem = {
   id: string;
@@ -28,4 +32,30 @@ export type CVData = {
   skills: Record<Locale, string[]>;
   experience: ExperienceItem[];
   education: EducationItem[];
+};
+
+export type RoadmapTask = {
+  id: string;
+  title: LocalizedText;
+  status: TaskStatus;
+};
+
+export type RoadmapFeature = {
+  id: string;
+  title: LocalizedText;
+  summary: LocalizedText;
+  status: FeatureStatus;
+  tasks: RoadmapTask[];
+};
+
+export type ReleaseEntry = {
+  id: string;
+  date: string;
+  title: LocalizedText;
+  notes: LocalizedText;
+};
+
+export type RoadmapData = {
+  features: RoadmapFeature[];
+  releases: ReleaseEntry[];
 };
