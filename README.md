@@ -1,109 +1,42 @@
-# Portfolio & CV Studio
+# Portfolio
 
-Application web construite avec React, TypeScript et Vite.
+Base de projet pour un CV public avec un futur espace administrateur et un import LinkedIn.
+Seul le setup est réalisé : aucune authentification, donnée de CV ou intégration LinkedIn.
 
-Le projet combine:
+## Prérequis et démarrage
 
-- une landing page portfolio sobre et modulaire
-- un espace `CV Studio` accessible par routing
-- une base backend Node.js/Express separee pour les evolutions futures
+Node.js 22.12+ et npm. La version majeure de référence est dans `.nvmrc`.
 
-## Apercu
-
-Le frontend est organise comme une application classique:
-
-- `front/src/app` pour le routing
-- `front/src/components` pour les elements partages
-- `front/src/pages` pour les ecrans
-- `front/src/features/cv` pour la fonctionnalite CV
-
-Le backend est contenu dans `backend/` et expose une base d'API minimaliste pour l'apprentissage et l'evolution du produit.
-
-## Fonctionnalites
-
-- landing page portfolio
-- navigation avec routing
-- page dediee au `CV Studio`
-- edition locale du CV
-- variantes multilingues
-- import/export JSON
-- export PDF via impression navigateur
-- backend Express avec routes `GET /api/health` et `GET /api/cv`
-
-## Stack
-
-### Frontend
-
-- React
-- TypeScript
-- Vite
-- Framer Motion
-- React Router
-- Lucide React
-
-### Backend
-
-- Node.js
-- Express
-- TypeScript
-
-## Demarrage
-
-### Frontend
-
-```bash
-cd front
-npm install
+```sh
+npm ci
 npm run dev
 ```
 
-### Backend
+- Vue : http://127.0.0.1:5173
+- API : http://127.0.0.1:3000/api/health
+- Via le proxy Vite : http://127.0.0.1:5173/api/health
 
-```bash
-cd backend
-npm install
-npm run dev
+```sh
+npm run typecheck
+npm run build
+npm start
 ```
 
-### Depuis la racine
+`npm start` lance uniquement l’API compilée. Le front compilé se trouve dans
+`apps/web/dist`. L’hébergement et le service des fichiers statiques restent à définir.
+Le port API est configurable avec `PORT`, l’interface réseau avec `HOST` ; si le
+port change en développement, adapter aussi la cible du proxy dans `apps/web/vite.config.ts`.
+Aucun fichier `.env` n’est chargé pour le moment et aucun secret n’est nécessaire.
 
-```bash
-npm run dev:front
-npm run dev:backend
-```
+## Organisation
 
-## Build
+- `apps/web` : Vue 3, Vite et TypeScript.
+- `apps/api` : Node.js, Express et TypeScript.
+- `docs/architecture.md` : choix techniques et limites du socle.
+- `docs/frontend.md` : arborescence, Pinia et composants shadcn-vue.
+- `docs/i18n.md` : configuration et utilisation des traductions.
+- `docs/roadmap.md` : fonctionnalités futures, hors setup.
+- `AGENTS.md` : règles de travail pour les agents.
+- `CONTRIBUTING.md` : conventions de contribution.
 
-### Frontend
-
-```bash
-npm run build:front
-```
-
-### Backend
-
-```bash
-npm run build:backend
-```
-
-## Structure
-
-```text
-portfolio/
-├── backend/
-├── front/
-│   ├── src/
-│   │   ├── app/
-│   │   ├── components/
-│   │   ├── features/
-│   │   └── pages/
-│   └── package.json
-├── DEVELOPMENT.md
-└── package.json
-```
-
-## Hebergement
-
-Le frontend peut etre deploye sur une plateforme statique comme Vercel, Netlify ou Cloudflare Pages.
-
-Le backend peut rester local pendant la phase d'apprentissage, puis etre deplace plus tard vers un hebergement Node.js si necessaire.
+Un seul dépôt Git et un seul lockfile npm. Aucun déploiement configuré.
