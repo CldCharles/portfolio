@@ -18,5 +18,13 @@ Créer une branche descriptive depuis `main` (`feat/...`, `fix/...`, `chore/...`
 ouvrir une PR vers `main`. Un agent distinct relit les changements avant livraison.
 Corriger ses observations bloquantes et indiquer dans la PR les vérifications et le
 résultat de la revue. La fusion est une étape séparée, décidée par le propriétaire.
-Cette convention est documentée ; aucune protection de branche GitHub ni revue
-automatique à chaque push n’est configurée pour le moment.
+La revue Codex automatique est activée sur `CldCharles/portfolio` pour les **PR de
+l’équipe**, avec le déclencheur **À chaque push**. Ces paramètres sont gérés dans
+les réglages Codex, pas dans un workflow GitHub Actions. L’option « Toutes les PR »
+n’a pas pu être enregistrée ; les contributions externes ne sont donc pas couvertes
+par cette configuration.
+
+La revue respecte les quotas Codex. Elle ne fusionne pas les PR et ne remplace pas
+les vérifications du projet. Aucune protection de branche GitHub n’est configurée.
+
+Réglages : https://chatgpt.com/settings/code-review/repositories/github-1205033815

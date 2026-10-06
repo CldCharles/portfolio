@@ -47,3 +47,15 @@ La roadmap décrit des intentions futures, pas une autorisation de les réaliser
   et les limites de la revue dans la description de la PR.
 - La revue par agent ne remplace pas les vérifications TypeScript et la compilation.
 - Ne pas fusionner une PR sans instruction utilisateur explicite.
+
+## Code Review Rules
+
+- Signaler les bugs, régressions, problèmes de sécurité et incohérences concrètes ;
+  fournir leur impact et une localisation précise. Éviter les remarques de style sans impact.
+- Respecter le périmètre de la PR : le socle ne doit pas introduire de fonctionnalités
+  métier, de déploiement ou de service externe sans demande.
+- Vérifier la cohérence des scripts npm, des workspaces, du lockfile et de la documentation.
+- Sur le front, vérifier les imports `@/`, les clés i18n et l’absence de duplication
+  de l’état de langue dans Pinia. Les composants UI restent indépendants du métier.
+- Ne jamais recommander de stocker des secrets ou des jetons admin dans localStorage.
+- Distinguer les vérifications réellement exécutées des validations rapportées par l’auteur.
