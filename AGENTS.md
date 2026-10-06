@@ -33,3 +33,17 @@ La roadmap décrit des intentions futures, pas une autorisation de les réaliser
 - Ajouter des tests de comportement quand les fonctionnalités sont développées ;
   éviter les tests qui recopient simplement la structure du setup.
 - Ne pas pousser, publier ou déployer sans instruction utilisateur.
+
+## Branches et revue
+
+- `main` représente la base stable. Développer sur une branche au nom correspondant
+  au travail : `feat/...`, `fix/...` ou `chore/...`.
+- Livrer les changements dans une PR ciblant `main` ; éviter les pushes directs sur `main`.
+- Avant la livraison d’une PR, déléguer une revue à un agent distinct, en lecture seule.
+  Lui fournir la branche de base, le périmètre et les validations réalisées.
+- Le reviewer examine bugs, régressions, sécurité, cohérence et respect du périmètre.
+  Il signale uniquement les problèmes concrets avec fichier, ligne, impact et priorité.
+- Corriger les problèmes bloquants et faire relire les corrections. Consigner le résultat
+  et les limites de la revue dans la description de la PR.
+- La revue par agent ne remplace pas les vérifications TypeScript et la compilation.
+- Ne pas fusionner une PR sans instruction utilisateur explicite.
