@@ -1,7 +1,8 @@
 # Portfolio
 
-Base de projet pour un CV public avec un futur espace administrateur et un import LinkedIn.
-Seul le setup est réalisé : aucune authentification, donnée de CV ou intégration LinkedIn.
+Portfolio public de Claude Charles Valentin en français, anglais et coréen.
+Vue 3 + Pinia + Vue I18n, API Node.js/Express et SQLite.
+L’administration et l’import LinkedIn sont les prochaines fonctionnalités.
 
 ## Prérequis et démarrage
 
@@ -13,10 +14,12 @@ npm run dev
 ```
 
 - Vue : http://127.0.0.1:5173
-- API : http://127.0.0.1:3000/api/health
+- CV : http://127.0.0.1:5173/?lang=fr (`en` et `ko` disponibles)
+- API : http://127.0.0.1:3000/api/cv?lang=fr
 - Via le proxy Vite : http://127.0.0.1:5173/api/health
 
 ```sh
+npm run test
 npm run typecheck
 npm run build
 npm start
@@ -26,6 +29,8 @@ npm start
 `apps/web/dist`. L’hébergement et le service des fichiers statiques restent à définir.
 Le port API est configurable avec `PORT`, l’interface réseau avec `HOST` ; si le
 port change en développement, adapter aussi la cible du proxy dans `apps/web/vite.config.ts`.
+SQLite est initialisé au démarrage dans `apps/api/data/portfolio.sqlite`. Le seed
+ne remplace pas les modifications existantes. `DATABASE_PATH` permet un autre chemin.
 Aucun fichier `.env` n’est chargé pour le moment et aucun secret n’est nécessaire.
 
 ## Organisation
@@ -35,7 +40,8 @@ Aucun fichier `.env` n’est chargé pour le moment et aucun secret n’est néc
 - `docs/architecture.md` : choix techniques et limites du socle.
 - `docs/frontend.md` : arborescence, Pinia et composants shadcn-vue.
 - `docs/i18n.md` : configuration et utilisation des traductions.
-- `docs/roadmap.md` : fonctionnalités futures, hors setup.
+- `packages/contracts` : types publics partagés, sans code d’exécution.
+- `docs/roadmap.md` : fonctionnalités réalisées et prochaines étapes.
 - `AGENTS.md` : règles de travail pour les agents.
 - `CONTRIBUTING.md` : conventions de contribution.
 

@@ -1,14 +1,20 @@
-# Roadmap prévisionnelle
+# Roadmap
+
+Réalisé dans la première fonctionnalité :
+
+- CV public sobre : présentation, compétences, projet portfolio en cours.
+- Français, anglais et coréen, préférence mémorisée et URL partageable.
+- SQLite, validation des données, révisions des traductions et repli français.
+- Tests API/persistance/traductions et concurrence des requêtes du store.
+
+Prochaines étapes, sur demande :
+
+1. Compléter les expériences, formations, autres projets et coordonnées souhaitées.
+2. Connexion administrateur, sessions serveur et édition avec aperçu avant publication.
+   Ajouter un écran de vérification des traductions et des brouillons persistants.
+3. Choisir un import LinkedIn réalisable selon les accès réellement disponibles,
+   avec aperçu et validation. Définir la gestion d’une source importée non française.
+4. Décider si un service de traduction assistée est utile ; validation humaine requise.
+5. Choisir l’hébergement, HTTPS, volume SQLite persistant, sauvegardes et restauration.
 
 Ce document ne déclenche aucune implémentation automatique.
-
-1. Définir le contenu du CV et sa structure ; valider une maquette responsive.
-2. Construire la page publique avec les sections retenues et vérifier l’accessibilité.
-3. Ajouter SQLite et la validation des données ; prévoir les sauvegardes.
-4. Ajouter connexion, sessions et édition administrateur avec aperçu avant publication.
-5. Étudier les accès LinkedIn et choisir une méthode d’import réalisable ; présenter
-   les modifications proposées avant validation pour éviter un écrasement involontaire.
-6. Choisir l’hébergement, configurer HTTPS, déployer et vérifier la restauration des données.
-
-Questions à trancher ensuite : langue(s) du CV, sections, photo, projets à présenter,
-format d’import LinkedIn, modalités de publication et hébergement.

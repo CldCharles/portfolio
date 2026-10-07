@@ -1,32 +1,50 @@
 # Architecture
 
-## Socle actuel
+Monorepo npm : `apps/web` (Vue 3 + Vite), `apps/api` (Express + Node.js),
+`packages/contracts` (types TypeScript publics uniquement, sans code d’exécution).
+TypeScript strict, Vue I18n, Pinia, shadcn-vue et Tailwind CSS 4.
+TypeScript reste en 5.9 pour sa compatibilité testée avec vue-tsc.
 
-Monorepo npm avec deux applications indépendantes. Vue 3 + Vite pour le navigateur,
-Express pour l’API Node.js, TypeScript strict partout. Le front dispose de Vue I18n,
-Pinia et shadcn-vue avec Tailwind CSS 4 ; son organisation est décrite dans
-`docs/frontend.md`. Vite transmet `/api` au serveur
-local en développement, ce qui évite une configuration CORS inutile pour le setup.
-Le seul endpoint est `GET /api/health`, qui retourne `{"status":"ok"}`.
-Il confirme que le processus répond, pas la santé d’une future base de données.
+## Lecture du CV
 
-TypeScript est fixé à la branche 5.9 : la version la plus récente testée provoquait
-une incompatibilité avec vue-tsc (`ERR_PACKAGE_PATH_NOT_EXPORTED`). Réévaluer
-ensemble ces deux outils lors d’une future mise à jour.
+Le store Pinia charge `GET /api/cv?lang=fr|en|ko` via `features/cv/api.ts`.
+La route valide la langue avec Zod et retourne seulement les données publiques.
+Langue absente : français. Valeur invalide ou répétée : HTTP 400. Profil absent :
+404. Erreur interne : 500 sans détails techniques. `GET /api/health` confirme
+uniquement que le processus répond. Aucune route d’écriture ni authentification.
 
-## Décisions prévues, non implémentées
+Le repository CV valide les champs, y compris les URL HTTP(S) et les dates, avant
+écriture. SQL paramétré, transactions, clés étrangères et WAL. La migration initiale
+est versionnée avec `PRAGMA user_version` ; une version future inconnue est refusée.
+Les deux tables et le suivi des révisions sont détaillés dans `docs/i18n.md`.
 
-- SQLite est le choix proposé pour la persistance, à confirmer avant développement.
-  Il faudra un stockage persistant et des sauvegardes lors de l’hébergement.
-- Un compte administrateur unique et des sessions côté serveur sont envisagés.
-- Vue Router sera ajouté quand les pages publiques et administrateur seront créées.
-- Le format du CV et les règles de validation seront définis avec les fonctionnalités.
-- L’import LinkedIn nécessite une étude d’accès API. Un import de fichier exporté
-  reste une alternative à étudier ; aucune récupération automatique n’est garantie.
+## SQLite
 
-## Production
+`better-sqlite3` crée `apps/api/data/portfolio.sqlite` au démarrage de l’API,
+indépendamment du dossier courant pour le chemin par défaut. `DATABASE_PATH`
+permet d’utiliser un autre fichier (préférer un chemin absolu).
+Le seed est transactionnel et ne s’exécute que si le profil est absent ; redémarrer
+ne remet pas à zéro les textes modifiés. Les fichiers SQLite ne sont pas versionnés.
+Le seed contient uniquement l’identité publique autorisée et le projet en cours ;
+aucune expérience, formation, adresse ou disponibilité n’est inventée.
 
-Aucun hébergeur sélectionné. `npm run build` produit le front statique dans
-`apps/web/dist` et l’API dans `apps/api/dist`. `npm start` ne sert que l’API.
-Il faudra définir HTTPS, le routage front/API, les secrets et la persistance avant
-mise en ligne. Le serveur écoute sur 127.0.0.1 par défaut ; `HOST` permet de le changer.
+Le fichier et ses données doivent être conservés sur un volume persistant à
+l’hébergement. Prévoir des sauvegardes cohérentes avec WAL et tester leur restauration.
+Ne pas copier uniquement le fichier principal pendant que des écritures ont lieu.
+
+## Front
+
+Voir `docs/frontend.md`. La page compose les composants du CV ; Pinia gère la
+requête, l’annulation et les états de chargement/erreur. Les traductions d’interface
+restent dans Vue I18n. Aucun HTML utilisateur n’est interprété.
+
+## Production et prochaines étapes
+
+`npm run build` produit `apps/web/dist` et `apps/api/dist`. `npm start` ne sert
+que l’API, sur 127.0.0.1 par défaut (`HOST` et `PORT` configurables).
+Vite transmet `/api` au port 3000 en développement. L’hébergement devra configurer
+le routage front/API, HTTPS, le stockage et les sauvegardes.
+
+Admin unique avec sessions serveur, brouillons et aperçu avant publication à venir.
+Vue Router sera ajouté avec les pages de connexion/administration. LinkedIn et
+traduction automatique ne sont pas intégrés ; limites et parcours prévu dans i18n.md.

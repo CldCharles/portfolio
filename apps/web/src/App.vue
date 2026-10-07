@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import SetupPage from '@/pages/SetupPage.vue';
+import CvPage from '@/pages/CvPage.vue';
 </script>
 
 <template>
-  <SetupPage />
+  <CvPage />
 </template>

@@ -16,9 +16,9 @@ apps/web/
     ├── app/
     │   └── pinia.ts         # Instance Pinia commune à l’application
     ├── pages/
-    │   └── SetupPage.vue    # Page d’attente actuelle
+    │   └── CvPage.vue       # Assemblage du CV public
     ├── layouts/             # Futurs cadres public et admin ; README seulement
-    ├── features/            # Futures fonctionnalités ; README seulement
+    ├── features/cv/         # Affichage du CV, api.ts et store Pinia
     ├── components/
     │   └── ui/              # Composants shadcn ajoutés au projet
     │       ├── button/
@@ -31,7 +31,8 @@ apps/web/
     │   ├── index.ts
     │   └── locales/
     │       ├── fr.ts
-    │       └── en.ts
+    │       ├── en.ts
+    │       └── ko.ts
     └── styles/
         ├── main.css        # Tailwind, thème et tokens communs
         └── shadcn.css      # Utilitaires CSS shadcn conservés localement
@@ -45,23 +46,22 @@ Lors de leur réalisation, ajouter les dossiers suivants dans `features` :
 - `auth` : connexion et état de session administrateur.
 - `linkedin` : import et aperçu des modifications avant validation.
 
-Exemple de structure future pour le CV, à créer selon les besoins :
+Structure actuelle du CV :
 
 ```text
 features/cv/
 ├── components/
-│   ├── CvPreview.vue
-│   └── CvEditor.vue
-├── composables/             # Seulement si de la logique réactive doit être partagée
-├── stores/
-│   └── cv.ts
-├── api.ts                   # Appels HTTP propres au CV
-└── types.ts                 # Types du domaine CV
+│   ├── CvHero.vue           # Identité et présentation ; prop profile
+│   ├── CvSection.vue        # Section typée ; props id, number, title, introduction, entries
+│   └── LanguageSwitcher.vue # Choix de langue dans Vue I18n
+├── stores/cv.ts             # Chargement, erreurs et annulation des anciennes requêtes
+└── api.ts                   # Lecture HTTP
 ```
 
-Les fichiers `pages/PortfolioPage.vue`, `pages/LoginPage.vue` et
-`pages/admin/CvEditorPage.vue` assembleront les composants métier et les layouts.
-Vue Router et `app/router.ts` seront ajoutés à cette étape. Ils ne sont pas encore présents.
+`App.vue` monte `CvPage.vue`. La page assemble les composants ; le store porte
+les effets réseau. Les contrats publics sont partagés dans `packages/contracts` et
+importés avec `import type`. Pas de duplication des données CV dans les locales.
+Vue Router et les layouts seront ajoutés avec les écrans administrateur.
 
 ## Règles de placement
 
