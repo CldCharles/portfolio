@@ -61,7 +61,16 @@ features/cv/
 `App.vue` monte `CvPage.vue`. La page assemble les composants ; le store porte
 les effets réseau. Les contrats publics sont partagés dans `packages/contracts` et
 importés avec `import type`. Pas de duplication des données CV dans les locales.
-Vue Router et les layouts seront ajoutés avec les écrans administrateur.
+Vue Router (`app/router.ts`) charge les pages à la demande : `CvPage.vue`,
+`admin/LoginPage.vue` et `admin/EditorPage.vue`. Le garde vérifie la session avant
+d’afficher l’éditeur ; la sécurité repose sur l’API.
+
+`features/auth` contient API HTTP, store session et formulaire de connexion.
+`features/admin` contient le store du brouillon, `ItemEditor` (champs communs),
+`TranslationEditor` (texte et validation par langue) et `DraftPreview` (réutilisation
+des composants du CV public). Les éditeurs utilisent des contrats `v-model` typés ;
+les actions réseau sont dans les stores. Les erreurs et expirations conservent les
+modifications dans l’onglet. Aucun token de session ni brouillon privé dans localStorage.
 
 ## Règles de placement
 

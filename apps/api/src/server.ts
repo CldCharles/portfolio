@@ -7,8 +7,8 @@ if (!Number.isInteger(port) || port < 1 || port > 65535) {
   throw new Error('PORT doit être un entier compris entre 1 et 65535.');
 }
 
-const { db, repository } = openDatabase();
-const app = createApp(repository);
+const { db, repository, admin } = openDatabase();
+const app = createApp(repository, admin);
 const server = app.listen(port, host, () => {
   console.log(`API disponible sur http://${host}:${port}`);
 });

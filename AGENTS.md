@@ -3,8 +3,9 @@
 ## Périmètre
 
 Le périmètre actuel couvre le CV public sobre et professionnel, les langues FR/EN/KO,
-SQLite et le suivi des traductions. L’administration, la connexion, l’import LinkedIn
-et le déploiement restent les étapes suivantes, à engager sur demande.
+SQLite, le suivi des traductions et l’administration : compte unique, sessions,
+édition, brouillon privé, aperçu et publication explicite. L’import LinkedIn et le
+déploiement restent les étapes suivantes, à engager sur demande.
 La roadmap décrit des intentions futures, pas une autorisation de les réaliser.
 
 ## Conventions
@@ -27,9 +28,12 @@ La roadmap décrit des intentions futures, pas une autorisation de les réaliser
 - Ne jamais versionner de secrets, de coordonnées privées ou de fichiers SQLite.
   Les seuls renseignements personnels du seed sont ceux autorisés pour le CV public
   par le propriétaire ; ne pas inventer de parcours, diplômes ou coordonnées.
-- Pour la future authentification : protéger les routes côté serveur, hacher les mots
+- Pour l’authentification : protéger les routes côté serveur, hacher les mots
   de passe, cookies HttpOnly et protections CSRF adaptées ; ne pas stocker de jeton
   d’administration dans localStorage.
+- Tester les écritures sur une base temporaire ; ne jamais modifier le CV réel pour
+  une démonstration ni créer un compte par défaut. Conserver les changements locaux
+  du propriétaire hors du périmètre de la PR.
 - Pour LinkedIn : vérifier les accès officiels avant d’annoncer une capacité d’import.
   Ne pas implémenter de scraping ni collecter les identifiants LinkedIn.
 - Maintenir la documentation à jour et vérifier `npm run test`, `npm run typecheck` puis `npm run build`.

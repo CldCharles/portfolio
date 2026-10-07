@@ -143,3 +143,19 @@ h1, h2, h3, p { overflow-wrap: anywhere; }
   body { background: white; }
   article { break-inside: avoid; }
 }
+
+.admin-shell { max-inline-size: 1200px; margin-inline: auto; padding: 1.5rem clamp(1rem, 4vw, 3rem) 4rem; }
+.admin-header, .admin-actions { display: flex; gap: .7rem; flex-wrap: wrap; align-items: center; }
+.admin-header { justify-content: space-between; padding-block-end: 1.5rem; border-block-end: 1px solid var(--border); }
+.admin-header > a { min-block-size: 2.75rem; display: flex; align-items: center; font-size: .85rem; }
+.admin-eyebrow { color: var(--portfolio-accent); font-size: .72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+.admin-button { min-block-size: 2.75rem; block-size: auto; white-space: normal; padding: .7rem 1rem; border-radius: .3rem; }
+.field { display: grid; gap: .6rem; min-inline-size: 0; }
+.field input, .field textarea, .field select, .add-entry select { min-block-size: 2.75rem; inline-size: 100%; min-inline-size: 0; }
+.field textarea, .field select, .add-entry select { border: 1px solid var(--input); border-radius: .35rem; padding: .75rem; background: var(--background); font: inherit; }
+.field textarea { resize: vertical; }
+.muted { color: var(--muted-foreground); line-height: 1.7; }
+.error-message, .notice { padding: 1rem; line-height: 1.6; border: 1px solid var(--border); border-radius: .35rem; margin-block: 1rem; }
+.error-message { border-color: #b04b3c; color: #922f22; background: #fff5f2; }
+.notice { background: var(--muted); }
+.admin-shell :where(textarea, select, input):focus-visible { outline: 2px solid var(--portfolio-accent); outline-offset: 3px; }

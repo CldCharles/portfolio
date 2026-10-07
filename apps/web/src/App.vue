@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import CvPage from '@/pages/CvPage.vue';
+import { RouterView } from 'vue-router';
 </script>
 
 <template>
-  <CvPage />
+  <RouterView />
 </template>
