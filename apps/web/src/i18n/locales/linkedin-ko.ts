@@ -1,0 +1,43 @@
+import type fr from './linkedin-fr';
+export default {
+  "open": "LinkedIn 가져오기",
+  "title": "LinkedIn 경력 가져오기",
+  "intro": "LinkedIn 데이터를 다운로드하고 압축을 푼 다음 CSV 파일을 선택하세요. 이 기능은 LinkedIn에 직접 연결하지 않습니다.",
+  "exportHelp": "데이터 내보내기 안내",
+  "privacy": "파일은 브라우저에서 읽습니다. 초안을 저장할 때 선택한 항목만 서버로 전송됩니다.",
+  "fileKind": "파일 유형",
+  "language": "파일 내용의 언어",
+  "file": "CSV 파일",
+  "limits": "한 번에 파일 하나 · 최대 512KB · 100행. 영문 CSV 헤더를 지원합니다.",
+  "frenchRequired": "새 항목마다 프랑스어 버전을 작성하세요. 가져온 영어 또는 한국어 텍스트는 검토가 필요한 번역으로 보관됩니다.",
+  "reading": "파일 읽는 중…",
+  "reviewIntro": "기본으로 선택된 항목은 없습니다. 가져올 항목을 선택하기 전에 대상과 내용을 확인하세요.",
+  "destination": "초안의 대상 항목",
+  "choose": "대상 선택",
+  "newEntry": "새 항목",
+  "compare": "초안과 비교",
+  "before": "가져온 언어의 현재 내용",
+  "imported": "파일 내용",
+  "dates": "편집기에서 직접 입력할 내보낸 날짜:",
+  "frenchVersion": "초안에 보관할 프랑스어 버전",
+  "preserved": "선택한 항목의 텍스트와 선택된 프로필의 이름을 교체합니다. 링크, 기술, 날짜 및 다른 언어는 유지됩니다. 영향을 받는 번역은 검토해야 합니다. 다음 단계: 저장, 미리보기, 게시.",
+  "apply": "초안에 추가 ({count})",
+  "files": {
+    "profile": "Profile.csv · 소개",
+    "experience": "Positions.csv · 경력",
+    "education": "Education.csv · 학력",
+    "skill": "Skills.csv · 기술"
+  },
+  "errors": {
+    "tooLarge": "파일 크기가 512KB를 초과합니다.",
+    "tooMany": "100행, 100열 또는 100개 항목 제한을 초과했습니다.",
+    "invalidCsv": "잘못된 CSV 형식입니다. 압축을 푼 쉼표 구분 파일을 사용하세요.",
+    "empty": "파일에 데이터가 없습니다.",
+    "headers": "헤더가 선택한 유형과 일치하지 않습니다. 프로젝트 문서의 지원 형식을 확인하세요.",
+    "text": "제목이 비어 있거나 텍스트가 제한을 초과합니다 (제목 200자, 부제 300자, 설명 5000자).",
+    "selection": "항목을 하나 이상 선택하세요.",
+    "french": "프랑스어 제목을 입력하고 글자 수 제한을 지켜주세요.",
+    "target": "선택한 모든 항목에 올바른 대상을 지정하세요.",
+    "duplicate": "선택한 행이 같은 항목을 대상으로 하거나 같은 제목을 추가합니다. 확인 후 따로 가져오세요."
+  }
+} satisfies typeof fr;

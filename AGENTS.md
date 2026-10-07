@@ -4,8 +4,8 @@
 
 Le périmètre actuel couvre le CV public sobre et professionnel, les langues FR/EN/KO,
 SQLite, le suivi des traductions et l’administration : compte unique, sessions,
-édition, brouillon privé, aperçu et publication explicite. L’import LinkedIn et le
-déploiement restent les étapes suivantes, à engager sur demande.
+édition, brouillon privé, aperçu, publication explicite et import CSV LinkedIn
+avec sélection et validation. Le déploiement reste une étape suivante sur demande.
 La roadmap décrit des intentions futures, pas une autorisation de les réaliser.
 
 ## Conventions

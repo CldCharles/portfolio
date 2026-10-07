@@ -51,3 +51,6 @@ localement avec `npm run admin:setup`, avec mot de passe masqué et haché. Voir
 - `CONTRIBUTING.md` : conventions de contribution.
 
 Un seul dépôt Git et un seul lockfile npm. Aucun déploiement configuré.
+
+L’admin propose aussi un import des fichiers CSV de votre export LinkedIn, avec
+sélection avant ajout au brouillon. Voir [les formats et limites](docs/linkedin.md).

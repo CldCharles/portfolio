@@ -2,12 +2,13 @@
 import { computed, onMounted, onUnmounted, shallowRef } from 'vue';
 import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import type { EntryKind, Locale } from '@portfolio/contracts';
+import type { DraftDocument, EntryKind, Locale } from '@portfolio/contracts';
 import { Button } from '@/components/ui/button';
 import { useEditorStore } from '@/features/admin/store';
 import { useAuthStore } from '@/features/auth/store';
 import LoginForm from '@/features/auth/LoginForm.vue';
 import ItemEditor from '@/features/admin/components/ItemEditor.vue';
+import LinkedInImport from '@/features/linkedin/LinkedInImport.vue';
 import DraftPreview from '@/features/admin/components/DraftPreview.vue';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
 const { t, te, locale } = useI18n({ useScope: 'global' });
@@ -16,6 +17,7 @@ const auth = useAuthStore();
 const router = useRouter();
 const selectedId = shallowRef('profile');
 const addingKind = shallowRef<EntryKind>('experience');
+const importMode = shallowRef(false);
 const previewMode = shallowRef(false);
 const confirmingPublish = shallowRef(false);
 const selectedIndex = computed(() => editor.document?.items.findIndex(item => item.id === selectedId.value) ?? -1);
@@ -47,6 +49,10 @@ function move(direction: number) {
   editor.document.items.splice(target, 0, item!);
 }
 async function reload() { if (editor.dirty && !window.confirm(t('admin.discardConfirm'))) return; await editor.load(); selectedId.value = 'profile'; }
+function imported(document: DraftDocument) {
+  editor.document = document; editor.preview = null; editor.previewRevision = 0;
+  editor.notice = ''; editor.error = ''; selectedId.value = 'profile'; importMode.value = false;
+}
 async function preview() { await editor.showPreview(locale.value as Locale); if (editor.preview) previewMode.value = true; }
 async function publish() { await editor.publish(); confirmingPublish.value = false; if (!editor.error) previewMode.value = false; }
 async function logout() {
@@ -65,9 +71,11 @@ async function logout() {
       <p v-if="editor.busy" role="status" class="muted">{{ t('admin.working') }}</p>
       <div v-if="!editor.document && !editor.busy" class="admin-actions"><Button @click="editor.load">{{ t('admin.reload') }}</Button></div>
       <template v-if="editor.document">
+        <LinkedInImport v-if="importMode" :document="editor.document" :disabled="editor.busy" @apply="imported" @cancel="importMode = false" />
+        <template v-else>
         <div class="editor-toolbar">
           <div class="admin-actions"><Button type="button" variant="outline" class="admin-button" :disabled="editor.busy" @click="previewMode = false; confirmingPublish = false">{{ t('admin.edit') }}</Button><Button type="button" variant="outline" class="admin-button" :disabled="editor.dirty || editor.busy" @click="preview">{{ t('admin.preview') }}</Button></div>
-          <div class="admin-actions"><Button type="button" variant="ghost" class="admin-button" :disabled="editor.busy" @click="reload">{{ t('admin.reload') }}</Button><Button type="submit" form="cv-editor" class="admin-button" :disabled="!editor.dirty || editor.busy">{{ t('admin.save') }}</Button></div>
+          <div class="admin-actions"><Button type="button" variant="outline" class="admin-button" :disabled="editor.busy" @click="importMode = true; previewMode = false; confirmingPublish = false">{{ t('linkedin.open') }}</Button><Button type="button" variant="ghost" class="admin-button" :disabled="editor.busy" @click="reload">{{ t('admin.reload') }}</Button><Button type="submit" form="cv-editor" class="admin-button" :disabled="!editor.dirty || editor.busy">{{ t('admin.save') }}</Button></div>
         </div>
         <p v-if="editor.dirty" class="muted toolbar-help">{{ t('admin.saveBeforePreview') }}</p>
         <template v-if="previewMode && editor.preview">
@@ -88,6 +96,7 @@ async function logout() {
             <fieldset :disabled="editor.busy"><ItemEditor v-if="selectedItem" :key="selectedId" v-model="selectedItem" :first="selectedIndex <= 1" :last="selectedIndex === editor.document.items.length - 1" @remove="remove" @move="move" /></fieldset>
           </form>
         </div>
+        </template>
       </template>
     </template>
     <template v-else><p role="alert" class="notice">{{ t('admin.sessionExpired') }}</p><LoginForm @authenticated="editor.error = ''" /></template>
