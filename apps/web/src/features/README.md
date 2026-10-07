@@ -1,5 +1,8 @@
 # Fonctionnalités
 
-`cv` regroupe la lecture HTTP, le store Pinia et les composants du CV public.
-Les futures fonctionnalités `auth` et `linkedin` seront ajoutées à leur réalisation.
-Voir `docs/frontend.md` pour les règles de placement.
+- `cv` : lecture HTTP et affichage du CV public.
+- `auth` : session, connexion et client API privé.
+- `admin` : édition multilingue, brouillon, aperçu et publication.
+
+Le futur import `linkedin` sera ajouté lors de sa réalisation.
+Voir `docs/frontend.md` et `docs/admin.md`.

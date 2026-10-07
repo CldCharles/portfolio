@@ -25,7 +25,7 @@ export function setLocale(locale: Locale): void {
   i18n.global.locale.value = locale;
   const url = new URL(window.location.href);
   url.searchParams.set('lang', locale);
-  window.history.replaceState(null, '', url);
+  window.history.replaceState(window.history.state, '', url);
   try { localStorage.setItem('portfolio.locale', locale); } catch { /* Optional preference. */ }
 }
 watch(i18n.global.locale, locale => {

@@ -2,7 +2,8 @@
 
 Portfolio public de Claude Charles Valentin en français, anglais et coréen.
 Vue 3 + Pinia + Vue I18n, API Node.js/Express et SQLite.
-L’administration et l’import LinkedIn sont les prochaines fonctionnalités.
+L’administration permet de préparer un brouillon, vérifier les traductions et publier.
+L’import LinkedIn reste une prochaine fonctionnalité.
 
 ## Prérequis et démarrage
 
@@ -14,6 +15,7 @@ npm run dev
 ```
 
 - Vue : http://127.0.0.1:5173
+- Admin : http://127.0.0.1:5173/admin (créer le compte avec `npm run admin:setup`)
 - CV : http://127.0.0.1:5173/?lang=fr (`en` et `ko` disponibles)
 - API : http://127.0.0.1:3000/api/cv?lang=fr
 - Via le proxy Vite : http://127.0.0.1:5173/api/health
@@ -31,12 +33,15 @@ Le port API est configurable avec `PORT`, l’interface réseau avec `HOST` ; si
 port change en développement, adapter aussi la cible du proxy dans `apps/web/vite.config.ts`.
 SQLite est initialisé au démarrage dans `apps/api/data/portfolio.sqlite`. Le seed
 ne remplace pas les modifications existantes. `DATABASE_PATH` permet un autre chemin.
-Aucun fichier `.env` n’est chargé pour le moment et aucun secret n’est nécessaire.
+Aucun fichier `.env` n’est chargé automatiquement. Le compte administrateur est créé
+localement avec `npm run admin:setup`, avec mot de passe masqué et haché. Voir
+[le guide admin](docs/admin.md) pour la configuration, la réinitialisation et la publication.
 
 ## Organisation
 
 - `apps/web` : Vue 3, Vite et TypeScript.
 - `apps/api` : Node.js, Express et TypeScript.
+- `docs/admin.md` : compte unique, brouillons, publication et configuration.
 - `docs/architecture.md` : choix techniques et limites du socle.
 - `docs/frontend.md` : arborescence, Pinia et composants shadcn-vue.
 - `docs/i18n.md` : configuration et utilisation des traductions.

@@ -11,7 +11,7 @@ Le store Pinia charge `GET /api/cv?lang=fr|en|ko` via `features/cv/api.ts`.
 La route valide la langue avec Zod et retourne seulement les données publiques.
 Langue absente : français. Valeur invalide ou répétée : HTTP 400. Profil absent :
 404. Erreur interne : 500 sans détails techniques. `GET /api/health` confirme
-uniquement que le processus répond. Aucune route d’écriture ni authentification.
+uniquement que le processus répond. Les écritures passent exclusivement par l’API administrateur authentifiée.
 
 Le repository CV valide les champs, y compris les URL HTTP(S) et les dates, avant
 écriture. SQL paramétré, transactions, clés étrangères et WAL. La migration initiale
@@ -45,6 +45,8 @@ que l’API, sur 127.0.0.1 par défaut (`HOST` et `PORT` configurables).
 Vite transmet `/api` au port 3000 en développement. L’hébergement devra configurer
 le routage front/API, HTTPS, le stockage et les sauvegardes.
 
-Admin unique avec sessions serveur, brouillons et aperçu avant publication à venir.
-Vue Router sera ajouté avec les pages de connexion/administration. LinkedIn et
-traduction automatique ne sont pas intégrés ; limites et parcours prévu dans i18n.md.
+L’admin unique utilise des sessions persistantes, un brouillon privé et une publication
+atomique. Vue Router ajoute `/admin/login` et `/admin`. La migration v2 conserve
+les données publiques existantes. Voir `docs/admin.md` pour les garanties et limites.
+LinkedIn et traduction automatique ne sont pas intégrés ; limites et parcours prévu
+dans i18n.md.
