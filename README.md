@@ -51,3 +51,6 @@ localement avec `npm run admin:setup`, avec mot de passe masqué et haché. Voir
 - `CONTRIBUTING.md` : conventions de contribution.
 
 Un seul dépôt Git et un seul lockfile npm. Aucun déploiement configuré.
+
+Le CV public est téléchargeable en PDF en français, anglais et coréen.
+Voir [l’export PDF](docs/pdf.md), notamment les assets de police à inclure au déploiement.

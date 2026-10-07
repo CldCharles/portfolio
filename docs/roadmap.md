@@ -7,6 +7,7 @@ Réalisé dans la première fonctionnalité :
 - SQLite, validation des données, révisions des traductions et repli français.
 - Administration : connexion unique, sessions, édition des rubriques FR/EN/KO,
   validation des traductions, brouillon persistant, aperçu et publication atomique.
+- Export PDF du CV publié en FR/EN/KO, police coréenne intégrée et pagination.
 - Tests API/persistance/traductions, authentification, CSRF, conflits et stores.
 
 Prochaines étapes, sur demande :
