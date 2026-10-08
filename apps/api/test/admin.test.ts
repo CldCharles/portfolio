@@ -162,3 +162,17 @@ test('production requires an exact HTTPS public origin and secure cookies', () =
   assert.throws(() => adminOptionsFromEnv({ NODE_ENV: 'production', PUBLIC_ORIGIN: 'https://example.com/' }));
   assert.deepEqual(adminOptionsFromEnv({ NODE_ENV: 'production', PUBLIC_ORIGIN: 'https://example.com' }), { origin: 'https://example.com', secureCookies: true });
 });
+
+test('expiry cleanup removes stale sessions and login IPs without another login and preserves active records', () => {
+  const { db, repository } = openDatabase(':memory:');
+  try {
+    const admin = createAdminService(db, repository, () => 1000);
+    db.prepare('INSERT INTO admin_login_attempts VALUES (?,?,?)').run('ip:192.0.2.1', 2, 999);
+    db.prepare('INSERT INTO admin_login_attempts VALUES (?,?,?)').run('ip:192.0.2.2', 1, 1001);
+    db.prepare('INSERT INTO admin_sessions VALUES (?,?,?)').run('expired', 'csrf-one', 1000);
+    db.prepare('INSERT INTO admin_sessions VALUES (?,?,?)').run('active', 'csrf-two', 1001);
+    admin.purgeExpired();
+    assert.deepEqual(db.prepare('SELECT key FROM admin_login_attempts').all(), [{ key: 'ip:192.0.2.2' }]);
+    assert.deepEqual(db.prepare('SELECT token_hash FROM admin_sessions').all(), [{ token_hash: 'active' }]);
+  } finally { db.close(); }
+});

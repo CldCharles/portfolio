@@ -43,3 +43,16 @@ test('failed requests expose retry state and a successful retry clears it', asyn
   assert.equal(store.failed, false);
   assert.equal(store.cv?.locale, 'en');
 });
+
+test('SSR bootstrap skips only the first load; returning from admin fetches the latest publication', async context => {
+  setActivePinia(createPinia());
+  const store = useCvStore();
+  const initial = { locale: 'fr', profile: { name: 'Before', githubUrl: null, text: { title: 'Role', subtitle: '', description: '', locale: 'fr', fallback: false } }, entries: [] } as const;
+  store.hydrate({ ...initial, entries: [] });
+  assert.equal(store.consumeHydration('fr'), true);
+  const fetch = context.mock.method(globalThis, 'fetch', async () => Response.json({ ...initial, profile: { ...initial.profile, name: 'After publication' } }));
+  assert.equal(store.consumeHydration('fr'), false);
+  await store.load('fr');
+  assert.equal(fetch.mock.callCount(), 1);
+  assert.equal(store.cv?.profile.name, 'After publication');
+});

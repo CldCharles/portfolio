@@ -57,3 +57,37 @@ L’admin propose aussi un import des fichiers CSV de votre export LinkedIn, ave
 sélection avant ajout au brouillon. Voir [les formats et limites](docs/linkedin.md).
 Le CV public est téléchargeable en PDF en français, anglais et coréen.
 Voir [l’export PDF](docs/pdf.md), notamment les assets de police à inclure au déploiement.
+
+## Confidentialité et pages publiques
+
+La notice FR/EN/KO est accessible sur `/privacy`, avec un pied de page commun et
+le contact email public autorisé. Le [rapport du chantier](docs/compliance.md)
+décrit ce qui s’applique et les points à finaliser avant déploiement.
+
+Le CV publié et la notice sont rendus en HTML par Vue côté serveur, aussi bien en
+développement qu’en production. Le brouillon et les sessions ne sont jamais
+transmis au rendu public. `npm run build` génère le client et `dist/server` ; ne
+pas déployer uniquement le dossier statique du client si le CV doit rester à jour
+sans JavaScript après publication depuis l’admin.
+
+Pour vérifier le build local complet après compilation :
+
+```sh
+SERVE_WEB=1 PUBLIC_ORIGIN=http://127.0.0.1:3000 npm start
+```
+
+En production, l’API sert aussi les fichiers web ; `NODE_ENV=production` et une
+origine HTTPS exacte `PUBLIC_ORIGIN` sont requis. Variables publiques facultatives :
+
+- `SITE_URL` : origine HTTPS publique exacte, sans slash final ; sinon
+  `PUBLIC_ORIGIN` en production. Jamais un domaine dev inventé.
+- `PUBLIC_CONTACT_EMAIL` : adresse publique ; par défaut l’adresse autorisée du
+  propriétaire. Une valeur vide désactive le lien email.
+- `PUBLIC_HOST_NAME`, `PUBLIC_HOST_COUNTRY`, `PUBLIC_HOST_LOG_RETENTION` :
+  informations d’hébergement vérifiées. Sans valeur, la notice affiche les champs
+  à compléter.
+
+`/robots.txt`, `/sitemap.xml` et `/llms.txt` sont produits à l’exécution. Sans
+origine publique configurée, canonical/alternates absolus sont omis et le sitemap
+répond 503 avec une explication. L’admin est exclu et noindex ; cela ne remplace
+pas son authentification. Il n’existe pas de bandeau cookies ni de statistiques.

@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { useAuthStore } from './store';
 import { AdminApiError } from './api';
 const emit = defineEmits<{ authenticated: [] }>();
-const { t, te } = useI18n({ useScope: 'global' });
+const { t, te, locale } = useI18n({ useScope: 'global' });
 const auth = useAuthStore();
 const username = ref('');
 const password = ref('');
@@ -27,9 +27,10 @@ async function submit() {
     <h1>{{ t('admin.loginTitle') }}</h1>
     <p class="muted">{{ t('admin.loginIntro') }}</p>
     <p v-if="auth.session && !auth.session.configured" class="notice">{{ t('admin.setupRequired') }} <code>npm run admin:setup</code></p>
-    <p v-if="error" role="alert" class="error-message">{{ t(error) }}</p>
-    <div class="field"><Label for="admin-username">{{ t('admin.username') }}</Label><Input id="admin-username" v-model="username" autocomplete="username" required maxlength="80" :disabled="busy" /></div>
-    <div class="field"><Label for="admin-password">{{ t('admin.password') }}</Label><Input id="admin-password" v-model="password" type="password" autocomplete="current-password" required maxlength="256" :disabled="busy" /></div>
+    <p v-if="error" id="login-error" role="alert" class="error-message">{{ t(error) }}</p>
+    <div class="field"><Label for="admin-username">{{ t('admin.username') }} *</Label><Input id="admin-username" v-model="username" :aria-describedby="error ? 'login-error login-privacy' : 'login-privacy'" :aria-invalid="error ? true : undefined" autocomplete="username" required maxlength="80" :disabled="busy" /></div>
+    <div class="field"><Label for="admin-password">{{ t('admin.password') }} *</Label><Input id="admin-password" v-model="password" type="password" :aria-describedby="error ? 'login-error login-privacy' : 'login-privacy'" :aria-invalid="error ? true : undefined" autocomplete="current-password" required maxlength="256" :disabled="busy" /></div>
+    <p id="login-privacy" class="muted">{{ t('legal.required') }} {{ t('legal.forms') }} <a :href="`/privacy?lang=${locale}`">{{ t('legal.privacy') }}</a></p>
     <Button type="submit" class="admin-button" :disabled="busy || auth.session?.configured === false">{{ t(busy ? 'admin.connecting' : 'admin.login') }}</Button>
   </form>
 </template>

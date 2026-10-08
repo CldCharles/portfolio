@@ -28,3 +28,14 @@ export interface DraftItem {
 export interface DraftDocument { items: DraftItem[] }
 export interface AdminDraft { revision: number; publishedRevision: number; document: DraftDocument }
 export interface AdminSession { authenticated: boolean; configured: boolean; csrfToken?: string; username?: string }
+
+/** Public configuration only. Never include credentials, private drafts or session data. */
+export interface PublicSiteConfig {
+  editorName: string;
+  contactEmail: string | null;
+  hostName: string | null;
+  hostCountry: string | null;
+  hostLogRetention: string | null;
+  publicOrigin: string | null;
+}
+export interface PublicBootstrap { locale: Locale; cv: PublicCv | null; site: PublicSiteConfig }

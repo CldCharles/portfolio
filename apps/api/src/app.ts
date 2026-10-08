@@ -1,5 +1,6 @@
 import express from 'express';
 import helmet from 'helmet';
+import { publicSiteConfig } from './public-config.js';
 import { ZodError } from 'zod';
 import { AdminError, type AdminService } from './admin/service.js';
 import { adminRoutes, adminOptionsFromEnv, type AdminOptions } from './admin/routes.js';
@@ -15,6 +16,7 @@ export function createApp(repository: CvRepository, admin?: AdminService, option
   app.use(helmet({ strictTransportSecurity: process.env.NODE_ENV === 'production' ? undefined : false }));
   app.use(express.json({ limit: '1mb' }));
   if (admin) app.use('/api/admin', adminRoutes(admin, options ?? adminOptionsFromEnv()));
+  app.get('/api/site', (_request, response) => response.set('Cache-Control', 'no-cache').json(publicSiteConfig(repository)));
   app.get('/api/health', (_request, response) => response.json({ status: 'ok' }));
   app.get('/api/cv/pdf', async (request, response) => {
     const locale = localeSchema.safeParse(request.query.lang ?? 'fr');

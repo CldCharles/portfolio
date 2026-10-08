@@ -1,7 +1,9 @@
+import legal from './legal-en';
 import linkedin from './linkedin-en';
 import admin from './admin-en';
 import type fr from './fr';
 export default {
+  legal,
   admin,
   linkedin,
   pdf: {"language": "PDF language", "download": "Download CV as PDF"},

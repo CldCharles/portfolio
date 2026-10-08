@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n';
 import type { PublicCv } from '@portfolio/contracts';
 import { Button } from '@/components/ui/button';
 import CvPdfExport from './CvPdfExport.vue';
-const props = defineProps<{ profile: PublicCv['profile']; exportable?: boolean }>();
+const props = defineProps<{ profile: PublicCv['profile']; exportable?: boolean; headingTag?: 'h1' | 'h2' }>();
 const { t } = useI18n({ useScope: 'global' });
 const introduction = computed(() => splitIntroduction(props.profile.text.description));
 </script>
@@ -13,7 +13,7 @@ const introduction = computed(() => splitIntroduction(props.profile.text.descrip
 <template>
   <section class="hero" aria-labelledby="profile-name">
     <p class="role" :lang="profile.text.locale">{{ profile.text.title }}</p>
-    <h1 id="profile-name" class="name">{{ profile.name }}</h1>
+    <component :is="headingTag ?? 'h1'" id="profile-name" class="name">{{ profile.name }}</component>
     <p v-if="profile.text.fallback" class="fallback-note">{{ t('cv.fallback') }}</p>
     <div class="hero-intro">
       <p class="intro-copy" :lang="profile.text.locale">{{ introduction.lead }}</p>

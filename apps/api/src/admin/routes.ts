@@ -20,6 +20,7 @@ export function adminRoutes(admin: AdminService, options: AdminOptions) {
   const cookieOptions = { httpOnly: true, sameSite: 'strict' as const, secure: options.secureCookies, path: '/api/admin' };
   router.use((request, response, next) => {
     response.set('Cache-Control', 'no-store');
+    response.set('X-Robots-Tag', 'noindex, nofollow');
     if (!['GET', 'HEAD'].includes(request.method)) {
       if (request.get('origin') !== options.origin || request.get('x-portfolio-request') !== '1') throw new AdminError(403, 'ORIGIN_REJECTED');
       if (!request.is('application/json')) throw new AdminError(415, 'JSON_REQUIRED');

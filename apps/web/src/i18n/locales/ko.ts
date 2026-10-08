@@ -1,7 +1,9 @@
+import legal from './legal-ko';
 import linkedin from './linkedin-ko';
 import admin from './admin-ko';
 import type fr from './fr';
 export default {
+  legal,
   admin,
   linkedin,
   pdf: {"language": "PDF 언어", "download": "이력서 PDF 다운로드"},

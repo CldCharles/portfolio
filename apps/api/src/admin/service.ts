@@ -22,6 +22,12 @@ export function createAdminService(db: Database.Database, repository: CvReposito
       db.exec('DELETE FROM admin_sessions; DELETE FROM admin_login_attempts;');
     })();
   }
+  function purgeExpired() {
+    db.transaction(() => {
+      db.prepare('DELETE FROM admin_sessions WHERE expires_at <= ?').run(now());
+      db.prepare('DELETE FROM admin_login_attempts WHERE expires_at <= ?').run(now());
+    })();
+  }
   async function login(username: string, password: string, ip: string) {
     const current = account();
     if (!current) throw new AdminError(503, 'ADMIN_NOT_CONFIGURED');
@@ -82,6 +88,6 @@ export function createAdminService(db: Database.Database, repository: CvReposito
     checkRevision(revision);
     return previewDocument(draft().document, locale);
   }
-  return { configure, configured: () => !!account(), login, session, logout, draft, save, publish, preview };
+  return { purgeExpired, configure, configured: () => !!account(), login, session, logout, draft, save, publish, preview };
 }
 export type AdminService = ReturnType<typeof createAdminService>;
