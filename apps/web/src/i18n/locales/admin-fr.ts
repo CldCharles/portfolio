@@ -42,6 +42,7 @@ export default {
   "github": "Lien GitHub",
   "url": "Lien du projet ou de la rubrique",
   "tags": "Technologies, séparées par des virgules",
+  "dateHelp": "Année (2024), mois (2024-03) ou date complète (2024-03-15). Conservez la précision connue ; Mar 2024 devient 2024-03.",
   "startDate": "Date de début",
   "endDate": "Date de fin (vide si en cours)",
   "contentLanguage": "Langue du contenu",

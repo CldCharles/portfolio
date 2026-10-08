@@ -109,3 +109,11 @@ est un JSON validé par Zod ; chaque traduction conserve la copie de sa source
 approuvée. Lors de la publication, les données normalisées sont transférées dans
 les tables publiques et les traductions non validées restent conservées mais non
 utilisées par la lecture publique.
+
+## Import LinkedIn
+
+Le bouton « Importer LinkedIn » ouvre une comparaison dans l’éditeur. L’ajout modifie
+uniquement le brouillon local de cet onglet et conserve les modifications déjà faites.
+Il faut ensuite enregistrer, consulter l’aperçu et publier. Les conflits de révision
+et la reconnexion conservent ces modifications comme pour une édition manuelle.
+Voir `docs/linkedin.md` pour les formats pris en charge et les langues.

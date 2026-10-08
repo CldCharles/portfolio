@@ -1,0 +1,45 @@
+import type fr from './linkedin-fr';
+export default {
+  "discardConfirm": "Discard the pending import and unsaved changes?",
+  "open": "Import LinkedIn",
+  "title": "Import your LinkedIn background",
+  "intro": "Download your LinkedIn data, extract the archive, then choose a CSV file. This import does not connect to LinkedIn.",
+  "exportHelp": "Get my export",
+  "privacy": "The file is read in your browser. Only selected entries are sent to the server when you save the draft.",
+  "fileKind": "File category",
+  "language": "Language of the text in the file",
+  "file": "CSV file",
+  "limits": "One file at a time · 512 KB maximum · 100 rows. Supported CSV headers are in English.",
+  "frenchRequired": "Write a French version for each new entry. The imported text will be kept in English or Korean as a translation needing review.",
+  "reading": "Reading file…",
+  "reviewIntro": "Nothing is selected by default. Check the destination and text before selecting entries to import.",
+  "destination": "Destination in the draft",
+  "choose": "Choose a destination",
+  "newEntry": "New entry",
+  "compare": "Compare with the draft",
+  "before": "Current text in the imported language",
+  "imported": "Text from the file",
+  "settingsLocked": "To change the file, category or language, cancel this import first.",
+  "dates": "Export dates to enter manually in the editor:",
+  "frenchVersion": "French version to keep in the draft",
+  "preserved": "The import replaces text in selected entries and the profile name if selected. Links, technologies, dates and other languages are preserved. Affected translations need review. Next: save, preview and publish.",
+  "apply": "Add to draft ({count})",
+  "files": {
+    "profile": "Profile.csv · About",
+    "experience": "Positions.csv · Experience",
+    "education": "Education.csv · Education",
+    "skill": "Skills.csv · Skills"
+  },
+  "errors": {
+    "tooLarge": "The file exceeds 512 KB.",
+    "tooMany": "The limit of 100 rows, 100 columns or 100 entries was exceeded.",
+    "invalidCsv": "Malformed CSV. Use the extracted file with comma separators.",
+    "empty": "The file contains no data.",
+    "headers": "Headers do not match the selected category. See supported formats in the project documentation.",
+    "text": "A title is empty or text exceeds the CV limits (title 200, subtitle 300, description 5000 characters).",
+    "selection": "Select at least one entry.",
+    "french": "Complete the French title and respect the field limits.",
+    "target": "Choose a valid destination for every selected entry.",
+    "duplicate": "Selected rows target the same entry or add the same title. Import them separately after checking."
+  }
+} satisfies typeof fr;

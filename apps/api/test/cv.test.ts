@@ -109,3 +109,21 @@ test('public HTTP endpoint validates locale and exposes no revision or write end
     db.close();
   }
 });
+
+
+test('partial dates retain precision and compare overlapping ranges correctly', () => {
+  const { db, repository } = openDatabase(':memory:');
+  try {
+    const entry = { id: 'partial-dates', kind: 'experience', url: null, tags: [], startDate: '2020', endDate: '2024-03', position: 5 };
+    repository.saveEntry(entry, source);
+    assert.equal(repository.read('fr')!.entries.find(item => item.id === entry.id)!.startDate, '2020');
+    assert.equal(repository.read('ko')!.entries.find(item => item.id === entry.id)!.endDate, '2024-03');
+    repository.saveEntry({ ...entry, startDate: '2024-12-31', endDate: '2024' }, source);
+    repository.saveEntry({ ...entry, startDate: null, endDate: '2024-03' }, source);
+    for (const bad of ['0000', '2024-00', '2024-13', '2024-02-30', 'Mar 2024']) {
+      assert.throws(() => repository.saveEntry({ ...entry, startDate: bad }, source));
+    }
+    assert.throws(() => repository.saveEntry({ ...entry, startDate: '2025', endDate: '2024' }, source));
+    assert.throws(() => repository.saveEntry({ ...entry, startDate: '2024-04', endDate: '2024-03' }, source));
+  } finally { db.close(); }
+});
