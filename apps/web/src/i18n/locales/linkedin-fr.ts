@@ -18,6 +18,7 @@ export default {
   "compare": "Comparer avec le brouillon",
   "before": "Texte actuel dans la langue importée",
   "imported": "Texte du fichier",
+  "settingsLocked": "Pour changer de fichier, de catégorie ou de langue, annulez d’abord cet import.",
   "dates": "Dates de l’export à reporter manuellement dans l’éditeur :",
   "frenchVersion": "Version française à conserver dans le brouillon",
   "preserved": "L’import remplace les textes des rubriques sélectionnées et le nom du profil si sélectionné. Les liens, technologies, dates et autres langues sont conservés. Les traductions affectées devront être vérifiées. Ensuite : enregistrer, consulter l’aperçu et publier.",

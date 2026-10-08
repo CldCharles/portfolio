@@ -38,9 +38,10 @@ watch(() => item.value.tags, tags => {
         <div class="field"><Label :for="`${item.id}-url`">{{ t('admin.url') }}</Label><Input :id="`${item.id}-url`" type="url" :model-value="item.url ?? ''" @update:model-value="common('url', $event || null)" /></div>
         <div class="field"><Label :for="`${item.id}-tags`">{{ t('admin.tags') }}</Label><Input :id="`${item.id}-tags`" :model-value="tagText" @update:model-value="editTags" /></div>
         <div class="date-fields">
-          <div class="field"><Label :for="`${item.id}-start`">{{ t('admin.startDate') }}</Label><Input :id="`${item.id}-start`" type="date" :model-value="item.startDate ?? ''" @update:model-value="common('startDate', $event || null)" /></div>
-          <div class="field"><Label :for="`${item.id}-end`">{{ t('admin.endDate') }}</Label><Input :id="`${item.id}-end`" type="date" :min="item.startDate ?? undefined" :model-value="item.endDate ?? ''" @update:model-value="common('endDate', $event || null)" /></div>
+          <div class="field"><Label :for="`${item.id}-start`">{{ t('admin.startDate') }}</Label><Input :id="`${item.id}-start`" type="text" maxlength="10" placeholder="2024-03" :aria-describedby="`${item.id}-date-help`" :model-value="item.startDate ?? ''" @update:model-value="common('startDate', $event || null)" /></div>
+          <div class="field"><Label :for="`${item.id}-end`">{{ t('admin.endDate') }}</Label><Input :id="`${item.id}-end`" type="text" maxlength="10" placeholder="2024-03" :aria-describedby="`${item.id}-date-help`" :model-value="item.endDate ?? ''" @update:model-value="common('endDate', $event || null)" /></div>
         </div>
+        <p :id="`${item.id}-date-help`">{{ t('admin.dateHelp') }}</p>
       </template>
     </div>
     <TranslationEditor v-model="item" />

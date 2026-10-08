@@ -53,15 +53,15 @@ function existing(choice: ImportChoice) { return props.document.items.find(item 
     <form @submit.prevent="apply">
       <fieldset :disabled="disabled || reading">
         <div class="import-settings">
-          <label>{{ t('linkedin.fileKind') }}<select v-model="kind" @change="reset"><option v-for="value in ['profile','experience','education','skill']" :key="value" :value="value">{{ t(`linkedin.files.${value}`) }}</option></select></label>
-          <label>{{ t('linkedin.language') }}<select v-model="language" @change="reset"><option value="fr">Français</option><option value="en">English</option><option value="ko">한국어</option></select></label>
-          <label>{{ t('linkedin.file') }}<input ref="fileInput" type="file" accept=".csv,text/csv" @change="readFile" /></label>
+          <label>{{ t('linkedin.fileKind') }}<select :disabled="choices.length > 0" v-model="kind" @change="reset"><option v-for="value in ['profile','experience','education','skill']" :key="value" :value="value">{{ t(`linkedin.files.${value}`) }}</option></select></label>
+          <label>{{ t('linkedin.language') }}<select :disabled="choices.length > 0" v-model="language" @change="reset"><option value="fr">Français</option><option value="en">English</option><option value="ko">한국어</option></select></label>
+          <label>{{ t('linkedin.file') }}<input ref="fileInput" :disabled="choices.length > 0" type="file" accept=".csv,text/csv" @change="readFile" /></label>
         </div>
         <p class="muted">{{ t('linkedin.limits') }}</p>
         <p v-if="language !== 'fr'" class="notice">{{ t('linkedin.frenchRequired') }}</p>
         <p v-if="reading" role="status">{{ t('linkedin.reading') }}</p>
         <p v-if="error" role="alert" class="error-message">{{ t(`linkedin.errors.${error}`) }}</p>
-        <p v-if="choices.length">{{ t('linkedin.reviewIntro') }}</p>
+        <p v-if="choices.length">{{ t('linkedin.reviewIntro') }} {{ t('linkedin.settingsLocked') }}</p>
         <article v-for="(choice, index) in choices" :key="index" class="import-row">
           <label class="import-check"><input v-model="choice.selected" type="checkbox" />{{ choice.row.text.title }} · {{ choice.row.text.subtitle || t('admin.kinds.skill') }}</label>
           <label>{{ t('linkedin.destination') }}<select :value="choice.target" @change="targetChanged(choice, $event)"><option value="" disabled>{{ t('linkedin.choose') }}</option><option v-if="choice.row.kind !== 'profile'" value="new">{{ t('linkedin.newEntry') }}</option><option v-for="item in document.items.filter(item => item.kind === choice.row.kind)" :key="item.id" :value="item.id">{{ item.translations.fr.text.title }} · {{ item.translations.fr.text.subtitle }}</option></select></label>

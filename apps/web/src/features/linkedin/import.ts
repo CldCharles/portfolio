@@ -65,7 +65,7 @@ export function parseLinkedIn(input: string, kind: ImportKind): ImportRow[] {
     const get = (key: string) => values[keys.indexOf(key)]?.trim() ?? '';
     const text: CvText = kind === 'profile' ? { title: get('headline'), subtitle: '', description: get('summary') }
       : kind === 'experience' ? { title: get('title'), subtitle: get('company name'), description: get('description') }
-      : kind === 'education' ? { title: get('degree name'), subtitle: get('school name'), description: [get('notes'), get('activities')].filter(Boolean).join('\n\n') }
+      : kind === 'education' ? { title: get('degree name') || get('school name'), subtitle: get('degree name') ? get('school name') : '', description: [get('notes'), get('activities')].filter(Boolean).join('\n\n') }
       : { title: get('name'), subtitle: '', description: '' };
     if (!validText(text)) throw new ImportError('text');
     const name = kind === 'profile' ? [get('first name'), get('last name')].filter(Boolean).join(' ') : undefined;

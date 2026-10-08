@@ -19,6 +19,7 @@ export default {
   "compare": "Compare with the draft",
   "before": "Current text in the imported language",
   "imported": "Text from the file",
+  "settingsLocked": "To change the file, category or language, cancel this import first.",
   "dates": "Export dates to enter manually in the editor:",
   "frenchVersion": "French version to keep in the draft",
   "preserved": "The import replaces text in selected entries and the profile name if selected. Links, technologies, dates and other languages are preserved. Affected translations need review. Next: save, preview and publish.",

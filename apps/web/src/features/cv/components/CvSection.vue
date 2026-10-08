@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 defineProps<{ id: string; number: string; title: string; introduction?: string; entries: CvEntry[] }>();
 const { t, locale } = useI18n({ useScope: 'global' });
 function formatDate(value: string) {
+  if (value.length === 4) return value;
   return new Intl.DateTimeFormat(locale.value, { year: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(value));
 }
 </script>
@@ -25,8 +26,9 @@ function formatDate(value: string) {
           <h3 class="entry-title">{{ entry.text.title }}</h3>
           <p class="entry-description">{{ entry.text.description }}</p>
         </div>
-        <p v-if="entry.startDate" class="dates">
-          <time :datetime="entry.startDate">{{ formatDate(entry.startDate) }}</time> —
+        <p v-if="entry.startDate || entry.endDate" class="dates">
+          <template v-if="entry.startDate"><time :datetime="entry.startDate">{{ formatDate(entry.startDate) }}</time> — </template>
+          <span v-else>{{ t('cv.ended') }} : </span>
           <time v-if="entry.endDate" :datetime="entry.endDate">{{ formatDate(entry.endDate) }}</time>
           <span v-else>{{ t('cv.present') }}</span>
         </p>

@@ -82,3 +82,13 @@ test('ambiguous matches and duplicate targets need explicit resolution', () => {
   chooseTarget(ambiguous[1]!, 'profile', withSkill, 'fr');
   rejects('target', () => applyChoices(withSkill, ambiguous, 'fr'));
 });
+
+
+test('education accepts an empty degree without rejecting other rows', () => {
+  const rows = parseLinkedIn('School Name,Degree Name,Notes\nSchool A,,Coursework\nSchool B,Master,Research', 'education');
+  assert.deepEqual(rows[0]!.text, { title: 'School A', subtitle: '', description: 'Coursework' });
+  const choices = createChoices(rows, draft(), 'fr'); choices.forEach(choice => choice.selected = true);
+  const result = applyChoices(draft(), choices, 'fr');
+  assert.equal(result.items.length, 3);
+  assert.equal(documentSchema.safeParse(result).success, true);
+});

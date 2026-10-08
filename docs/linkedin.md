@@ -28,14 +28,16 @@ Seuls les champs ci-dessous sont extraits ; les autres sont ignorés.
 | Education.csv | School Name, Degree Name | Notes, Activities, Start Date, End Date |
 | Skills.csv | Name | — |
 
-Le profil doit avoir une seule ligne. Titres : 1–200 caractères ; sous-titres :
+Le profil doit avoir une seule ligne. Si le diplôme est vide, le nom de l’établissement sert de titre, sans sous-titre dupliqué. Titres : 1–200 caractères ; sous-titres :
 300 maximum ; descriptions : 5000 maximum. Les fichiers ZIP, PDF, les projets et
 les fichiers de contacts/messages ne sont pas des formats d’import pris en charge.
 Les variantes sans ces en-têtes sont refusées explicitement. Ces formats sont
 testés avec des données synthétiques ; aucun export réel du propriétaire n’a encore
 été fourni pour vérifier ses variantes. Les dates de précision variable sont
 affichées, puis reportées manuellement dans l’éditeur ; les dates existantes restent
-inchangées. Un import ne crée pas de jour arbitraire à partir d’une année ou d’un mois.
+inchangées. L’éditeur accepte `AAAA`, `AAAA-MM` et `AAAA-MM-JJ` :
+`2020` reste `2020` et `Mar 2024` se reporte comme `2024-03`. Le site et le PDF
+respectent cette précision. Un import ne crée pas de jour arbitraire à partir d’une année ou d’un mois.
 
 ## Comparaison et validation
 
@@ -66,3 +68,6 @@ ensuite un aperçu et une confirmation, comme une édition manuelle.
 Un import préparé déclenche la confirmation de sortie, d’annulation ou de
 déconnexion, même si le brouillon enregistré est inchangé. Les dates affichées
 conservent explicitement leur rôle de début ou de fin, même si une seule est fournie.
+
+Les réglages de fichier, catégorie et langue sont verrouillés tant qu’un import
+est préparé. Pour les changer, annulez cet import avec confirmation préalable.

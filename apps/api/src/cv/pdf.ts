@@ -4,9 +4,9 @@ import type { CvEntry, EntryKind, Locale, PublicCv } from '@portfolio/contracts'
 
 const fontPath = fileURLToPath(new URL('../../assets/fonts/NotoSansCJKkr-Regular.otf', import.meta.url));
 export const pdfLabels = {
-  fr: { about: 'Présentation', skill: 'Compétences', experience: 'Expériences', project: 'Projets', education: 'Formation', present: 'Aujourd’hui', fallback: 'Texte présenté en français : traduction à compléter ou à vérifier.', cv: 'CV' },
-  en: { about: 'About', skill: 'Skills', experience: 'Experience', project: 'Projects', education: 'Education', present: 'Present', fallback: 'Shown in French: translation missing or awaiting review.', cv: 'CV' },
-  ko: { about: '소개', skill: '기술', experience: '경력', project: '프로젝트', education: '학력', present: '현재', fallback: '번역이 없거나 검토가 필요하여 프랑스어로 표시됩니다.', cv: '이력서' },
+  fr: { about: 'Présentation', skill: 'Compétences', experience: 'Expériences', project: 'Projets', education: 'Formation', ended: 'Fin', present: 'Aujourd’hui', fallback: 'Texte présenté en français : traduction à compléter ou à vérifier.', cv: 'CV' },
+  en: { about: 'About', skill: 'Skills', experience: 'Experience', project: 'Projects', education: 'Education', ended: 'Ended', present: 'Present', fallback: 'Shown in French: translation missing or awaiting review.', cv: 'CV' },
+  ko: { about: '소개', skill: '기술', experience: '경력', project: '프로젝트', education: '학력', ended: '종료', present: '현재', fallback: '번역이 없거나 검토가 필요하여 프랑스어로 표시됩니다.', cv: '이력서' },
 } satisfies Record<Locale, Record<string, string>>;
 
 export function pdfFilename(locale: Locale): string { return `cv-${locale}.pdf`; }
@@ -38,7 +38,7 @@ export function generateCvPdf(cv: PublicCv): Promise<Buffer> {
         doc.y = y + 8;
         text(value, 13, '#466257');
       }
-      function date(value: string) { return new Intl.DateTimeFormat(cv.locale, { year: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(value)); }
+      function date(value: string) { if (value.length === 4) return value; return new Intl.DateTimeFormat(cv.locale, { year: 'numeric', month: 'short', timeZone: 'UTC' }).format(new Date(value)); }
       function entryHeaderHeight(entry: CvEntry) {
         return height(entry.text.title, 11) + height(entry.text.subtitle, 9) + (entry.text.fallback ? height(labels.fallback, 8) : 0) + 32;
       }
@@ -58,6 +58,7 @@ export function generateCvPdf(cv: PublicCv): Promise<Buffer> {
           text(entry.text.title, 11);
           text(entry.text.subtitle, 9, '#656a6a');
           if (entry.startDate) text(`${date(entry.startDate)} - ${entry.endDate ? date(entry.endDate) : labels.present}`, 8, '#656a6a');
+          else if (entry.endDate) text(`${labels.ended}: ${date(entry.endDate)}`, 8, '#656a6a');
           if (entry.text.fallback) text(labels.fallback, 8, '#656a6a');
           text(entry.text.description);
           if (entry.tags.length) text(entry.tags.join(' · '), 8, '#466257');
