@@ -6,6 +6,7 @@ import { useCvStore } from '@/features/cv/stores/cv';
 import CvHero from '@/features/cv/components/CvHero.vue';
 import CvSection from '@/features/cv/components/CvSection.vue';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
+import CvNavigation from '@/features/cv/components/CvNavigation.vue';
 import { Button } from '@/components/ui/button';
 const { t, locale } = useI18n({ useScope: 'global' });
 const store = useCvStore();
@@ -27,15 +28,11 @@ const sections = computed(() => {
   <div class="portfolio-shell">
     <a href="#main" class="skip-link">{{ t('nav.skip') }}</a>
     <header class="site-header">
-      <a href="#main" class="monogram" :aria-label="t('nav.home')">CCV<span aria-hidden="true">.</span></a>
-      <nav class="section-nav" :aria-label="t('nav.label')">
-        <a v-if="sections.some(section => section.id === 'experience')" href="#experience">{{ t('cv.experience') }}</a>
-        <a v-if="sections.some(section => section.id === 'projects')" href="#projects">{{ t('nav.projects') }}</a>
-        <a v-if="sections.some(section => section.id === 'skills')" href="#skills">{{ t('nav.skills') }}</a>
-        <a v-if="sections.some(section => section.id === 'education')" href="#education">{{ t('cv.education') }}</a>
-      </nav>
+      <a class="monogram" href="#main" :aria-label="store.cv?.profile.name ?? t('nav.home')">CCV<span>.</span></a>
       <LanguageSwitcher />
     </header>
+    <div class="cv-layout">
+    <CvNavigation :sections="sections" />
     <main id="main" tabindex="-1" :aria-busy="store.loading">
       <div v-if="store.loading" class="status-panel" role="status">{{ t('cv.loading') }}</div>
       <div v-else-if="store.failed" class="status-panel" role="alert">
@@ -47,20 +44,22 @@ const sections = computed(() => {
         <CvSection v-for="(section, index) in sections" :key="section.id" v-bind="section" :number="String(index + 1).padStart(2, '0')" />
       </template>
     </main>
+    </div>
 
   </div>
 </template>
 
 <style scoped>
-.portfolio-shell { max-inline-size: 960px; margin-inline: auto; padding-inline: clamp(1.25rem, 5vw, 4rem); }
-.site-header { display: flex; align-items: center; flex-wrap: wrap; gap: 1.5rem; border-block-end: 1px solid var(--border); padding-block: 1.5rem; }
+.portfolio-shell { max-inline-size: 1120px; margin-inline: auto; padding-inline: clamp(1.25rem, 5vw, 4rem); }
+.site-header { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; border-block-end: 1px solid var(--border); padding-block: 1.5rem; }
 .monogram { font-weight: 700; font-size: 1.35rem; letter-spacing: -.06em; margin-inline-end: auto; min-block-size: 2.75rem; display: flex; align-items: center; }
 .monogram span { color: var(--portfolio-accent); }
-.section-nav { display: flex; flex-wrap: wrap; gap: 1.7rem; font-size: .8rem; color: var(--muted-foreground); }
-.section-nav a { display: flex; align-items: center; min-block-size: 2.75rem; }
+.cv-layout { display: grid; grid-template-columns: 10rem minmax(0, 1fr); gap: 2.5rem; align-items: start; }
+.cv-layout > main { min-inline-size: 0; grid-column: 2; }
 .status-panel { padding-block: 7rem; text-align: center; }
 .retry { margin-block-start: 1.5rem; min-block-size: 2.75rem; }
 .skip-link { position: absolute; inset-block-start: -10rem; padding: 1rem; background: var(--foreground); color: var(--background); z-index: 10; }
 .skip-link:focus { inset-block-start: 1rem; }
-@media (max-width: 550px) { .section-nav { order: 3; inline-size: 100%; } .site-header { row-gap: .25rem; } }
+@media print { .cv-layout { display: block; } }
+@media (max-width: 900px) { .cv-layout { grid-template-columns: minmax(0, 1fr); gap: 0; } .cv-layout > main { grid-column: 1; } }
 </style>
