@@ -54,3 +54,5 @@ Un seul dépôt Git et un seul lockfile npm. Aucun déploiement configuré.
 
 L’admin propose aussi un import des fichiers CSV de votre export LinkedIn, avec
 sélection avant ajout au brouillon. Voir [les formats et limites](docs/linkedin.md).
+Le CV public est téléchargeable en PDF en français, anglais et coréen.
+Voir [l’export PDF](docs/pdf.md), notamment les assets de police à inclure au déploiement.

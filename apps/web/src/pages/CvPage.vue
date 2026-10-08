@@ -40,7 +40,7 @@ const sections = computed(() => {
         <Button type="button" class="retry" @click="store.load(locale as Locale)">{{ t('cv.retry') }}</Button>
       </div>
       <template v-else-if="store.cv">
-        <CvHero :profile="store.cv.profile" />
+        <CvHero :profile="store.cv.profile" exportable />
         <CvSection v-for="(section, index) in sections" :key="section.id" v-bind="section" :number="String(index + 1).padStart(2, '0')" />
       </template>
     </main>

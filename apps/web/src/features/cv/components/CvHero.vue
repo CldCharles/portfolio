@@ -2,7 +2,8 @@
 import { useI18n } from 'vue-i18n';
 import type { PublicCv } from '@portfolio/contracts';
 import { Button } from '@/components/ui/button';
-defineProps<{ profile: PublicCv['profile'] }>();
+import CvPdfExport from './CvPdfExport.vue';
+defineProps<{ profile: PublicCv['profile']; exportable?: boolean }>();
 const { t } = useI18n({ useScope: 'global' });
 </script>
 
@@ -22,6 +23,7 @@ const { t } = useI18n({ useScope: 'global' });
       <Button v-if="profile.githubUrl" as="a" :href="profile.githubUrl" variant="outline" class="github-link">
         {{ t('cv.github') }} <span aria-hidden="true">↗</span>
       </Button>
+      <CvPdfExport v-if="exportable" />
     </div>
   </section>
 </template>

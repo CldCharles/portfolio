@@ -9,6 +9,7 @@ Réalisé dans la première fonctionnalité :
   validation des traductions, brouillon persistant, aperçu et publication atomique.
 - Import CSV LinkedIn : sélection, comparaison, correspondances et version française
   obligatoire pour les nouvelles rubriques ; textes EN/KO conservés à vérifier.
+- Export PDF du CV publié en FR/EN/KO, police coréenne intégrée et pagination.
 - Tests API/persistance/traductions, authentification, CSRF, conflits et stores.
 
 Prochaines étapes, sur demande :
