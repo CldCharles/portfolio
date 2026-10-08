@@ -6,7 +6,7 @@ export interface ImportRow {
   dates: { kind: 'start' | 'end'; value: string }[];
 }
 export interface ImportChoice {
-  row: ImportRow; selected: boolean; target: string; french: CvText;
+  row: ImportRow; selected: boolean; target: string; french: CvText; frenchBaseline: CvText;
 }
 export class ImportError extends Error {
   constructor(public code: string) { super(code); }
@@ -92,12 +92,18 @@ export function createChoices(rows: ImportRow[], document: DraftDocument, locale
     const candidates = document.items.filter(item => row.kind === 'profile' ? item.kind === 'profile' : matches(item, row, locale));
     const target = candidates.length === 1 ? candidates[0]!.id : candidates.length ? '' : 'new';
     const existing = document.items.find(item => item.id === target);
-    return { row, selected: false, target, french: { ...(locale === 'fr' ? row.text : existing?.translations.fr.text ?? { title: '', subtitle: '', description: '' }) } };
+    const french = { ...(locale === 'fr' ? row.text : existing?.translations.fr.text ?? { title: '', subtitle: '', description: '' }) };
+    return { row, selected: false, target, french, frenchBaseline: { ...french } };
   });
 }
 export function chooseTarget(choice: ImportChoice, target: string, document: DraftDocument, locale: Locale): void {
+  const edited = (['title', 'subtitle', 'description'] as const).some(field => choice.french[field] !== choice.frenchBaseline[field]);
   choice.target = target;
-  choice.french = { ...(locale === 'fr' ? choice.row.text : document.items.find(item => item.id === target)?.translations.fr.text ?? { title: '', subtitle: '', description: '' }) };
+  // A destination change must not silently erase the owner's French wording.
+  if (!edited) {
+    choice.french = { ...(locale === 'fr' ? choice.row.text : document.items.find(item => item.id === target)?.translations.fr.text ?? { title: '', subtitle: '', description: '' }) };
+    choice.frenchBaseline = { ...choice.french };
+  }
 }
 // Work on a copy, then replace the local draft in one step. Saving and publishing
 // still go through the existing authenticated, CSRF-protected revision checks.

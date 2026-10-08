@@ -92,3 +92,21 @@ test('education accepts an empty degree without rejecting other rows', () => {
   assert.equal(result.items.length, 3);
   assert.equal(documentSchema.safeParse(result).success, true);
 });
+
+
+test('changing the destination preserves French wording already edited', () => {
+  const document = draft();
+  const rows = parseLinkedIn('Name\nReact', 'skill');
+  const choices = createChoices(rows, document, 'en');
+  choices[0]!.selected = true;
+  const added = JSON.parse(JSON.stringify(document.items[0]!));
+  added.id = 'existing-skill'; added.kind = 'skill'; added.translations.fr.text.title = 'Compétence existante';
+  document.items.push(added);
+  chooseTarget(choices[0]!, added.id, document, 'en');
+  assert.equal(choices[0]!.french.title, 'Compétence existante');
+  choices[0]!.french = { title: 'Ma version', subtitle: 'Adaptée', description: 'Texte rédigé' };
+  chooseTarget(choices[0]!, 'new', document, 'en');
+  chooseTarget(choices[0]!, added.id, document, 'en');
+  assert.deepEqual(choices[0]!.french, { title: 'Ma version', subtitle: 'Adaptée', description: 'Texte rédigé' });
+  assert.equal(applyChoices(document, choices, 'en').items[1]!.translations.fr.text.title, 'Ma version');
+});

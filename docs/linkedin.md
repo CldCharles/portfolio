@@ -71,3 +71,6 @@ conservent explicitement leur rôle de début ou de fin, même si une seule est 
 
 Les réglages de fichier, catégorie et langue sont verrouillés tant qu’un import
 est préparé. Pour les changer, annulez cet import avec confirmation préalable.
+
+Changer de destination préserve la version française si elle a déjà été modifiée.
+Le préremplissage de la nouvelle destination ne remplace que les champs restés intacts.
