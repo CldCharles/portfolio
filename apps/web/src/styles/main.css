@@ -124,12 +124,12 @@
 }
 
 :root {
-  --background: #f8f7f4;
-  --foreground: #262a2b;
-  --card: #fcfbf9;
-  --muted-foreground: #656a6a;
-  --border: #deded7;
-  --portfolio-accent: #466257;
+  --background: #fafbf9;
+  --foreground: #252e33;
+  --card: #ffffff;
+  --muted-foreground: #52636a;
+  --border: #d8e0e1;
+  --portfolio-accent: #24596a;
 }
 body { margin: 0; min-inline-size: 280px; }
 a, button { -webkit-tap-highlight-color: transparent; }

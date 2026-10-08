@@ -13,9 +13,9 @@ watch(locale, value => { void store.load(value as Locale); }, { immediate: true 
 onUnmounted(store.cancel);
 const sections = computed(() => {
   const definitions: { id: string; kind: EntryKind; title: string; introduction?: string }[] = [
-    { id: 'skills', kind: 'skill', title: t('cv.skills'), introduction: t('cv.skillsIntro') },
-    { id: 'projects', kind: 'project', title: t('cv.projects'), introduction: t('cv.projectsIntro') },
     { id: 'experience', kind: 'experience', title: t('cv.experience') },
+    { id: 'projects', kind: 'project', title: t('cv.projects') },
+    { id: 'skills', kind: 'skill', title: t('cv.skills') },
     { id: 'education', kind: 'education', title: t('cv.education') },
   ];
   return definitions.map(section => ({ ...section, entries: store.cv?.entries.filter(entry => entry.kind === section.kind) ?? [] })).filter(section => section.entries.length);
@@ -28,8 +28,10 @@ const sections = computed(() => {
     <header class="site-header">
       <a href="#main" class="monogram" :aria-label="t('nav.home')">CCV<span aria-hidden="true">.</span></a>
       <nav class="section-nav" :aria-label="t('nav.label')">
-        <a v-if="sections.some(section => section.id === 'skills')" href="#skills">{{ t('nav.skills') }}</a>
+        <a v-if="sections.some(section => section.id === 'experience')" href="#experience">{{ t('cv.experience') }}</a>
         <a v-if="sections.some(section => section.id === 'projects')" href="#projects">{{ t('nav.projects') }}</a>
+        <a v-if="sections.some(section => section.id === 'skills')" href="#skills">{{ t('nav.skills') }}</a>
+        <a v-if="sections.some(section => section.id === 'education')" href="#education">{{ t('cv.education') }}</a>
       </nav>
       <LanguageSwitcher />
     </header>
@@ -52,7 +54,7 @@ const sections = computed(() => {
 </template>
 
 <style scoped>
-.portfolio-shell { max-inline-size: 1160px; margin-inline: auto; padding-inline: clamp(1.25rem, 5vw, 4rem); }
+.portfolio-shell { max-inline-size: 960px; margin-inline: auto; padding-inline: clamp(1.25rem, 5vw, 4rem); }
 .site-header { display: flex; align-items: center; flex-wrap: wrap; gap: 1.5rem; border-block-end: 1px solid var(--border); padding-block: 1.5rem; }
 .monogram { font-weight: 700; font-size: 1.35rem; letter-spacing: -.06em; margin-inline-end: auto; min-block-size: 2.75rem; display: flex; align-items: center; }
 .monogram span { color: var(--portfolio-accent); }
