@@ -145,3 +145,19 @@ aucun secret ni brouillon ne doit être ajouté au bootstrap.
 Vite au rendu en dev, et `apps/api/src/web.ts` sert le build en production.
 Le bootstrap du CV est consommé uniquement au premier montage : un retour depuis
 l’admin recharge le CV publié. Les métadonnées suivent ensuite la route et la langue.
+
+## Navigation du CV et portrait
+
+`CvNavigation.vue` affiche les sections renseignées dans leur ordre de lecture.
+À partir de 901 px, le sommaire occupe une colonne de 160 px et reste visible
+au défilement. En dessous, les liens restent visibles en ligne et passent à
+la ligne si nécessaire. Les ancres fonctionnent sans JavaScript ; le repère
+de section en cours est une amélioration client, avec `aria-current="location"`.
+
+`CvHero.vue` accepte un portrait local facultatif : ajouter la photo autorisée
+dans `apps/web/src/assets/portrait.webp` (ou `.jpg`, `.png`) puis reconstruire.
+Préférer un carré optimisé d’au moins 256 px de côté. Le fichier est public
+une fois ajouté : utiliser une copie sans métadonnées privées. Sans photo,
+aucun emplacement vide n’est affiché. Le portrait est décoratif, associé au
+nom voisin ; il n’est pas ajouté à l’export PDF. La gestion du portrait via
+l’administration n’est pas encore implémentée.
