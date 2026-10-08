@@ -3,7 +3,8 @@
 Portfolio public de Claude Charles Valentin en français, anglais et coréen.
 Vue 3 + Pinia + Vue I18n, API Node.js/Express et SQLite.
 L’administration permet de préparer un brouillon, vérifier les traductions et publier.
-L’import LinkedIn reste une prochaine fonctionnalité.
+L’import CSV des données LinkedIn est disponible avec comparaison et sélection.
+Un éventuel accès API LinkedIn reste à étudier selon les autorisations disponibles.
 
 ## Prérequis et démarrage
 
