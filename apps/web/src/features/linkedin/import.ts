@@ -97,12 +97,14 @@ export function createChoices(rows: ImportRow[], document: DraftDocument, locale
   });
 }
 export function chooseTarget(choice: ImportChoice, target: string, document: DraftDocument, locale: Locale): void {
-  const edited = (['title', 'subtitle', 'description'] as const).some(field => choice.french[field] !== choice.frenchBaseline[field]);
   choice.target = target;
-  // A destination change must not silently erase the owner's French wording.
-  if (!edited) {
-    choice.french = { ...(locale === 'fr' ? choice.row.text : document.items.find(item => item.id === target)?.translations.fr.text ?? { title: '', subtitle: '', description: '' }) };
-    choice.frenchBaseline = { ...choice.french };
+  const nextText = locale === 'fr' ? choice.row.text : document.items.find(item => item.id === target)?.translations.fr.text ?? { title: '', subtitle: '', description: '' };
+  // Preserve each field edited by the owner; refresh only untouched fields.
+  for (const field of ['title', 'subtitle', 'description'] as const) {
+    if (choice.french[field] === choice.frenchBaseline[field]) {
+      choice.french[field] = nextText[field];
+      choice.frenchBaseline[field] = nextText[field];
+    }
   }
 }
 // Work on a copy, then replace the local draft in one step. Saving and publishing

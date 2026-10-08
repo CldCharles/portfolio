@@ -110,3 +110,17 @@ test('changing the destination preserves French wording already edited', () => {
   assert.deepEqual(choices[0]!.french, { title: 'Ma version', subtitle: 'Adaptée', description: 'Texte rédigé' });
   assert.equal(applyChoices(document, choices, 'en').items[1]!.translations.fr.text.title, 'Ma version');
 });
+
+
+test('destination changes fill untouched French fields without erasing an edited title', () => {
+  const document = draft();
+  const added = JSON.parse(JSON.stringify(document.items[0]!));
+  added.id = 'existing-skill'; added.kind = 'skill';
+  added.translations.fr.text = { title: 'Titre existant', subtitle: 'Sous-titre existant', description: 'Description existante' };
+  document.items.push(added);
+  const choices = createChoices(parseLinkedIn('Name\nReact', 'skill'), document, 'en');
+  choices[0]!.selected = true; choices[0]!.french.title = 'Titre rédigé';
+  chooseTarget(choices[0]!, added.id, document, 'en');
+  assert.deepEqual(applyChoices(document, choices, 'en').items[1]!.translations.fr.text,
+    { title: 'Titre rédigé', subtitle: 'Sous-titre existant', description: 'Description existante' });
+});
