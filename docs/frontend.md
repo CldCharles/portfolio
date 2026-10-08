@@ -126,3 +126,13 @@ ce fichier si les nouveaux composants requièrent de nouveaux utilitaires.
 Lancer ensuite `npm run typecheck` et `npm run build`.
 
 Référence : https://www.shadcn-vue.com/docs/installation/vite
+
+## Direction visuelle du CV
+
+CV éditorial A validé : blanc cassé, anthracite, accent bleu pétrole.
+Présentation courte avec complément accessible, parcours avec dates en colonne
+sur grand écran et au-dessus du texte sur mobile ; contributions en listes.
+Compétences compactes avec descriptions dépliables. Ordre commun au public
+et à l’aperçu : expériences, projets, compétences, formation.
+La mise en page conserve les textes et ne modifie pas les données publiées.
+Les contrôles de langue et d’export PDF restent accessibles dans les trois langues.

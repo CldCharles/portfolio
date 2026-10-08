@@ -17,11 +17,11 @@ watch(locale, value => { selectedLanguage.value = value as Locale; });
   </div>
 </template>
 <style scoped>
-.pdf-export { display: grid; gap: .5rem; margin-block-start: 1.4rem; }
+.pdf-export { display: grid; gap: .5rem;  }
 label { font-size: .75rem; color: var(--muted-foreground); }
 .pdf-actions { display: flex; flex-wrap: wrap; gap: .6rem; }
 select, .pdf-button { min-block-size: 2.75rem; padding: .65rem .8rem; border: 1px solid var(--border); border-radius: .3rem; background: transparent; font-size: .85rem; }
-.pdf-button { block-size: auto; white-space: normal; }
+.pdf-button { color: white; background: var(--portfolio-accent); border-color: var(--portfolio-accent); block-size: auto; white-space: normal; }
 select:focus-visible { outline: 2px solid var(--portfolio-accent); outline-offset: 3px; }
 @media print { .pdf-export { display: none; } }
 </style>
