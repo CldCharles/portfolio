@@ -136,3 +136,12 @@ Compétences compactes avec descriptions dépliables. Ordre commun au public
 et à l’aperçu : expériences, projets, compétences, formation.
 La mise en page conserve les textes et ne modifie pas les données publiées.
 Les contrôles de langue et d’export PDF restent accessibles dans les trois langues.
+
+Le pied de page commun est dans `features/legal/SiteFooter.vue` et la notice dans
+`pages/PrivacyPage.vue`. La configuration publique est injectée par requête ;
+aucun secret ni brouillon ne doit être ajouté au bootstrap.
+`entry-server.ts` rend les mêmes composants Vue avec Pinia/Vue I18n/routeur isolés.
+`server/document.ts` échappe les métadonnées et le JSON ; `public-pages.ts` raccorde
+Vite au rendu en dev, et `apps/api/src/web.ts` sert le build en production.
+Le bootstrap du CV est consommé uniquement au premier montage : un retour depuis
+l’admin recharge le CV publié. Les métadonnées suivent ensuite la route et la langue.

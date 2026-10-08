@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onUnmounted, watch } from 'vue';
+import { computed, onMounted, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { EntryKind, Locale } from '@portfolio/contracts';
 import { useCvStore } from '@/features/cv/stores/cv';
@@ -9,7 +9,8 @@ import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
 import { Button } from '@/components/ui/button';
 const { t, locale } = useI18n({ useScope: 'global' });
 const store = useCvStore();
-watch(locale, value => { void store.load(value as Locale); }, { immediate: true });
+onMounted(() => { if (!store.consumeHydration(locale.value as Locale)) void store.load(locale.value as Locale); });
+watch(locale, value => { void store.load(value as Locale); });
 onUnmounted(store.cancel);
 const sections = computed(() => {
   const definitions: { id: string; kind: EntryKind; title: string; introduction?: string }[] = [
@@ -46,10 +47,7 @@ const sections = computed(() => {
         <CvSection v-for="(section, index) in sections" :key="section.id" v-bind="section" :number="String(index + 1).padStart(2, '0')" />
       </template>
     </main>
-    <footer class="site-footer">
-      <span v-if="store.cv">{{ store.cv.profile.name }}</span>
-      <span>{{ t('cv.footer') }}</span>
-    </footer>
+
   </div>
 </template>
 
@@ -60,7 +58,6 @@ const sections = computed(() => {
 .monogram span { color: var(--portfolio-accent); }
 .section-nav { display: flex; flex-wrap: wrap; gap: 1.7rem; font-size: .8rem; color: var(--muted-foreground); }
 .section-nav a { display: flex; align-items: center; min-block-size: 2.75rem; }
-.site-footer { border-block-start: 1px solid var(--border); padding-block: 1.7rem 2.5rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; color: var(--muted-foreground); font-size: .75rem; }
 .status-panel { padding-block: 7rem; text-align: center; }
 .retry { margin-block-start: 1.5rem; min-block-size: 2.75rem; }
 .skip-link { position: absolute; inset-block-start: -10rem; padding: 1rem; background: var(--foreground); color: var(--background); z-index: 10; }

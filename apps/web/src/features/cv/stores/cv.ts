@@ -7,6 +7,13 @@ export const useCvStore = defineStore('cv', () => {
   const cv = shallowRef<PublicCv | null>(null);
   const loading = shallowRef(false);
   const failed = shallowRef(false);
+  let hydratedLocale: Locale | undefined;
+  function hydrate(snapshot: PublicCv) { cv.value = snapshot; hydratedLocale = snapshot.locale; }
+  function consumeHydration(locale: Locale) {
+    const matches = hydratedLocale === locale;
+    hydratedLocale = undefined;
+    return matches;
+  }
   let controller: AbortController | undefined;
   async function load(locale: Locale) {
     controller?.abort();
@@ -25,5 +32,5 @@ export const useCvStore = defineStore('cv', () => {
     }
   }
   function cancel() { controller?.abort(); }
-  return { cv, loading, failed, load, cancel };
+  return { cv, loading, failed, load, cancel, hydrate, consumeHydration };
 });

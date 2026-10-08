@@ -17,7 +17,7 @@ const sections = computed(() => ([
 </script>
 <template>
   <div class="draft-preview" :lang="cv.locale">
-    <CvHero :profile="cv.profile" />
+    <CvHero :profile="cv.profile" heading-tag="h2" />
     <CvSection v-for="(section, index) in sections" :key="section.id" v-bind="section" :number="String(index + 1).padStart(2, '0')" />
   </div>
 </template>

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { MAX_FILE_BYTES, ImportError, applyChoices, chooseTarget, createChoices, parseLinkedIn, type ImportChoice, type ImportKind } from './import';
 const props = defineProps<{ document: DraftDocument; disabled: boolean }>();
 const emit = defineEmits<{ apply: [document: DraftDocument]; cancel: []; pending: [value: boolean] }>();
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const kind = ref<ImportKind>('experience');
 const language = ref<Locale>('fr');
 const choices = ref<ImportChoice[]>([]);
@@ -51,6 +51,7 @@ function existing(choice: ImportChoice) { return props.document.items.find(item 
     <p>{{ t('linkedin.intro') }} <a href="https://www.linkedin.com/help/linkedin/answer/a1339364" target="_blank" rel="noopener noreferrer">{{ t('linkedin.exportHelp') }} ↗</a></p>
     <p class="muted">{{ t('linkedin.privacy') }}</p>
     <form @submit.prevent="apply">
+      <p class="muted">{{ t('legal.required') }} {{ t('legal.importNotice') }} <a :href="`/privacy?lang=${locale}`">{{ t('legal.privacy') }}</a></p>
       <fieldset :disabled="disabled || reading">
         <div class="import-settings">
           <label>{{ t('linkedin.fileKind') }}<select :disabled="choices.length > 0" v-model="kind" @change="reset"><option v-for="value in ['profile','experience','education','skill']" :key="value" :value="value">{{ t(`linkedin.files.${value}`) }}</option></select></label>
@@ -74,7 +75,7 @@ function existing(choice: ImportChoice) { return props.document.items.find(item 
           <div v-if="choice.row.dates.length" class="notice"><p>{{ t('linkedin.dates') }}</p><p v-for="date in choice.row.dates" :key="date.kind">{{ t(date.kind === 'start' ? 'admin.startDate' : 'admin.endDate') }} : {{ date.value }}</p></div>
           <fieldset :disabled="!choice.selected" class="french-fields">
             <legend>{{ t('linkedin.frenchVersion') }}</legend>
-            <label>{{ t('admin.title') }}<input v-model="choice.french.title" :required="choice.selected" maxlength="200" /></label>
+            <label>{{ t('admin.title') }} *<input v-model="choice.french.title" :required="choice.selected" maxlength="200" /></label>
             <label>{{ t('admin.subtitle') }}<input v-model="choice.french.subtitle" maxlength="300" /></label>
             <label>{{ t('admin.description') }}<textarea v-model="choice.french.description" maxlength="5000" rows="4" /></label>
           </fieldset>
