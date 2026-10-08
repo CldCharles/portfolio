@@ -19,7 +19,7 @@ test('CSV handles BOM, CRLF, multiline, escaped quotes and trailing empty fields
 });
 test('only mapped CV fields are extracted; private profile fields are ignored', () => {
   const rows = parseLinkedIn('First Name,Last Name,Headline,Summary,Address,Birth Date\nClaude,Test,Engineer,About,private address,2000-01-01', 'profile');
-  assert.deepEqual(rows, [{ kind: 'profile', name: 'Claude Test', text: { title: 'Engineer', subtitle: '', description: 'About' }, warnings: [] }]);
+  assert.deepEqual(rows, [{ kind: 'profile', name: 'Claude Test', text: { title: 'Engineer', subtitle: '', description: 'About' }, dates: [] }]);
   rejects('headers', () => parseLinkedIn('First Name,Last Name\nSomeone,Else', 'experience'));
   rejects('headers', () => parseLinkedIn('Name,Name\na,b', 'skill'));
   rejects('headers', () => parseLinkedIn('First Name,Last Name,Headline\na,b,c\nd,e,f', 'profile'));
@@ -28,7 +28,8 @@ test('only mapped CV fields are extracted; private profile fields are ignored', 
 });
 test('all supported categories map text and display dates without inventing days', () => {
   const row = parseLinkedIn('Company Name,Title,Description,Started On,Finished On\nACME,Engineer,Build,2020,Mar 2024', 'experience')[0]!;
-  assert.equal(row.text.subtitle, 'ACME'); assert.deepEqual(row.warnings, ['dates', '2020 → Mar 2024']);
+  assert.equal(row.text.subtitle, 'ACME'); assert.deepEqual(row.dates, [{kind:'start',value:'2020'},{kind:'end',value:'Mar 2024'}]);
+  assert.deepEqual(parseLinkedIn('Company Name,Title,Finished On\nACME,Engineer,Mar 2024', 'experience')[0]!.dates, [{kind:'end',value:'Mar 2024'}]);
   const education = parseLinkedIn('School Name,Degree Name,Notes,Activities\nSchool,Degree,Notes,Activities', 'education')[0]!;
   assert.equal(education.text.description, 'Notes\n\nActivities');
   assert.equal(parseLinkedIn('Name\nVue.js', 'skill')[0]!.text.title, 'Vue.js');

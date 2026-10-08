@@ -1,4 +1,5 @@
 export default {
+  "discardConfirm": "Abandonner l’import en cours et les modifications non enregistrées ?",
   "open": "Importer LinkedIn",
   "title": "Importer votre parcours LinkedIn",
   "intro": "Téléchargez vos données LinkedIn, décompressez l’archive puis choisissez un fichier CSV. Cet import ne se connecte pas à LinkedIn.",

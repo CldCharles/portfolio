@@ -1,5 +1,6 @@
 import type fr from './linkedin-fr';
 export default {
+  "discardConfirm": "진행 중인 가져오기와 저장하지 않은 변경 사항을 버릴까요?",
   "open": "LinkedIn 가져오기",
   "title": "LinkedIn 경력 가져오기",
   "intro": "LinkedIn 데이터를 다운로드하고 압축을 푼 다음 CSV 파일을 선택하세요. 이 기능은 LinkedIn에 직접 연결하지 않습니다.",

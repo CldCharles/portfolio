@@ -62,3 +62,7 @@ L’ajout remplace uniquement le document local de l’éditeur. Les champs rete
 envoyés par la route de sauvegarde habituelle : session, CSRF, validation et révision
 attendue. L’enregistrement persiste le brouillon privé. La publication nécessite
 ensuite un aperçu et une confirmation, comme une édition manuelle.
+
+Un import préparé déclenche la confirmation de sortie, d’annulation ou de
+déconnexion, même si le brouillon enregistré est inchangé. Les dates affichées
+conservent explicitement leur rôle de début ou de fin, même si une seule est fournie.

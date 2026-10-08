@@ -18,6 +18,10 @@ const router = useRouter();
 const selectedId = shallowRef('profile');
 const addingKind = shallowRef<EntryKind>('experience');
 const importMode = shallowRef(false);
+const importPending = shallowRef(false);
+const unsaved = computed(() => editor.dirty || importPending.value);
+function confirmDiscard() { return window.confirm(t(importPending.value ? 'linkedin.discardConfirm' : 'admin.discardConfirm')); }
+function cancelImport() { if (importPending.value && !confirmDiscard()) return; importPending.value = false; importMode.value = false; }
 const previewMode = shallowRef(false);
 const confirmingPublish = shallowRef(false);
 const selectedIndex = computed(() => editor.document?.items.findIndex(item => item.id === selectedId.value) ?? -1);
@@ -27,12 +31,12 @@ const selectedItem = computed({
 });
 const errorKey = computed(() => te(`admin.errors.${editor.error}`) ? `admin.errors.${editor.error}` : 'admin.errors.UNKNOWN');
 onMounted(() => { if (!editor.document) void editor.load(); });
-function beforeUnload(event: BeforeUnloadEvent) { if (editor.dirty) { event.preventDefault(); event.returnValue = ''; } }
+function beforeUnload(event: BeforeUnloadEvent) { if (unsaved.value) { event.preventDefault(); event.returnValue = ''; } }
 window.addEventListener('beforeunload', beforeUnload);
 onUnmounted(() => window.removeEventListener('beforeunload', beforeUnload));
 onBeforeRouteLeave(() => {
-  if (!editor.dirty) return true;
-  if (!window.confirm(t('admin.discardConfirm'))) return false;
+  if (!unsaved.value) return true;
+  if (!confirmDiscard()) return false;
   editor.clear(); return true;
 });
 function add() { editor.addEntry(addingKind.value); selectedId.value = editor.document!.items.at(-1)!.id; }
@@ -48,16 +52,16 @@ function move(direction: number) {
   const [item] = editor.document.items.splice(index, 1);
   editor.document.items.splice(target, 0, item!);
 }
-async function reload() { if (editor.dirty && !window.confirm(t('admin.discardConfirm'))) return; await editor.load(); selectedId.value = 'profile'; }
+async function reload() { if (unsaved.value && !confirmDiscard()) return; await editor.load(); selectedId.value = 'profile'; }
 function imported(document: DraftDocument) {
   editor.document = document; editor.preview = null; editor.previewRevision = 0;
-  editor.notice = ''; editor.error = ''; selectedId.value = 'profile'; importMode.value = false;
+  editor.notice = ''; editor.error = ''; selectedId.value = 'profile'; importMode.value = false; importPending.value = false;
 }
 async function preview() { await editor.showPreview(locale.value as Locale); if (editor.preview) previewMode.value = true; }
 async function publish() { await editor.publish(); confirmingPublish.value = false; if (!editor.error) previewMode.value = false; }
 async function logout() {
-  if (editor.dirty && !window.confirm(t('admin.discardConfirm'))) return;
-  try { await auth.logout(); editor.clear(); await router.replace('/admin/login'); }
+  if (unsaved.value && !confirmDiscard()) return;
+  try { await auth.logout(); importPending.value = false; editor.clear(); await router.replace('/admin/login'); }
   catch { editor.error = 'UNKNOWN'; }
 }
 </script>
@@ -71,7 +75,7 @@ async function logout() {
       <p v-if="editor.busy" role="status" class="muted">{{ t('admin.working') }}</p>
       <div v-if="!editor.document && !editor.busy" class="admin-actions"><Button @click="editor.load">{{ t('admin.reload') }}</Button></div>
       <template v-if="editor.document">
-        <LinkedInImport v-if="importMode" :document="editor.document" :disabled="editor.busy" @apply="imported" @cancel="importMode = false" />
+        <LinkedInImport v-if="importMode" :document="editor.document" :disabled="editor.busy" @apply="imported" @pending="importPending = $event" @cancel="cancelImport" />
         <template v-else>
         <div class="editor-toolbar">
           <div class="admin-actions"><Button type="button" variant="outline" class="admin-button" :disabled="editor.busy" @click="previewMode = false; confirmingPublish = false">{{ t('admin.edit') }}</Button><Button type="button" variant="outline" class="admin-button" :disabled="editor.dirty || editor.busy" @click="preview">{{ t('admin.preview') }}</Button></div>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, ref } from 'vue';
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { DraftDocument, Locale } from '@portfolio/contracts';
 import { Button } from '@/components/ui/button';
 import { MAX_FILE_BYTES, ImportError, applyChoices, chooseTarget, createChoices, parseLinkedIn, type ImportChoice, type ImportKind } from './import';
 const props = defineProps<{ document: DraftDocument; disabled: boolean }>();
-const emit = defineEmits<{ apply: [document: DraftDocument]; cancel: [] }>();
+const emit = defineEmits<{ apply: [document: DraftDocument]; cancel: []; pending: [value: boolean] }>();
 const { t } = useI18n();
 const kind = ref<ImportKind>('experience');
 const language = ref<Locale>('fr');
@@ -14,7 +14,8 @@ const error = ref('');
 const reading = ref(false);
 const fileInput = ref<HTMLInputElement>();
 let readVersion = 0;
-onBeforeUnmount(() => { readVersion++; });
+onBeforeUnmount(() => { readVersion++; emit('pending', false); });
+watch(() => reading.value || choices.value.length > 0, value => emit('pending', value), { immediate: true, flush: 'sync' });
 const selectedCount = computed(() => choices.value.filter(choice => choice.selected).length);
 function reset() {
   readVersion++; reading.value = false; choices.value = []; error.value = '';
@@ -70,7 +71,7 @@ function existing(choice: ImportChoice) { return props.document.items.find(item 
               <div><h3>{{ t('linkedin.imported') }} · {{ language.toUpperCase() }}</h3><p v-if="choice.row.name">{{ choice.row.name }}</p><template v-for="field in ['title','subtitle','description'] as const" :key="field"><strong>{{ t(`admin.${field}`) }}</strong><p class="import-text">{{ choice.row.text[field] || '—' }}</p></template></div>
             </div>
           </details>
-          <p v-if="choice.row.warnings.length" class="notice">{{ t('linkedin.dates') }} {{ choice.row.warnings[1] }}</p>
+          <div v-if="choice.row.dates.length" class="notice"><p>{{ t('linkedin.dates') }}</p><p v-for="date in choice.row.dates" :key="date.kind">{{ t(date.kind === 'start' ? 'admin.startDate' : 'admin.endDate') }} : {{ date.value }}</p></div>
           <fieldset :disabled="!choice.selected" class="french-fields">
             <legend>{{ t('linkedin.frenchVersion') }}</legend>
             <label>{{ t('admin.title') }}<input v-model="choice.french.title" :required="choice.selected" maxlength="200" /></label>

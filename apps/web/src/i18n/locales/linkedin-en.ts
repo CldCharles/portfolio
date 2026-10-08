@@ -1,5 +1,6 @@
 import type fr from './linkedin-fr';
 export default {
+  "discardConfirm": "Discard the pending import and unsaved changes?",
   "open": "Import LinkedIn",
   "title": "Import your LinkedIn background",
   "intro": "Download your LinkedIn data, extract the archive, then choose a CSV file. This import does not connect to LinkedIn.",

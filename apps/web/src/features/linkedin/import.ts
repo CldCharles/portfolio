@@ -3,7 +3,7 @@ import type { CvText, DraftDocument, DraftItem, Locale } from '@portfolio/contra
 export type ImportKind = 'profile' | 'experience' | 'education' | 'skill';
 export interface ImportRow {
   kind: ImportKind; text: CvText; name?: string;
-  warnings: string[];
+  dates: { kind: 'start' | 'end'; value: string }[];
 }
 export interface ImportChoice {
   row: ImportRow; selected: boolean; target: string; french: CvText;
@@ -71,8 +71,12 @@ export function parseLinkedIn(input: string, kind: ImportKind): ImportRow[] {
     const name = kind === 'profile' ? [get('first name'), get('last name')].filter(Boolean).join(' ') : undefined;
     if (name !== undefined && (!name || name.length > 200)) throw new ImportError('text');
     // Export date precision varies. Preserve dates in the draft; do not invent days.
-    const dates = ['started on', 'finished on', 'start date', 'end date'].map(get).filter(Boolean);
-    return { kind, text, ...(name === undefined ? {} : { name }), warnings: dates.length ? ['dates', dates.join(' → ')] : [] };
+    const dates: ImportRow['dates'] = [];
+    const start = get('started on') || get('start date');
+    const end = get('finished on') || get('end date');
+    if (start) dates.push({ kind: 'start', value: start });
+    if (end) dates.push({ kind: 'end', value: end });
+    return { kind, text, ...(name === undefined ? {} : { name }), dates };
   });
 }
 function validText(text: CvText): boolean {
