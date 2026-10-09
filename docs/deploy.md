@@ -46,7 +46,7 @@ curl -fsSLO https://raw.githubusercontent.com/CldCharles/portfolio/main/deploy/s
 sudo bash setup.sh mon-domaine.com
 ```
 
-Le script installe Node.js 22, Caddy, git et sqlite3 depuis leurs dépôts officiels,
+Le script installe Caddy, git et sqlite3 depuis les dépôts Ubuntu, Node.js 22 depuis NodeSource,
 ajoute 1 Go de mémoire d’échange, crée l’utilisateur système `portfolio`, clone le
 dépôt dans `/opt/portfolio/app`, compile, écrit `/etc/portfolio/portfolio.env`,
 active le service, la sauvegarde quotidienne (03:30, heure de Séoul) et le
