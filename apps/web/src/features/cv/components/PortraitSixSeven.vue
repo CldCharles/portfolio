@@ -6,16 +6,25 @@ defineProps<{ src: string }>();
 const { t } = useI18n({ useScope: 'global' });
 const playing = ref(false);
 let timer: ReturnType<typeof setTimeout> | undefined;
+let frame: number | undefined;
 function play() {
   clearTimeout(timer);
+  if (frame !== undefined) cancelAnimationFrame(frame);
   playing.value = false;
-  // Next frame, so a click during the animation restarts it.
-  requestAnimationFrame(() => {
-    playing.value = true;
-    timer = setTimeout(() => { playing.value = false; }, 2600);
+  // Two frames: the browser must render the stopped state once, so a click
+  // during the animation restarts it instead of only extending it.
+  frame = requestAnimationFrame(() => {
+    frame = requestAnimationFrame(() => {
+      frame = undefined;
+      playing.value = true;
+      timer = setTimeout(() => { playing.value = false; }, 2600);
+    });
   });
 }
-onUnmounted(() => clearTimeout(timer));
+onUnmounted(() => {
+  clearTimeout(timer);
+  if (frame !== undefined) cancelAnimationFrame(frame);
+});
 </script>
 
 <template>
@@ -77,8 +86,10 @@ onUnmounted(() => clearTimeout(timer));
   .playing .arm-motion, .playing .number { animation: none; }
   .playing .number { opacity: 1; }
 }
-@media (min-width: 641px) and (max-width: 900px) { .portrait { inline-size: 120px; block-size: 120px; } }
-@media (max-width: 640px) { .portrait, .portrait-button { border-radius: .875rem; } .portrait { inline-size: 76px; block-size: 76px; } .number { font-size: 1rem; } }
+/* Smaller arms where the page gutter is narrower, so the hands are not clipped. */
+@media (max-width: 1120px) { .arm-slot { inline-size: 60%; } .arm-right { inset-inline-start: 84%; } .arm-left { inset-inline-end: 84%; } }
+@media (min-width: 641px) and (max-width: 900px) { .portrait { inline-size: 120px; block-size: 120px; } .arm-slot { inline-size: 52%; } }
+@media (max-width: 640px) { .portrait, .portrait-button { border-radius: .875rem; } .portrait { inline-size: 76px; block-size: 76px; } .arm-slot { inline-size: 46%; } .arm-right { inset-inline-start: 82%; } .arm-left { inset-inline-end: 82%; } .number { font-size: .9rem; } }
 @media (max-width: 360px) { .portrait { inline-size: 64px; block-size: 64px; } }
 @media print { .arm-slot { display: none; } .portrait-button { cursor: auto; } }
 </style>
