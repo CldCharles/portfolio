@@ -10,3 +10,8 @@ dist/
 *.sqlite
 *.sqlite-*
 coverage/
+
+# Notes, maquettes et réglages locaux du propriétaire
+docs/plans/
+design-explorations/
+.claude/
