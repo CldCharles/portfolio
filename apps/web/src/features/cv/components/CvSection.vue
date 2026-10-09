@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { descriptionBlocks } from '../lib/presentation';
+import { featuredExperienceId } from '../lib/visual-presentation';
 import type { CvEntry } from '@portfolio/contracts';
 import { useI18n } from 'vue-i18n';
-defineProps<{ id: string; number: string; title: string; introduction?: string; entries: CvEntry[] }>();
+defineProps<{ id: string; title: string; entries: CvEntry[] }>();
 const { t, locale } = useI18n({ useScope: 'global' });
 function formatDate(value: string) {
   if (value.length === 4) return value;
@@ -13,27 +14,21 @@ function formatDate(value: string) {
 <template>
   <section v-if="entries.length" :id="id" class="cv-section" :aria-labelledby="`${id}-title`">
     <div class="section-heading">
-      <p class="section-number" aria-hidden="true">{{ number }}</p>
-      <div>
-        <h2 :id="`${id}-title`" class="section-title">{{ title }}</h2>
-        <p v-if="introduction" class="section-intro">{{ introduction }}</p>
-      </div>
+      <h2 :id="`${id}-title`" class="section-title">{{ title }}</h2>
     </div>
     <div class="entries" :class="{ 'skills-grid': id === 'skills' }">
-      <article v-for="entry in entries" :key="entry.id" class="entry" :class="{ 'dated-entry': entry.kind === 'experience' || entry.kind === 'education' }">
+      <article v-for="entry in entries" :key="entry.id" class="entry" :class="{ 'dated-entry': entry.kind === 'experience' || entry.kind === 'education', 'featured-entry': entry.kind === 'experience' && entry.id === featuredExperienceId }">
         <p v-if="entry.startDate || entry.endDate" class="dates">
           <template v-if="entry.startDate"><time :datetime="entry.startDate">{{ formatDate(entry.startDate) }}</time> — </template>
           <span v-else>{{ t('cv.ended') }} : </span>
           <time v-if="entry.endDate" :datetime="entry.endDate">{{ formatDate(entry.endDate) }}</time>
-          <span v-else>{{ t('cv.present') }}</span>
+          <span v-else class="date-segment">{{ t('cv.present') }}</span>
         </p>
         <div v-if="entry.kind === 'skill'" class="entry-content skill-content">
-          <details>
-            <summary :lang="entry.text.locale">{{ entry.text.title }}</summary>
-            <p v-if="entry.text.fallback" class="fallback-note">{{ t('cv.fallback') }}</p>
-            <p class="skill-description" :lang="entry.text.locale">{{ entry.text.description }}</p>
-            <a v-if="entry.url" :href="entry.url" class="project-link skill-link">{{ t('cv.viewProject') }} <span aria-hidden="true">↗</span><span class="sr-only"> — {{ entry.text.title }}</span></a>
-          </details>
+          <h3 class="skill-title" :lang="entry.text.locale">{{ entry.text.title }}</h3>
+          <p v-if="entry.text.fallback" class="fallback-note">{{ t('cv.fallback') }}</p>
+          <p class="skill-description" :lang="entry.text.locale">{{ entry.text.description }}</p>
+          <a v-if="entry.url" :href="entry.url" class="project-link">{{ t('cv.viewProject') }} <span aria-hidden="true">↗</span><span class="sr-only"> — {{ entry.text.title }}</span></a>
         </div>
         <div v-else class="entry-content">
           <p v-if="entry.text.fallback" class="fallback-note">{{ t('cv.fallback') }}</p>
@@ -66,20 +61,19 @@ function formatDate(value: string) {
 </template>
 
 <style scoped>
-.cv-section { border-block-start: 1px solid var(--border); padding-block: 1.8rem 2.4rem; scroll-margin-block-start: 1.5rem; }
-.section-heading { display: flex; flex-direction: column; gap: .5rem; margin-block-end: 1.2rem; }
-.section-number { font-size: .65rem; color: var(--portfolio-accent); font-variant-numeric: tabular-nums; letter-spacing: .12em; }
-.section-title { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.8rem, 3vw, 2.3rem); font-weight: 400; letter-spacing: -.025em; }
-.section-intro { margin-block-start: .6rem; color: var(--muted-foreground); line-height: 1.6; }
+.cv-section { border-block-start: 1px solid var(--border); padding-block: 1.5rem 2rem; scroll-margin-block-start: 1.5rem; }
+.section-heading { display: flex; align-items: baseline; gap: .75rem; margin-block-end: 1rem; }
+.section-title { font-family: Georgia, 'Times New Roman', serif; font-size: 2rem; font-weight: 400; letter-spacing: -.025em; }
 .entries { display: grid; }
-.entry { min-inline-size: 0; padding-block: 1.4rem; border-block-end: 1px solid var(--border); }
+.entry { min-inline-size: 0; padding-block: 1rem; border-block-end: 1px solid var(--border); }
+.entry:first-child { padding-block-start: 0; }
 .entry:last-child { border-block-end: 0; }
 .dated-entry { display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 1.5rem; }
 .entry-content { min-inline-size: 0; }
 .entry-company { font-size: 1rem; font-weight: 650; line-height: 1.5; }
 .entry-subtitle { color: var(--muted-foreground); font-size: .8rem; margin-block-end: .45rem; }
 .entry-title { font-size: 1.15rem; font-weight: 600; letter-spacing: -.015em; line-height: 1.45; }
-.dated-entry .entry-title { margin-block-start: .25rem; color: var(--portfolio-accent); font-size: .95rem; font-weight: 500; }
+.dated-entry .entry-title { margin-block-start: .25rem; color: var(--portfolio-accent); font-size: .9375rem; font-weight: 500; }
 .entry-description { margin-block-start: .65rem; color: var(--muted-foreground); font-size: .95rem; line-height: 1.75; max-inline-size: 65ch; }
 .entry-description > * + p { margin-block-start: .6rem; }
 .contributions { margin-block-start: .7rem; padding-inline-start: 1.2rem; list-style: disc; }
@@ -89,13 +83,14 @@ function formatDate(value: string) {
 .project-link { display: inline-flex; align-items: center; gap: .7rem; min-block-size: 2.75rem; margin-block-start: .6rem; font-size: .85rem; color: var(--portfolio-accent); text-decoration: underline; text-underline-offset: .3rem; }
 .dates { color: var(--muted-foreground); font-size: .8rem; line-height: 1.7; font-variant-numeric: tabular-nums; padding-block-start: .15rem; }
 .dated-entry .entry-content { grid-column: 2; }
-.skills-grid { display: flex; flex-wrap: wrap; align-items: start; gap: .6rem; }
-.skills-grid .entry { padding: 0; border: 0; max-inline-size: 100%; }
-.skill-content details { border: 1px solid var(--border); border-radius: .25rem; }
-.skill-content summary { cursor: pointer; padding: .65rem .8rem; font-size: .85rem; min-block-size: 2.75rem; color: var(--portfolio-accent); }
-.skill-content summary:focus-visible { outline: 2px solid var(--portfolio-accent); outline-offset: 3px; }
-.skill-content details[open] { max-inline-size: 32rem; }
-.skill-description { padding: 0 .8rem .8rem; font-size: .85rem; line-height: 1.7; color: var(--muted-foreground); white-space: pre-line; }
-.skill-link { margin-inline: .8rem; margin-block: 0 .5rem; }
-@media (max-width: 600px) { .dated-entry { grid-template-columns: 1fr; gap: .45rem; } .dated-entry .entry-content { grid-column: 1; } }
+.dates time, .date-segment { white-space: nowrap; }
+.featured-entry { padding-block: 1.5rem; }
+.featured-entry .entry-content { border-inline-start: 2px solid var(--portfolio-accent); padding-inline-start: 1rem; }
+.featured-entry .entry-company { font-size: 1.125rem; font-weight: 600; }
+.featured-entry .entry-title { font-size: 1rem; font-weight: 500; }
+.skills-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.skills-grid .entry { padding: 0; border: 0; }
+.skill-title { font-size: 1rem; font-weight: 600; line-height: 1.5; }
+.skill-description { margin-block-start: .5rem; font-size: .9375rem; line-height: 1.6; color: var(--muted-foreground); white-space: pre-line; }
+@media (max-width: 600px) { .section-title { font-size: 1.75rem; } .skills-grid { grid-template-columns: minmax(0, 1fr); } .dated-entry { grid-template-columns: 1fr; gap: .45rem; } .dated-entry .entry-content { grid-column: 1; } }
 </style>

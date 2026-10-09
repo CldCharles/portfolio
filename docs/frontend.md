@@ -52,8 +52,9 @@ Structure actuelle du CV :
 features/cv/
 ├── components/
 │   ├── CvHero.vue           # Identité et présentation ; prop profile
-│   ├── CvSection.vue        # Section typée ; props id, number, title, introduction, entries
+│   ├── CvSection.vue        # Section typée ; props id, title, entries
 │   └── LanguageSwitcher.vue # Choix de langue dans Vue I18n
+├── lib/sections.ts          # Ordre et regroupement des sections, communs au CV et à l’aperçu
 ├── stores/cv.ts             # Chargement, erreurs et annulation des anciennes requêtes
 └── api.ts                   # Lecture HTTP
 ```
@@ -132,7 +133,7 @@ Référence : https://www.shadcn-vue.com/docs/installation/vite
 CV éditorial A validé : blanc cassé, anthracite, accent bleu pétrole.
 Présentation courte avec complément accessible, parcours avec dates en colonne
 sur grand écran et au-dessus du texte sur mobile ; contributions en listes.
-Compétences compactes avec descriptions dépliables. Ordre commun au public
+Compétences en grille avec descriptions toujours visibles. Ordre commun au public
 et à l’aperçu : expériences, projets, compétences, formation.
 La mise en page conserve les textes et ne modifie pas les données publiées.
 Les contrôles de langue et d’export PDF restent accessibles dans les trois langues.
@@ -144,7 +145,9 @@ aucun secret ni brouillon ne doit être ajouté au bootstrap.
 `server/document.ts` échappe les métadonnées et le JSON ; `public-pages.ts` raccorde
 Vite au rendu en dev, et `apps/api/src/web.ts` sert le build en production.
 Le bootstrap du CV est consommé uniquement au premier montage : un retour depuis
-l’admin recharge le CV publié. Les métadonnées suivent ensuite la route et la langue.
+l’admin recharge le CV publié. Lors d’un changement de langue, le CV affiché reste
+visible jusqu’à l’arrivée de la nouvelle version ; l’état de chargement plein écran
+n’apparaît que s’il n’y a encore aucun CV. Les métadonnées suivent ensuite la route et la langue.
 
 ## Navigation du CV et portrait
 
@@ -156,8 +159,20 @@ de section en cours est une amélioration client, avec `aria-current="location"`
 
 `CvHero.vue` accepte un portrait local facultatif : ajouter la photo autorisée
 dans `apps/web/src/assets/portrait.webp` (ou `.jpg`, `.png`) puis reconstruire.
-Préférer un carré optimisé d’au moins 256 px de côté. Le fichier est public
+Préférer un carré déjà recadré et optimisé d’au moins 256 px de côté : le
+composant n’applique aucun zoom. Le portrait actuel est un JPEG 384 × 384 sans
+métadonnées (~31 Ko) ; l’original reste dans l’historique Git (commit `2461ab6`). Le fichier est public
 une fois ajouté : utiliser une copie sans métadonnées privées. Sans photo,
 aucun emplacement vide n’est affiché. Le portrait est décoratif, associé au
 nom voisin ; il n’est pas ajouté à l’export PDF. La gestion du portrait via
 l’administration n’est pas encore implémentée.
+
+## Hiérarchie visuelle
+
+`features/cv/lib/visual-presentation.ts` identifie l’expérience `sopra-2021-2024`
+pour un filet discret. Le nom et le métier forment un seul bloc face au portrait ;
+sur mobile le métier occupe toute la largeur. Le téléchargement reste une action
+principale, avec choix de langue accessible et discret. Les projets conservent
+leur texte, leurs technologies et leur lien : la miniature textuelle a été retirée
+après la revue visuelle du propriétaire. Aucune association d’image ni modification
+de contrat ou de base n’est nécessaire.

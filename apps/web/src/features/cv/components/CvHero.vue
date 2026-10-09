@@ -15,12 +15,12 @@ const introduction = computed(() => splitIntroduction(props.profile.text.descrip
 
 <template>
   <section class="hero" aria-labelledby="profile-name">
-    <div class="hero-heading">
+    <div class="hero-heading" :class="{ 'has-portrait': portraitUrl }">
     <div class="hero-identity">
-    <p class="role" :lang="profile.text.locale">{{ profile.text.title }}</p>
     <component :is="headingTag ?? 'h1'" id="profile-name" class="name">{{ profile.name }}</component>
+    <p class="role" :lang="profile.text.locale">{{ profile.text.title }}</p>
     </div>
-    <img v-if="portraitUrl" :src="portraitUrl" alt="" class="portrait" width="128" height="128" />
+    <span v-if="portraitUrl" class="portrait-frame"><img :src="portraitUrl" alt="" class="portrait" width="128" height="128" /></span>
     </div>
     <p v-if="profile.text.fallback" class="fallback-note">{{ t('cv.fallback') }}</p>
     <div class="hero-intro">
@@ -40,19 +40,32 @@ const introduction = computed(() => splitIntroduction(props.profile.text.descrip
 </template>
 
 <style scoped>
-.hero { padding-block: clamp(2.5rem, 5vw, 4rem); }
-.hero-heading { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
-.hero-identity { min-inline-size: 0; }
-.portrait { flex: 0 0 auto; inline-size: 128px; block-size: 128px; object-fit: cover; border-radius: .75rem; }
-@media (max-width: 600px) { .hero-heading { gap: 1rem; align-items: start; } .portrait { inline-size: 80px; block-size: 80px; } }
-.role { color: var(--portfolio-accent); font-size: .75rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; margin-block-end: 1rem; }
-.name { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2.7rem, 5vw, 4.1rem); font-weight: 400; line-height: 1.08; letter-spacing: -.045em; max-inline-size: 16ch; text-wrap: balance; }
-.hero-intro { margin-block-start: 1.4rem; max-inline-size: 60ch; }
-.intro-copy { font-size: 1rem; line-height: 1.75; color: var(--muted-foreground); white-space: pre-line; }
-.intro-details { margin-block-start: .5rem; }
-.intro-details summary { color: var(--portfolio-accent); cursor: pointer; font-size: .85rem; padding-block: .6rem; min-block-size: 2.75rem; }
+.hero { padding-block: 2rem; }
+.hero-heading { display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; gap: .75rem 1.5rem; }
+.hero-heading.has-portrait { grid-template-columns: minmax(0, 1fr) auto; }
+.hero-heading:not(.has-portrait) .name { max-inline-size: 100%; }
+.hero-identity { display: contents; }
+.name { grid-column: 1; max-inline-size: 16ch; font-family: Georgia, 'Times New Roman', serif; font-size: 3.5rem; font-weight: 400; line-height: 1.05; letter-spacing: -.035em; text-wrap: balance; overflow-wrap: anywhere; }
+.role { grid-column: 1; color: var(--portfolio-accent); font-size: 1rem; font-weight: 600; line-height: 1.5; margin: 0; }
+.portrait-frame { grid-column: 2; grid-row: 1 / span 2; inline-size: 128px; block-size: 128px; border-radius: .75rem; overflow: hidden; }
+.portrait { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; }
+.hero-intro { margin-block-start: 1rem; max-inline-size: 60ch; }
+.intro-copy { font-size: 1rem; line-height: 1.65; color: var(--muted-foreground); white-space: pre-line; }
+.intro-details { margin-block-start: .25rem; }
+.intro-details summary { color: var(--portfolio-accent); cursor: pointer; font-size: .85rem; padding-block: .5rem; min-block-size: 2.75rem; }
 .intro-details[open] .intro-copy { margin-block: .5rem 1rem; }
-.hero-actions { display: flex; flex-wrap: wrap; align-items: end; gap: .6rem 1.25rem; margin-block-start: 1.25rem; }
-.github-link { min-block-size: 2.75rem; block-size: auto; padding: .65rem .5rem; gap: .7rem; white-space: normal; color: var(--portfolio-accent); background: transparent; }
+.hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin-block-start: 1rem; }
+.github-link { min-block-size: 2.75rem; block-size: auto; padding: .5rem; gap: .5rem; white-space: normal; color: var(--portfolio-accent); background: transparent; }
 summary:focus-visible { outline: 2px solid var(--portfolio-accent); outline-offset: 3px; }
+@media (min-width: 601px) and (max-width: 900px) { .name { font-size: 3rem; } .portrait-frame { inline-size: 112px; block-size: 112px; } }
+@media (max-width: 600px) {
+  .hero { padding-block: 1.25rem 1.5rem; }
+  .hero-heading { gap: .75rem; align-items: start; }
+  .name { font-size: 2.25rem; line-height: 1.1; }
+  .portrait-frame { grid-row: 1; inline-size: 80px; block-size: 80px; }
+  .role { grid-column: 1 / -1; font-size: .9375rem; line-height: 1.45; }
+  .hero-intro, .hero-actions { margin-block-start: .75rem; }
+  .intro-copy { line-height: 1.5; }
+}
+@media (max-width: 360px) { .name { font-size: 2rem; } .portrait-frame { inline-size: 64px; block-size: 64px; } }
 </style>

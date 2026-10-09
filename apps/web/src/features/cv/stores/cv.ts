@@ -19,7 +19,7 @@ export const useCvStore = defineStore('cv', () => {
     controller?.abort();
     const request = new AbortController();
     controller = request;
-    cv.value = null;
+    // Keep the current CV visible while another language loads, to avoid a blank flash.
     loading.value = true;
     failed.value = false;
     try {
