@@ -62,6 +62,7 @@ Pour reprendre la base locale à la place (contenu et compte admin compris) :
 # Sur l’ordinateur : copie cohérente (la base est en mode WAL)
 sqlite3 apps/api/data/portfolio.sqlite ".backup /tmp/portfolio.sqlite"
 scp /tmp/portfolio.sqlite ubuntu@IP:/tmp/portfolio.sqlite
+rm /tmp/portfolio.sqlite
 # Sur le serveur
 sudo systemctl stop portfolio
 sudo install -o portfolio -g portfolio -m 640 /tmp/portfolio.sqlite /var/lib/portfolio/portfolio.sqlite
@@ -118,7 +119,7 @@ fichiers `-wal`/`-shm`, redémarrer.
 - `NODE_ENV=production` active les cookies `Secure`, HSTS et l’origine HTTPS exacte.
 - Aucun journal d’accès HTTP (pas de directive `log` dans Caddy). Journaux du serveur
   conservés 14 jours au plus : journald, fichiers rsyslog et historiques de connexion
-  (logrotate quotidien, 14 rotations) ; journal du pare-feu désactivé. Ces informations
+  (logrotate quotidien, fichier courant et 13 archives, sans seuil de taille) ; journal du pare-feu désactivé. Ces informations
   alimentent la notice via `PUBLIC_HOST_*`.
 - Les mises à jour de sécurité d’Ubuntu s’installent automatiquement
   (`unattended-upgrades`, actif par défaut sur Lightsail).

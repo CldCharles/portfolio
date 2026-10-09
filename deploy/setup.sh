@@ -62,7 +62,9 @@ printf '[Journal]\nMaxRetentionSec=14day\n' > /etc/systemd/journald.conf.d/portf
 systemctl restart systemd-journald
 for rotation in /etc/logrotate.d/rsyslog /etc/logrotate.d/wtmp /etc/logrotate.d/btmp; do
   [[ -f "$rotation" ]] || continue
-  sed -i -E 's/^([[:space:]]*)(weekly|monthly)$/\1daily/; s/^([[:space:]]*)rotate [0-9]+$/\1rotate 14/' "$rotation"
+  # Quotidien, fichier courant + 13 archives, sans seuil de taille (minsize
+  # bloquerait la rotation des petits historiques de connexion).
+  sed -i -E 's/^([[:space:]]*)(weekly|monthly)$/\1daily/; s/^([[:space:]]*)rotate [0-9]+$/\1rotate 13/; /^[[:space:]]*minsize /d' "$rotation"
 done
 
 echo "== Services"
