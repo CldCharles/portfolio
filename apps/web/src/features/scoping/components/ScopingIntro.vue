@@ -65,10 +65,10 @@ const store = useScopingStore();
 .hero-text { flex: 999 1 30rem; min-inline-size: 0; }
 h1 { margin: 1rem 0 0; font-size: clamp(2.4rem, 6vw, 3.5rem); line-height: 1.05; }
 h1:focus { outline: none; }
-.lead { margin: 1.5rem 0 0; max-inline-size: 35rem; font-size: 1.12rem; line-height: 1.6; color: #3d4a50; }
+.lead { margin: 1.5rem 0 0; max-inline-size: 35rem; font-size: 1.12rem; line-height: 1.6; color: var(--muted-foreground); }
 .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-block-start: 2rem; }
 .meta { margin: 1rem 0 0; font-size: .82rem; }
-.output { flex: 1 1 20rem; min-inline-size: 0; border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; background: #fbfcfc; box-shadow: 0 12px 32px -20px rgb(28 42 48 / 35%); }
+.output { flex: 1 1 20rem; min-inline-size: 0; border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; background: var(--card); box-shadow: 0 12px 32px -20px rgb(28 42 48 / 35%); }
 .output h2 { margin: 0; font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--portfolio-ink-mute); }
 .output ol { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .75rem; }
 .output li { display: flex; gap: .75rem; align-items: baseline; font-size: .92rem; line-height: 1.45; }
@@ -77,15 +77,15 @@ h1:focus { outline: none; }
 .steps h2, .analyst h2 { margin: 0; font-size: 2rem; }
 .steps > p { margin: .5rem 0 0; }
 .steps ol { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 1rem; }
-.steps li { border: 1px solid var(--border); border-radius: .9rem; padding: 1.25rem 1.25rem 1.5rem; display: flex; flex-direction: column; gap: .5rem; }
+.steps li { background: var(--card); box-shadow: var(--portfolio-shadow); border: 1px solid var(--border); border-radius: .9rem; padding: 1.25rem 1.25rem 1.5rem; display: flex; flex-direction: column; gap: .5rem; }
 .steps .number { font-size: 1.75rem; line-height: 1; color: var(--portfolio-accent); }
 .steps h3 { margin: .25rem 0 0; font-size: 1rem; font-weight: 600; }
-.steps li p { margin: 0; font-size: .88rem; line-height: 1.55; color: #3d4a50; }
-.analyst { margin-block-start: 4.5rem; display: flex; flex-wrap: wrap; gap: 2.5rem; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 1.1rem; background: #f3f7f8; }
+.steps li p { margin: 0; font-size: .88rem; line-height: 1.55; color: var(--muted-foreground); }
+.analyst { margin-block-start: 4.5rem; display: flex; flex-wrap: wrap; gap: 2.5rem; padding: clamp(1.5rem, 4vw, 2.5rem); border-radius: 1.1rem; background: var(--scoping-sunken); }
 .analyst > div { flex: 1 1 18rem; min-inline-size: 0; }
-.analyst > div p { margin: .75rem 0 0; line-height: 1.6; color: #3d4a50; }
+.analyst > div p { margin: .75rem 0 0; line-height: 1.6; color: var(--muted-foreground); }
 .analyst ul { flex: 2 1 26rem; min-inline-size: 0; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .75rem; }
-.analyst li { display: flex; gap: .75rem; align-items: flex-start; background: var(--background); border-radius: .75rem; padding: .9rem 1rem; font-size: .9rem; line-height: 1.5; }
+.analyst li { display: flex; gap: .75rem; align-items: flex-start; background: var(--card); border-radius: .75rem; padding: .9rem 1rem; font-size: .9rem; line-height: 1.5; }
 .warning-icon { flex: none; margin-block-start: .1rem; color: #a15c07; }
 .privacy { margin: 2rem 0 0; font-size: .85rem; }
 </style>
