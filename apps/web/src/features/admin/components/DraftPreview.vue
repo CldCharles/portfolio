@@ -1,24 +1,18 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import type { EntryKind, PublicCv } from '@portfolio/contracts';
+import type { PublicCv } from '@portfolio/contracts';
+import { groupSections } from '@/features/cv/lib/sections';
 import CvHero from '@/features/cv/components/CvHero.vue';
 import CvSection from '@/features/cv/components/CvSection.vue';
 const props = defineProps<{ cv: PublicCv }>();
 const { t } = useI18n({ useScope: 'global' });
-const sections = computed(() => ([
-  { id: 'experience', kind: 'experience', title: t('cv.experience') },
-  { id: 'projects', kind: 'project', title: t('cv.projects') },
-  { id: 'skills', kind: 'skill', title: t('cv.skills') },
-  { id: 'education', kind: 'education', title: t('cv.education') },
-] as { id: string; kind: EntryKind; title: string; introduction?: string }[])
-  .map(section => ({ ...section, entries: props.cv.entries.filter(entry => entry.kind === section.kind) }))
-  .filter(section => section.entries.length));
+const sections = computed(() => groupSections(props.cv.entries, key => t(key)));
 </script>
 <template>
   <div class="draft-preview" :lang="cv.locale">
     <CvHero :profile="cv.profile" heading-tag="h2" />
-    <CvSection v-for="(section, index) in sections" :key="section.id" v-bind="section" :number="String(index + 1).padStart(2, '0')" />
+    <CvSection v-for="section in sections" :id="section.id" :key="section.id" :title="section.title" :entries="section.entries" />
   </div>
 </template>
 <style scoped>

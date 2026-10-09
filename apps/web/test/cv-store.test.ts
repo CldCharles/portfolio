@@ -56,3 +56,19 @@ test('SSR bootstrap skips only the first load; returning from admin fetches the 
   assert.equal(fetch.mock.callCount(), 1);
   assert.equal(store.cv?.profile.name, 'After publication');
 });
+
+test('switching language keeps the current CV visible until the new one arrives', async context => {
+  setActivePinia(createPinia());
+  const korean = deferred();
+  context.mock.method(globalThis, 'fetch', () => korean.promise);
+  const store = useCvStore();
+  const french = { locale: 'fr', profile: { name: 'Name', githubUrl: null, text: { title: 'Role', subtitle: '', description: '', locale: 'fr', fallback: false } }, entries: [] } as const;
+  store.hydrate({ ...french, entries: [] });
+  const pending = store.load('ko');
+  assert.equal(store.loading, true);
+  assert.equal(store.cv?.locale, 'fr');
+  korean.resolve(Response.json({ ...french, locale: 'ko' }));
+  await pending;
+  assert.equal(store.loading, false);
+  assert.equal(store.cv?.locale, 'ko');
+});

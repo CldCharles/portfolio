@@ -19,5 +19,7 @@ const shortLabels = { fr: 'FR', en: 'EN', ko: '한국어' };
 
 <style scoped>
 .language-switcher { display: flex; gap: .25rem; flex-wrap: wrap; }
+.language-button[aria-current] { background: var(--portfolio-accent-soft); color: var(--portfolio-accent); box-shadow: inset 0 -2px var(--portfolio-accent); }
+.language-button[aria-current]:hover { background: var(--portfolio-accent-soft-hover); }
 .language-button { min-block-size: 2.75rem; block-size: auto; padding: .6rem .8rem; border-radius: .3rem; }
 </style>

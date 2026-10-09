@@ -130,6 +130,8 @@
   --muted-foreground: #52636a;
   --border: #d8e0e1;
   --portfolio-accent: #24596a;
+  --portfolio-accent-soft: #e8f0f2;
+  --portfolio-accent-soft-hover: #dce9ed;
   --input: #7d8b91;
 }
 body { margin: 0; min-inline-size: 280px; }
