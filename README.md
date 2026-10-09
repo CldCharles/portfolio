@@ -83,6 +83,8 @@ origine HTTPS exacte `PUBLIC_ORIGIN` sont requis. Variables publiques facultativ
   `PUBLIC_ORIGIN` en production. Jamais un domaine dev inventé.
 - `PUBLIC_CONTACT_EMAIL` : adresse publique ; par défaut l’adresse autorisée du
   propriétaire. Une valeur vide désactive le lien email.
+- `TRUST_PROXY` : à définir derrière un reverse proxy (nombre de proxys, souvent `1`)
+  pour que la limite de connexion admin s’applique à l’IP réelle. Voir le guide admin.
 - `PUBLIC_HOST_NAME`, `PUBLIC_HOST_COUNTRY`, `PUBLIC_HOST_LOG_RETENTION` :
   informations d’hébergement vérifiées. Sans valeur, la notice affiche les champs
   à compléter.
