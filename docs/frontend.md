@@ -177,7 +177,7 @@ composant n’applique aucun zoom. Le portrait actuel est un JPEG 384 × 384 san
 métadonnées (~31 Ko). Le fichier est public
 une fois ajouté : utiliser une copie sans métadonnées privées. Sans photo,
 aucun emplacement vide n’est affiché. Le portrait est décoratif, associé au
-nom voisin ; il n’est pas ajouté à l’export PDF. La gestion du portrait via
+nom voisin. L’export PDF le reprend, recadré au format photo 3:4 (voir `docs/pdf.md`). La gestion du portrait via
 l’administration n’est pas encore implémentée.
 
 ## Hiérarchie visuelle
