@@ -94,7 +94,7 @@ async function logout() {
         <div v-else class="editor-grid">
           <aside class="editor-sidebar">
             <nav :aria-label="t('admin.sections')"><button v-for="item in editor.document.items" :key="item.id" type="button" :class="{ selected: selectedId === item.id }" :aria-current="selectedId === item.id ? 'true' : undefined" @click="selectedId = item.id"><span class="section-kind">{{ t(item.kind === 'profile' ? 'admin.profile' : `admin.kinds.${item.kind}`) }}</span><span>{{ item.translations.fr.text.title || t('admin.untitled') }}</span></button></nav>
-            <div class="add-entry"><label for="add-kind">{{ t('admin.addSection') }}</label><select id="add-kind" v-model="addingKind"><option v-for="kind in ['skill','project','experience','education']" :key="kind" :value="kind">{{ t(`admin.kinds.${kind}`) }}</option></select><Button type="button" variant="outline" class="admin-button" :disabled="editor.busy || editor.document.items.length >= 100" @click="add">+ {{ t('admin.add') }}</Button></div>
+            <div class="add-entry"><label for="add-kind">{{ t('admin.addSection') }}</label><select id="add-kind" v-model="addingKind"><option v-for="kind in ['skill','project','experience','education','language']" :key="kind" :value="kind">{{ t(`admin.kinds.${kind}`) }}</option></select><Button type="button" variant="outline" class="admin-button" :disabled="editor.busy || editor.document.items.length >= 100" @click="add">+ {{ t('admin.add') }}</Button></div>
           </aside>
           <form id="cv-editor" @submit.prevent="editor.save">
             <p class="muted">{{ t('legal.required') }} {{ t('legal.editorNotice') }} <a :href="`/privacy?lang=${locale}`">{{ t('legal.privacy') }}</a></p>

@@ -41,6 +41,8 @@ export default {
   "kind": "Section type",
   "name": "Display name",
   "github": "GitHub link",
+  "country": "Country (two-letter ISO code, e.g. KR)",
+  "countryHelp": "Shown in the language of each CV version. Leave empty to hide it.",
   "url": "Project or section link",
   "tags": "Technologies, separated by commas",
   "dateHelp": "Year (2024), month (2024-03), or full date (2024-03-15). Keep the known precision; Mar 2024 becomes 2024-03.",
@@ -64,7 +66,8 @@ export default {
     "skill": "Skill",
     "project": "Project",
     "experience": "Experience",
-    "education": "Education"
+    "education": "Education",
+    "language": "Language"
   },
   "errors": {
     "UNKNOWN": "Something went wrong. Check your connection and try again.",

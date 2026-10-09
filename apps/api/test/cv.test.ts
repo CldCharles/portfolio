@@ -127,3 +127,17 @@ test('partial dates retain precision and compare overlapping ranges correctly', 
     assert.throws(() => repository.saveEntry({ ...entry, startDate: '2024-04', endDate: '2024-03' }, source));
   } finally { db.close(); }
 });
+
+test('profile country and language entries are stored and validated', () => {
+  const { db, repository } = openDatabase(':memory:');
+  try {
+    const profile = { name: 'Claude Charles Valentin', githubUrl: null };
+    const text = { title: 'Software Engineer', subtitle: '', description: '' };
+    assert.equal(repository.read('fr')!.profile.countryCode, null);
+    repository.saveProfile({ ...profile, countryCode: 'KR' }, text);
+    assert.equal(repository.read('ko')!.profile.countryCode, 'KR');
+    for (const countryCode of ['kr', 'QQ', 'ZZ', 'KOR']) assert.throws(() => repository.saveProfile({ ...profile, countryCode }, text));
+    repository.saveEntry({ id: 'korean', kind: 'language', url: null, tags: [], startDate: null, endDate: null, position: 20 }, { title: 'Coréen', subtitle: 'Niveau 6', description: '' });
+    assert.equal(repository.read('fr')!.entries.find(entry => entry.id === 'korean')?.kind, 'language');
+  } finally { db.close(); }
+});

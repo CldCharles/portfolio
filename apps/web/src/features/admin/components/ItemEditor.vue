@@ -32,9 +32,10 @@ watch(() => item.value.tags, tags => {
       <template v-if="item.kind === 'profile'">
         <div class="field"><Label for="profile-name-input">{{ t('admin.name') }} *</Label><Input id="profile-name-input" :model-value="item.name" required maxlength="200" @update:model-value="common('name', String($event))" /></div>
         <div class="field"><Label for="profile-github">{{ t('admin.github') }}</Label><Input id="profile-github" type="url" :model-value="item.githubUrl ?? ''" @update:model-value="common('githubUrl', $event || null)" /></div>
+        <div class="field"><Label for="profile-country">{{ t('admin.country') }}</Label><Input id="profile-country" class="country-input" maxlength="2" autocomplete="off" aria-describedby="profile-country-help" :model-value="item.countryCode ?? ''" @update:model-value="common('countryCode', String($event).trim().toUpperCase() || null)" /><p id="profile-country-help">{{ t('admin.countryHelp') }}</p></div>
       </template>
       <template v-else>
-        <div class="field"><Label :for="`${item.id}-kind`">{{ t('admin.kind') }}</Label><select :id="`${item.id}-kind`" :value="item.kind" @change="common('kind', ($event.target as HTMLSelectElement).value)"><option v-for="kind in ['skill','project','experience','education']" :key="kind" :value="kind">{{ t(`admin.kinds.${kind}`) }}</option></select></div>
+        <div class="field"><Label :for="`${item.id}-kind`">{{ t('admin.kind') }}</Label><select :id="`${item.id}-kind`" :value="item.kind" @change="common('kind', ($event.target as HTMLSelectElement).value)"><option v-for="kind in ['skill','project','experience','education','language']" :key="kind" :value="kind">{{ t(`admin.kinds.${kind}`) }}</option></select></div>
         <div class="field"><Label :for="`${item.id}-url`">{{ t('admin.url') }}</Label><Input :id="`${item.id}-url`" type="url" :model-value="item.url ?? ''" @update:model-value="common('url', $event || null)" /></div>
         <div class="field"><Label :for="`${item.id}-tags`">{{ t('admin.tags') }}</Label><Input :id="`${item.id}-tags`" :model-value="tagText" @update:model-value="editTags" /></div>
         <div class="date-fields">
@@ -52,6 +53,7 @@ watch(() => item.value.tags, tags => {
 .item-heading { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; gap: 1rem; margin-block-end: 1.5rem; }
 h2 { font-size: 1.3rem; font-weight: 600; letter-spacing: -.025em; }
 .common-fields { display: grid; gap: 1.2rem; border-block-end: 1px solid var(--border); padding-block-end: 1.5rem; margin-block-end: 1.5rem; }
+.country-input { max-inline-size: 6rem; text-transform: uppercase; }
 .date-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 @media (max-width: 500px) { .date-fields { grid-template-columns: 1fr; } }
 </style>

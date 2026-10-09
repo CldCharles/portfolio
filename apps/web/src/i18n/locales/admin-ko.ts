@@ -41,6 +41,8 @@ export default {
   "kind": "항목 유형",
   "name": "표시 이름",
   "github": "GitHub 링크",
+  "country": "국가 (ISO 두 글자 코드, 예: KR)",
+  "countryHelp": "이력서의 각 언어로 표시됩니다. 비워 두면 표시하지 않습니다.",
   "url": "프로젝트 또는 항목 링크",
   "tags": "사용 기술 (쉼표로 구분)",
   "dateHelp": "연도 (2024), 월 (2024-03), 또는 전체 날짜 (2024-03-15). 알고 있는 정밀도를 유지하세요. Mar 2024는 2024-03으로 입력합니다.",
@@ -64,7 +66,8 @@ export default {
     "skill": "기술",
     "project": "프로젝트",
     "experience": "경력",
-    "education": "학력"
+    "education": "학력",
+    "language": "언어"
   },
   "errors": {
     "UNKNOWN": "오류가 발생했습니다. 연결을 확인하고 다시 시도하세요.",

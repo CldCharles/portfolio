@@ -13,7 +13,16 @@ const router = createRouter({
     { path: '/admin', component: () => import('@/pages/admin/EditorPage.vue'), meta: { admin: true } },
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
-  scrollBehavior: (_to, _from, saved) => saved ?? { top: 0 },
+  // In-page anchors (CV table of contents) go through the router too: scroll to
+  // the target instead of the page top. The router ignores CSS scroll-margin,
+  // so pass the section's margin (it clears the sticky mobile navigation).
+  scrollBehavior: (to, from, saved) => {
+    if (saved) return saved;
+    if (!to.hash) return { top: 0 };
+    const target = typeof document === 'undefined' ? null : document.getElementById(decodeURIComponent(to.hash.slice(1)));
+    const margin = target ? Number.parseFloat(getComputedStyle(target).scrollMarginTop) || 0 : 0;
+    return { el: decodeURIComponent(to.hash), top: margin, behavior: to.path === from.path ? 'smooth' : 'auto' };
+  },
 });
 router.beforeEach(async to => {
   if (server || !to.path.startsWith('/admin')) return;

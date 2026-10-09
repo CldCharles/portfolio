@@ -11,7 +11,9 @@ export function pageMetadata(path: string, locale: Locale, site: PublicSiteConfi
     for (const language of ['fr', 'en', 'ko']) tags.push(`<link rel="alternate" hreflang="${language}" href="${escapeHtml(`${site.publicOrigin}${path}?lang=${language}`)}">`);
   }
   if (path === '/' && cv) {
-    const person = { '@type': 'Person', name: cv.profile.name, jobTitle: cv.profile.text.title, description: cv.profile.text.description, ...(cv.profile.githubUrl ? { sameAs: [cv.profile.githubUrl] } : {}) };
+    const person = { '@type': 'Person', name: cv.profile.name, jobTitle: cv.profile.text.title, description: cv.profile.text.description, ...(cv.profile.githubUrl ? { sameAs: [cv.profile.githubUrl] } : {}),
+      ...(cv.profile.countryCode ? { address: { '@type': 'PostalAddress', addressCountry: cv.profile.countryCode } } : {}),
+      ...(cv.entries.some(entry => entry.kind === 'language') ? { knowsLanguage: cv.entries.filter(entry => entry.kind === 'language').map(entry => entry.text.title) } : {}) };
     tags.push(`<script type="application/ld+json">${scriptJson({ '@context': 'https://schema.org', '@type': 'ProfilePage', inLanguage: locale, ...(canonical ? { url: canonical } : {}), mainEntity: person })}</script>`);
   }
   return tags.join('\n');

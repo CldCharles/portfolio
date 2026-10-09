@@ -14,6 +14,9 @@ function updateActiveSection() {
     const element = document.getElementById(section.id);
     if (element && element.getBoundingClientRect().top <= threshold) current = section.id;
   }
+  // Short last sections never reach the threshold: at the page bottom, mark the last one.
+  const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+  if (atBottom && window.scrollY > 0) current = props.sections.at(-1)?.id ?? current;
   activeId.value = current;
 }
 function scheduleUpdate() {
@@ -37,24 +40,24 @@ onUnmounted(() => {
 <template>
   <nav v-if="sections.length" class="cv-navigation" :aria-label="t('nav.label')">
     <a v-for="section in sections" :key="section.id" :href="`#${section.id}`"
-      :aria-current="activeId === section.id ? 'location' : undefined">
-      <span class="section-marker" aria-hidden="true"></span>{{ section.title }}
-    </a>
+      :aria-current="activeId === section.id ? 'location' : undefined">{{ section.title }}</a>
   </nav>
 </template>
 
 <style scoped>
-.cv-navigation { position: sticky; inset-block-start: 2rem; padding-block-start: 3rem; display: grid; gap: .25rem; }
-.cv-navigation a { display: flex; gap: .75rem; align-items: center; min-block-size: 2.75rem; padding: .5rem .25rem; font-size: .85rem; line-height: 1.5; color: var(--muted-foreground); }
-.section-marker { flex: 0 0 .3rem; inline-size: .3rem; block-size: .3rem; border-radius: 50%; background: transparent; }
+.cv-navigation { position: sticky; inset-block-start: 2rem; margin-block-start: 3.5rem; padding-inline-start: .875rem; border-inline-start: 1px solid var(--border); display: grid; }
+.cv-navigation a { position: relative; display: flex; align-items: center; min-block-size: 2.5rem; font-size: .8125rem; line-height: 1.4; color: var(--portfolio-ink-mute); }
 .cv-navigation a:hover, .cv-navigation a[aria-current] { color: var(--portfolio-accent); }
 .cv-navigation a[aria-current] { font-weight: 600; }
-.cv-navigation a[aria-current] .section-marker { background: var(--portfolio-accent); }
+.cv-navigation a[aria-current]::before { content: ''; position: absolute; inset-inline-start: calc(-.875rem - 1px); inset-block: .5rem; inline-size: 2px; border-radius: 2px; background: var(--portfolio-accent); }
 @media (max-width: 900px) {
-  .cv-navigation { position: static; display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; padding-block: .75rem 0; }
-  .cv-navigation a { padding-inline: 0; }
-  .section-marker { display: none; }
-  .cv-navigation a[aria-current] { text-decoration: underline; text-underline-offset: .35rem; }
+  .cv-navigation {
+    inset-block-start: 0; z-index: 2; display: flex; gap: 1.25rem; overflow-x: auto; scrollbar-width: none;
+    margin: 0 calc(-1 * var(--shell-gutter)); padding: 0 var(--shell-gutter); border: 0; border-block-end: 1px solid var(--border);
+    background: color-mix(in srgb, var(--background) 92%, transparent); backdrop-filter: blur(8px);
+  }
+  .cv-navigation a { flex: none; min-block-size: 2.75rem; white-space: nowrap; }
+  .cv-navigation a[aria-current]::before { inset: auto 0 0; inline-size: auto; block-size: 2px; }
 }
 @media print { .cv-navigation { display: none; } }
 </style>

@@ -4,9 +4,9 @@ import type { CvEntry, EntryKind, Locale, PublicCv } from '@portfolio/contracts'
 
 const fontPath = fileURLToPath(new URL('../../assets/fonts/NotoSansCJKkr-Regular.otf', import.meta.url));
 export const pdfLabels = {
-  fr: { about: 'Présentation', skill: 'Compétences', experience: 'Expériences', project: 'Projets', education: 'Formation', ended: 'Fin', present: 'Aujourd’hui', fallback: 'Texte présenté en français : traduction à compléter ou à vérifier.', cv: 'CV' },
-  en: { about: 'About', skill: 'Skills', experience: 'Experience', project: 'Projects', education: 'Education', ended: 'Ended', present: 'Present', fallback: 'Shown in French: translation missing or awaiting review.', cv: 'CV' },
-  ko: { about: '소개', skill: '기술', experience: '경력', project: '프로젝트', education: '학력', ended: '종료', present: '현재', fallback: '번역이 없거나 검토가 필요하여 프랑스어로 표시됩니다.', cv: '이력서' },
+  fr: { about: 'Présentation', skill: 'Compétences', experience: 'Expériences', project: 'Projets', education: 'Formation', language: 'Langues', ended: 'Fin', present: 'Aujourd’hui', fallback: 'Texte présenté en français : traduction à compléter ou à vérifier.', cv: 'CV' },
+  en: { about: 'About', skill: 'Skills', experience: 'Experience', project: 'Projects', education: 'Education', language: 'Languages', ended: 'Ended', present: 'Present', fallback: 'Shown in French: translation missing or awaiting review.', cv: 'CV' },
+  ko: { about: '소개', skill: '기술', experience: '경력', project: '프로젝트', education: '학력', language: '언어', ended: '종료', present: '현재', fallback: '번역이 없거나 검토가 필요하여 프랑스어로 표시됩니다.', cv: '이력서' },
 } satisfies Record<Locale, Record<string, string>>;
 
 export function pdfFilename(locale: Locale): string { return `cv-${locale}.pdf`; }
@@ -44,12 +44,13 @@ export function generateCvPdf(cv: PublicCv): Promise<Buffer> {
       }
       text(cv.profile.name, 25);
       text(cv.profile.text.title, 13, '#466257');
+      if (cv.profile.countryCode) text(new Intl.DisplayNames([cv.locale], { type: 'region' }).of(cv.profile.countryCode) ?? cv.profile.countryCode, 10, '#656a6a');
       if (cv.profile.githubUrl) text(cv.profile.githubUrl, 9, '#466257', cv.profile.githubUrl);
       heading(labels.about);
       if (cv.profile.text.fallback) text(labels.fallback, 8, '#656a6a');
       text(cv.profile.text.subtitle, 11);
       text(cv.profile.text.description);
-      for (const kind of ['experience', 'project', 'skill', 'education'] as EntryKind[]) {
+      for (const kind of ['experience', 'project', 'skill', 'language', 'education'] as EntryKind[]) {
         const entries = cv.entries.filter(entry => entry.kind === kind);
         if (!entries.length) continue;
         heading(labels[kind], entryHeaderHeight(entries[0]!));

@@ -106,6 +106,14 @@ accessibles sans connexion. Les autres vérifient la session ; les écritures v�
 | GET | `/preview?lang=fr&revision=…` | Aperçu du brouillon enregistré |
 | POST | `/publish` | Publication atomique avec révision attendue |
 
+Le profil accepte un pays facultatif (code ISO à deux lettres, par exemple `KR`),
+affiché dans la langue de chaque version. Le type d’entrée « Langue » accepte un
+titre (langue), un sous-titre (niveau) et une description (certification, école),
+traduits comme les autres entrées. Un brouillon enregistré avant ces champs reste valide.
+
+La migration v3 reconstruit `cv_items` pour autoriser le type `language`, en
+conservant identifiants, révisions et traductions. Le code antérieur refuse une base v3.
+
 La migration v2 ajoute `admin_account`, `admin_sessions`, `admin_login_attempts`
 et `admin_draft`, sans remplacer les tables publiques. Le document du brouillon
 est un JSON validé par Zod ; chaque traduction conserve la copie de sa source
