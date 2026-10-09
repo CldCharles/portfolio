@@ -49,7 +49,7 @@ localement avec `npm run admin:setup`, avec mot de passe masqué et haché. Voir
 - `docs/linkedin.md` et `docs/pdf.md` : import LinkedIn et export PDF.
 - `packages/contracts` : types publics partagés, sans code d’exécution.
 
-Un seul dépôt Git et un seul lockfile npm. Déploiement : [Amazon Lightsail à Séoul](docs/deploy.md)
+Un seul dépôt Git et un seul lockfile npm. Déploiement : [Amazon Lightsail à Stockholm](docs/deploy.md)
 (scripts dans `deploy/`).
 
 ## Développement

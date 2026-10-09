@@ -26,7 +26,7 @@ export default {
   "storageTitle": "Language preference",
   "storage": "The portfolio.locale key stores only fr, en or ko in your browser’s local storage. It is not sent to a third-party service and does not expire automatically. You can remove it by clearing the site’s browser data. No consent banner is displayed because the application has no advertising or audience-tracking tools.",
   "externalTitle": "External links and services",
-  "external": "Web fonts use your system and the PDF font is bundled locally. The application loads no third-party scripts or embedded content. GitHub links and LinkedIn help lead to separate sites governed by their own privacy rules. CV data is processed by the owner and, after deployment, by the hosting provider listed below.",
+  "external": "The site and PDF fonts are served by the site itself, with no third-party service. The application loads no third-party scripts or embedded content. GitHub links and LinkedIn help lead to separate sites governed by their own privacy rules. CV data is processed by the owner and, after deployment, by the hosting provider listed below.",
   "rightsTitle": "Data questions and requests",
   "rights": "You can contact the owner to request information, access, correction, deletion or restriction of processing concerning you. Applicable rights and remedies depend on the legal framework of the processing. The exact applicability of Korea’s PIPA, legal bases and any transfer safeguards must be confirmed with the hosting arrangements; this notice is not a declaration of GDPR or PIPA compliance.",
   "authority": "Korean data protection authority: PIPC",

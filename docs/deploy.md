@@ -1,9 +1,14 @@
-# Déploiement sur Amazon Lightsail (Séoul)
+# Déploiement sur Amazon Lightsail (Stockholm)
 
 Un seul serveur Ubuntu fait tourner l’API Node, qui sert aussi le site (rendu
 serveur), l’admin et le PDF. Caddy fournit le HTTPS. La base SQLite est sur le
-disque du serveur et sauvegardée chaque jour. Coût indicatif : environ 5 $/mois
-pour le serveur, plus le nom de domaine.
+disque du serveur et sauvegardée chaque jour. Coût indicatif : environ 7 $/mois
+pour le serveur (1 Go), plus le nom de domaine.
+
+Le compte AWS du propriétaire (« nouvelle expérience ») limite toutes les ressources
+à la région du projet, `eu-north-1` (Stockholm) : Séoul n’est pas disponible. Depuis
+la Corée, la latence (~250 ms) reste sans effet notable pour un CV ; le site est léger
+et mis en cache par le navigateur.
 
 Fichiers : `deploy/setup.sh` (installation), `deploy/update.sh` (mises à jour),
 `deploy/backup.sh` et son minuteur, `deploy/portfolio.service`, `deploy/Caddyfile`
@@ -11,9 +16,10 @@ et `deploy/portfolio.env.example`.
 
 ## 1. Créer le serveur
 
-1. Console Lightsail → **Create instance** : région **Seoul (ap-northeast-2)**,
+1. Console Lightsail → **Create instance** : région **Stockholm (eu-north-1)**, la région du projet,
    plateforme Linux, image **Ubuntu 24.04 LTS**, offre à **1 Go de mémoire**
-   (la compilation dépasse 512 Mo).
+   (`micro`, ~7 $/mois ; la compilation dépasse 512 Mo, l’offre à 512 Mo ne fonctionne
+   qu’avec la mémoire d’échange ajoutée par le script, plus lentement).
 2. Onglet **Networking** : créer une **adresse IP statique** et l’attacher ;
    dans le pare-feu IPv4, ajouter **HTTPS (443)** (SSH et HTTP sont ouverts par défaut).
 3. Onglet **Snapshots** : activer les **snapshots automatiques** (sauvegarde du
