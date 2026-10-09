@@ -161,7 +161,7 @@ de section en cours est une amélioration client, avec `aria-current="location"`
 dans `apps/web/src/assets/portrait.webp` (ou `.jpg`, `.png`) puis reconstruire.
 Préférer un carré déjà recadré et optimisé d’au moins 256 px de côté : le
 composant n’applique aucun zoom. Le portrait actuel est un JPEG 384 × 384 sans
-métadonnées (~31 Ko) ; l’original reste dans l’historique Git (commit `2461ab6`). Le fichier est public
+métadonnées (~31 Ko). Le fichier est public
 une fois ajouté : utiliser une copie sans métadonnées privées. Sans photo,
 aucun emplacement vide n’est affiché. Le portrait est décoratif, associé au
 nom voisin ; il n’est pas ajouté à l’export PDF. La gestion du portrait via

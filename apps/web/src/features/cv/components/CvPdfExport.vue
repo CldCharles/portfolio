@@ -25,7 +25,7 @@ label { font-size: .75rem; color: var(--muted-foreground); }
 select, .pdf-button { min-block-size: 2.75rem; padding: .5rem .75rem; border: 1px solid var(--border); border-radius: .3rem; background: transparent; font-size: .85rem; }
 .pdf-button { color: white; background: var(--portfolio-accent); border-color: var(--portfolio-accent); block-size: auto; white-space: normal; }
 select { border-color: transparent; padding-inline: .4rem; color: var(--portfolio-accent); cursor: pointer; }
-select:hover { background: #e8f0f2; }
+select:hover { background: var(--portfolio-accent-soft); }
 select:focus-visible { outline: 2px solid var(--portfolio-accent); outline-offset: 3px; }
 @media print { .pdf-export { display: none; } }
 </style>
