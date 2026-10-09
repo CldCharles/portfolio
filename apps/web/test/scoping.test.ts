@@ -121,3 +121,12 @@ test('the workshop restores and saves only in the browser, and clears storage wh
     delete globals.localStorage;
   }
 });
+
+test('the mascot thinks while a check needs attention and approves once everything passes', async () => {
+  const { mascotPose } = await import('../src/features/scoping/mascot.ts');
+  assert.equal(mascotPose([]), 'idle');
+  assert.equal(mascotPose(runChecks(exampleScoping('fr'))), 'happy');
+  const scoping = exampleScoping('fr');
+  scoping.cost = '';
+  assert.equal(mascotPose(runChecks(scoping)), 'thinking');
+});

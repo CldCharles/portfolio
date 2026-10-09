@@ -28,6 +28,10 @@ test('SSR serves public text, links and privacy in all languages, isolates concu
       assert.match(scoping.html, { fr: /Du besoin flou à la note de cadrage/, en: /From a vague need to a scoping note/, ko: /막연한 요구에서 프로젝트 정의서까지/ }[locale]);
       assert.match(scoping.html, { fr: /<title>Atelier de cadrage/, en: /<title>Scoping workshop/, ko: /<title>요구사항 정의 워크숍/ }[locale]);
       assert.match(scoping.html, /href="\/cadrage\?lang=ko"/);
+      // The footer mascot only appears on the CV, as a labelled button.
+      assert.doesNotMatch(scoping.html, /mascot-peek/);
+      assert.match(page.html, /class="mascot-peek"/);
+      assert.match(page.html, { fr: /Mini-moi, petite surprise/, en: /Mini me, small surprise/, ko: /미니 나/ }[locale]);
     }
     const populated = fixture('fr');
     populated.cv!.entries = [
