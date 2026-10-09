@@ -43,7 +43,7 @@ const languages = computed(() => store.cv?.entries.filter(entry => entry.kind ==
 </template>
 
 <style scoped>
-.portfolio-shell { --shell-gutter: clamp(1.25rem, 5vw, 4rem); max-inline-size: 1120px; margin-inline: auto; padding-inline: var(--shell-gutter); }
+.portfolio-shell { --shell-gutter: clamp(1.25rem, 5vw, 4rem); max-inline-size: 1120px; margin-inline: auto; padding-inline: var(--shell-gutter); overflow-x: clip; }
 .site-header { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 1.5rem; border-block-end: 1px solid var(--border); padding-block: 1rem; }
 .cv-layout { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: 3rem; align-items: start; }
 .cv-layout > main { min-inline-size: 0; grid-column: 2; }

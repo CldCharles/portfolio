@@ -42,6 +42,7 @@ features/cv/
 │   ├── CvSection.vue        # Section typée : frise ou cartes ; props id, title, entries
 │   ├── CvNavigation.vue     # Sommaire et repère de section en cours
 │   ├── CvPdfExport.vue      # Téléchargement du PDF et choix de sa langue
+│   ├── PortraitSixSeven.vue # Portrait cliquable et son easter egg « 6-7 »
 │   └── LanguageSwitcher.vue # Choix de langue dans Vue I18n
 ├── lib/
 │   ├── presentation.ts      # Découpage de la présentation et des descriptions
@@ -169,7 +170,10 @@ Préférer un carré déjà recadré et optimisé d’au moins 256 px de côté 
 composant n’applique aucun zoom. Le portrait actuel est un JPEG 384 × 384 sans
 métadonnées (~31 Ko). Le fichier est public
 une fois ajouté : utiliser une copie sans métadonnées privées. Sans photo,
-aucun emplacement vide n’est affiché. Le portrait est décoratif, associé au
+aucun emplacement vide n’est affiché. Un clic (ou Entrée) sur la photo lance un
+easter egg de 2,6 s (`PortraitSixSeven.vue`) : deux bras sortent de derrière la photo
+et font le geste « 6-7 ». Sans animation si `prefers-reduced-motion`, masqué à l’impression ;
+`overflow-x: clip` sur la page évite tout défilement horizontal pendant l’effet. Le portrait est décoratif, associé au
 nom voisin. L’export PDF le reprend, recadré au format photo 3:4 (voir `docs/pdf.md`). La gestion du portrait via
 l’administration n’est pas encore implémentée.
 

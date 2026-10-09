@@ -50,6 +50,8 @@ test('SSR serves public text, links and privacy in all languages, isolates concu
     assert.doesNotMatch(populatedPage.html, /portfolio-preview/);
     assert.match(populatedPage.html, /datetime="2021-03"/);
     assert.equal((populatedPage.html.match(/<h1\b/g) ?? []).length, 1);
+    // The portrait easter egg is a real button, so it also works from the keyboard.
+    assert.match(populatedPage.html, /<button type="button" class="portrait-button"[^>]*aria-label="Photo de profil, petite surprise"/);
     // The presentation associations must not leak to a different entry kind.
     populated.cv!.entries = populated.cv!.entries.map(entry => ({ ...entry, kind: 'education' }));
     const educationPage = await renderPage(template, '/', populated);

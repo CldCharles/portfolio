@@ -7,6 +7,7 @@ import type { PublicCv } from '@portfolio/contracts';
 import { Button } from '@/components/ui/button';
 import { useSiteConfig } from '@/features/legal/config';
 import CvPdfExport from './CvPdfExport.vue';
+import PortraitSixSeven from './PortraitSixSeven.vue';
 const props = defineProps<{
   profile: PublicCv['profile']; languages?: { title: string; locale: string }[];
   /** CV locale; the admin preview may differ from the interface language. */
@@ -31,7 +32,7 @@ const country = computed(() => props.profile.countryCode
         <component :is="headingTag ?? 'h1'" id="profile-name" class="name">{{ profile.name }}</component>
         <p class="role" :lang="profile.text.locale">{{ profile.text.title }}</p>
       </div>
-      <img v-if="portraitUrl" :src="portraitUrl" alt="" class="portrait" width="152" height="152" />
+      <PortraitSixSeven v-if="portraitUrl" :src="portraitUrl" />
     </div>
     <p v-if="profile.text.fallback" class="fallback-note">{{ t('cv.fallback') }}</p>
     <div class="hero-intro">
@@ -67,7 +68,6 @@ const country = computed(() => props.profile.countryCode
 .hero-heading.has-portrait { grid-template-columns: minmax(0, 1fr) auto; }
 .name { font-family: var(--font-serif); font-size: 4rem; font-weight: 500; line-height: 1.02; letter-spacing: -.025em; text-wrap: balance; overflow-wrap: anywhere; }
 .role { margin-block-start: .875rem; color: var(--portfolio-accent); font-size: 1.1875rem; font-weight: 600; line-height: 1.45; letter-spacing: -.005em; }
-.portrait { display: block; inline-size: 152px; block-size: 152px; border-radius: 1.25rem; object-fit: cover; box-shadow: 0 0 0 1px rgb(28 42 48 / 8%), 0 12px 32px -16px rgb(28 42 48 / 35%); }
 .hero-intro { margin-block-start: 1.375rem; max-inline-size: 62ch; }
 .intro-copy { font-size: 1.0625rem; line-height: 1.7; color: var(--muted-foreground); white-space: pre-line; }
 .intro-details { margin-block-start: .25rem; }
@@ -83,18 +83,17 @@ const country = computed(() => props.profile.countryCode
 .github-link { padding-inline: .625rem; color: var(--muted-foreground); background: transparent; }
 .github-link:hover { color: var(--portfolio-accent); background: transparent; }
 summary:focus-visible { outline: 2px solid var(--portfolio-accent); outline-offset: 3px; }
-@media (min-width: 641px) and (max-width: 900px) { .name { font-size: 3.25rem; } .portrait { inline-size: 120px; block-size: 120px; } }
+@media (min-width: 641px) and (max-width: 900px) { .name { font-size: 3.25rem; } }
 @media (max-width: 640px) {
   .hero { padding-block: 1.75rem 2rem; }
   .hero-heading { gap: 1rem; }
   .name { font-size: 2.375rem; line-height: 1.06; }
   .role { font-size: 1rem; margin-block-start: .625rem; }
-  .portrait { inline-size: 76px; block-size: 76px; border-radius: .875rem; }
   .hero-intro { margin-block-start: 1rem; }
   .intro-copy { font-size: 1rem; line-height: 1.6; }
   .facts { flex-direction: column; gap: .5rem; margin-block-start: 1.25rem; }
   .hero-actions { margin-block-start: 1.375rem; }
 }
-@media (max-width: 360px) { .name { font-size: 2rem; } .portrait { inline-size: 64px; block-size: 64px; } }
+@media (max-width: 360px) { .name { font-size: 2rem; } }
 @media print { .hero-actions { display: none; } }
 </style>
