@@ -15,19 +15,15 @@ if [[ $EUID -ne 0 ]]; then echo "Lancer avec sudo." >&2; exit 1; fi
 app=/opt/portfolio/app
 export DEBIAN_FRONTEND=noninteractive
 
-echo "== Paquets système, Node.js 22 et Caddy (dépôts officiels)"
+echo "== Paquets système (Caddy depuis les dépôts Ubuntu) et Node.js 22"
 timedatectl set-timezone Asia/Seoul
+# Ancien dépôt Caddy (Cloudsmith), devenu payant : le retirer s'il a été ajouté.
+rm -f /etc/apt/sources.list.d/caddy-stable.list /usr/share/keyrings/caddy-stable-archive-keyring.gpg
 apt-get update
-apt-get install -y ca-certificates curl gnupg git sqlite3 build-essential ufw debian-keyring debian-archive-keyring apt-transport-https
+apt-get install -y ca-certificates curl gnupg git sqlite3 build-essential ufw caddy
 if ! command -v node >/dev/null || [[ "$(node -v)" != v22.* ]]; then
   curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
   apt-get install -y nodejs
-fi
-if ! command -v caddy >/dev/null; then
-  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor --yes -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
-  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' > /etc/apt/sources.list.d/caddy-stable.list
-  apt-get update
-  apt-get install -y caddy
 fi
 
 echo "== Mémoire d'échange (la compilation dépasse 512 Mo)"
