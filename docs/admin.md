@@ -74,6 +74,7 @@ récupération par e-mail, de MFA, ni de compte supplémentaire.
 | `PUBLIC_ORIGIN` | `http://127.0.0.1:5173` en développement ; origine HTTPS explicite obligatoire en production, sans slash final |
 | `NODE_ENV` | `production` active la contrainte HTTPS et les cookies Secure |
 | `HOST`, `PORT` | `127.0.0.1`, `3000` |
+| `TRUST_PROXY` | Vide par défaut (aucun proxy). Nombre de proxys de confiance (1 à 10) ou liste d’adresses, transmis à Express `trust proxy` |
 | `API_PROXY_TARGET` | Cible du proxy **Vite en développement**, par défaut `http://127.0.0.1:3000` ; utile pour une API de test isolée |
 
 Les fichiers `.env` ne sont pas chargés automatiquement. Exemple d’origine locale
@@ -83,9 +84,11 @@ En production, servir front et API sur la même origine HTTPS et faire retomber 
 routes SPA `/admin` et `/admin/login` sur `index.html`. La protection effective est
 côté API ; le garde Vue Router ne remplace jamais les contrôles serveur.
 Ne pas exposer le serveur de développement. Le choix de l’hébergeur, des en-têtes
-du front statique, du proxy de confiance et des sauvegardes reste à faire. Le serveur
-ne fait actuellement confiance à aucun proxy pour l’IP ; derrière un proxy, les limites
-par IP s’appliquent donc à l’adresse de ce proxy.
+du front statique et des sauvegardes reste à faire. Par défaut, le serveur ne fait
+confiance à aucun proxy pour l’IP ; derrière un reverse proxy, toutes les connexions
+partageraient alors l’adresse du proxy et sa limite de 5 échecs. Définir `TRUST_PROXY`
+avec le nombre exact de proxys devant l’API (souvent `1`) ou leurs adresses. Ne pas
+l’activer sans proxy : un client pourrait sinon choisir son IP via `X-Forwarded-For`.
 
 ## API privée
 
