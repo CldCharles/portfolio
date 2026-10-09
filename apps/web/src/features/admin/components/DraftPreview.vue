@@ -17,5 +17,5 @@ const languages = computed(() => props.cv.entries.filter(entry => entry.kind ===
   </div>
 </template>
 <style scoped>
-.draft-preview { max-inline-size: 960px; margin-inline: auto; padding-inline: clamp(1.25rem, 5vw, 4rem); border: 1px solid var(--border); }
+.draft-preview { max-inline-size: 960px; margin-inline: auto; padding-inline: clamp(1.25rem, 5vw, 4rem); border: 1px solid var(--border); overflow-x: clip; }
 </style>
