@@ -11,7 +11,7 @@ export function publicPages(): Plugin {
       server.middlewares.use(async (request, response, next) => {
         if (!request.url || request.method !== 'GET' || request.headers.accept?.includes('text/x-vite-ping')) return next();
         const url = new URL(request.url, 'http://localhost');
-        const pages = ['/', '/privacy', '/admin', '/admin/login'];
+        const pages = ['/', '/privacy', '/cadrage', '/admin', '/admin/login'];
         if (![...pages, '/robots.txt', '/sitemap.xml', '/llms.txt'].includes(url.pathname)) return next();
         const language = url.searchParams.get('lang') ?? 'fr';
         if (!['fr', 'en', 'ko'].includes(language)) { response.statusCode = 400; response.end('INVALID_LOCALE'); return; }

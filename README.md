@@ -64,6 +64,15 @@ sélection avant ajout au brouillon. Voir [les formats et limites](docs/linkedin
 Le CV public est téléchargeable en PDF en français, anglais et coréen.
 Voir [l’export PDF](docs/pdf.md), notamment les assets de police à inclure au déploiement.
 
+## Atelier de cadrage
+
+`/cadrage` est un outil public et gratuit qui guide la formalisation d’un besoin client
+en six étapes (problème, utilisateurs, objectifs mesurables, périmètre, user stories
+priorisées MoSCoW, risques et questions) et produit une note de cadrage, copiable en
+Markdown ou imprimable en PDF. Des contrôles de cohérence signalent les oublis
+classiques. Tout reste dans le navigateur (clé locale `portfolio.scoping`) : rien n’est
+envoyé à l’API. Code dans `apps/web/src/features/scoping`.
+
 ## Confidentialité et pages publiques
 
 La notice FR/EN/KO est accessible sur `/privacy`, avec un pied de page commun et

@@ -23,7 +23,7 @@ export async function installBuiltWeb(app: Express, repository: CvRepository) {
       for (const child of manifest[key]?.imports ?? []) visit(child);
     }
     visit('src/main.ts');
-    visit(path === '/privacy' ? 'src/pages/PrivacyPage.vue' : 'src/pages/CvPage.vue');
+    visit({ '/privacy': 'src/pages/PrivacyPage.vue', '/cadrage': 'src/pages/ScopingPage.vue' }[path] ?? 'src/pages/CvPage.vue');
     return [...found].map(css => `<link rel="stylesheet" href="/${css}">`).join('\n');
   }
   app.use('/assets', express.static(`${directory}assets`, { immutable: true, maxAge: '1y', index: false }));
@@ -31,7 +31,7 @@ export async function installBuiltWeb(app: Express, repository: CvRepository) {
     const file = renderer.discoveryFile(request.path, publicSiteConfig(repository))!;
     response.status(file.status).type(file.type).send(file.body);
   });
-  app.get(['/', '/privacy', '/admin', '/admin/login'], async (request, response) => {
+  app.get(['/', '/privacy', '/cadrage', '/admin', '/admin/login'], async (request, response) => {
     const value = request.query.lang ?? 'fr';
     if (typeof value !== 'string' || !['fr', 'en', 'ko'].includes(value)) { response.status(400).send('INVALID_LOCALE'); return; }
     const locale = value as Locale;

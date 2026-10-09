@@ -17,9 +17,9 @@ export async function renderPage(template: string, path: string, bootstrap: Publ
   const app = createSSRApp(App).use(pinia).use(i18n).use(router);
   app.provide(siteConfigKey, bootstrap.site);
   useCvStore(pinia).cv = bootstrap.cv;
-  const privacy = path === '/privacy';
-  const title = privacy ? i18n.global.t('legal.title') : `${bootstrap.cv?.profile.name ?? bootstrap.site.editorName} — ${bootstrap.cv?.profile.text.title ?? 'Portfolio'}`;
-  const description = privacy ? i18n.global.t('legal.description') : bootstrap.cv?.profile.text.description ?? i18n.global.t('app.description');
+  const page = path === '/privacy' ? 'legal' : path === '/cadrage' ? 'scoping' : null;
+  const title = page ? i18n.global.t(`${page}.title`) : `${bootstrap.cv?.profile.name ?? bootstrap.site.editorName} — ${bootstrap.cv?.profile.text.title ?? 'Portfolio'}`;
+  const description = page ? i18n.global.t(`${page}.description`) : bootstrap.cv?.profile.text.description ?? i18n.global.t('app.description');
   let html = '';
   const context: { modules?: Set<string> } = {};
   if (!path.startsWith('/admin')) {

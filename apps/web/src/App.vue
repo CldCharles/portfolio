@@ -12,10 +12,10 @@ const { t, locale } = useI18n();
 const site = useSiteConfig();
 const cv = useCvStore();
 if (typeof document !== 'undefined') watch([() => route.path, locale, () => cv.cv], () => {
-  const privacy = route.path === '/privacy';
+  const page = route.path === '/privacy' ? 'legal' : route.path === '/cadrage' ? 'scoping' : null;
   const publicCv = route.path === '/' ? cv.cv : null;
-  const title = privacy ? t('legal.title') : route.path.startsWith('/admin') ? t('admin.privateArea') : `${publicCv?.profile.name ?? site.editorName} — ${publicCv?.profile.text.title ?? 'Portfolio'}`;
-  const description = privacy ? t('legal.description') : publicCv?.profile.text.description ?? t('app.description');
+  const title = page ? t(`${page}.title`) : route.path.startsWith('/admin') ? t('admin.privateArea') : `${publicCv?.profile.name ?? site.editorName} — ${publicCv?.profile.text.title ?? 'Portfolio'}`;
+  const description = page ? t(`${page}.description`) : publicCv?.profile.text.description ?? t('app.description');
   updateMetadata(route.path, locale.value as Locale, site, publicCv, title, description);
 }, { immediate: true });
 </script>
