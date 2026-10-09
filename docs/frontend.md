@@ -9,42 +9,29 @@ repositories tant qu’un besoin concret ne la justifie.
 ```text
 apps/web/
 ├── components.json          # Configuration du registre shadcn-vue
-├── vite.config.ts           # Vue, Tailwind et alias @ vers src
+├── vite.config.ts           # Vue, Tailwind, alias @ et rendu serveur en développement
+├── public-pages.ts          # Raccord Vite ↔ rendu des pages publiques
 └── src/
     ├── main.ts              # Démarrage de Vue et installation des plugins
+    ├── entry-server.ts      # Rendu serveur (SSR) des pages publiques
     ├── App.vue              # Racine de l’application
-    ├── app/
-    │   └── pinia.ts         # Instance Pinia commune à l’application
-    ├── pages/
-    │   └── CvPage.vue       # Assemblage du CV public
-    ├── layouts/             # Futurs cadres public et admin ; README seulement
-    ├── features/cv/         # Affichage du CV, api.ts et store Pinia
-    ├── components/
-    │   └── ui/              # Composants shadcn ajoutés au projet
-    │       ├── button/
-    │       ├── input/
-    │       └── label/
-    ├── composables/         # Future logique réactive partagée ; README seulement
-    ├── lib/
-    │   └── utils.ts         # Fonction cn : fusion de classes Tailwind
-    ├── i18n/
-    │   ├── index.ts
-    │   └── locales/
-    │       ├── fr.ts
-    │       ├── en.ts
-    │       └── ko.ts
-    └── styles/
-        ├── main.css        # Tailwind, thème et tokens communs
-        └── shadcn.css      # Utilitaires CSS shadcn conservés localement
+    ├── app/                 # Pinia et Vue Router
+    ├── assets/              # Portrait facultatif
+    ├── pages/               # CvPage, PrivacyPage, admin/LoginPage, admin/EditorPage
+    ├── features/
+    │   ├── cv/              # Composants, lib de présentation, API et store du CV
+    │   ├── auth/            # Connexion et session administrateur
+    │   ├── admin/           # Édition, aperçu et publication du brouillon
+    │   ├── linkedin/        # Import CSV LinkedIn
+    │   └── legal/           # Pied de page, configuration publique, métadonnées
+    ├── components/ui/       # Composants shadcn (button, input, label)
+    ├── lib/utils.ts         # Fonction cn : fusion de classes Tailwind
+    ├── server/document.ts   # Métadonnées, JSON-LD, robots, sitemap
+    ├── i18n/                # Vue I18n et locales FR/EN/KO
+    └── styles/              # main.css (thème, tokens, polices) et shadcn.css
 ```
 
 ## Développement des fonctionnalités
-
-Lors de leur réalisation, ajouter les dossiers suivants dans `features` :
-
-- `cv` : lecture, affichage et édition du CV, réutilisés par le public et l’admin.
-- `auth` : connexion et état de session administrateur.
-- `linkedin` : import et aperçu des modifications avant validation.
 
 Structure actuelle du CV :
 
@@ -77,7 +64,7 @@ modifications dans l’onglet. Aucun token de session ni brouillon privé dans l
 
 - `pages` : assembler un écran et gérer ses paramètres de route. Garder les règles
   métier dans la fonctionnalité concernée.
-- `layouts` : cadre partagé de plusieurs pages.
+- `layouts` (à créer si besoin) : cadre partagé de plusieurs pages.
 - `components/ui` : primitives visuelles réutilisables, sans appels API ni stores métier.
   Les composants shadcn sont du code local, personnalisable et maintenu dans le dépôt.
 - `components` hors `ui` : éléments partagés de l’application, comme un futur sélecteur
@@ -91,7 +78,7 @@ modifications dans l’onglet. Aucun token de session ni brouillon privé dans l
 - État local d’une modale ou d’un champ : `ref` dans le composant, sans store.
 - Langue : Vue I18n gère déjà son état ; ne pas le dupliquer dans Pinia.
 - Ne pas conserver de secret ou de jeton de session admin dans un store persistant.
-- `composables` à la racine : logique réactive réellement partagée entre fonctionnalités.
+- `composables` (à créer si besoin) : logique réactive réellement partagée entre fonctionnalités.
 - `lib` : petits utilitaires transversaux, sans dépendance vers les pages ou fonctionnalités.
 - Utiliser `@/` pour les imports depuis `src`. Les composants partagés ne dépendent
   jamais d’une fonctionnalité métier ; les fonctionnalités ne dépendent pas des pages.

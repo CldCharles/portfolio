@@ -11,7 +11,10 @@ dist/
 *.sqlite-*
 coverage/
 
-# Notes, maquettes et réglages locaux du propriétaire
+# Fichiers locaux du propriétaire : notes, maquettes, archives et réglages d’outils
 docs/plans/
 design-explorations/
+local-archive/
 .claude/
+AGENTS.md
+CLAUDE.md

@@ -46,12 +46,17 @@ localement avec `npm run admin:setup`, avec mot de passe masqué et haché. Voir
 - `docs/architecture.md` : choix techniques et limites du socle.
 - `docs/frontend.md` : arborescence, Pinia et composants shadcn-vue.
 - `docs/i18n.md` : configuration et utilisation des traductions.
+- `docs/linkedin.md` et `docs/pdf.md` : import LinkedIn et export PDF.
 - `packages/contracts` : types publics partagés, sans code d’exécution.
-- `docs/roadmap.md` : fonctionnalités réalisées et prochaines étapes.
-- `AGENTS.md` : règles de travail pour les agents.
-- `CONTRIBUTING.md` : conventions de contribution.
 
 Un seul dépôt Git et un seul lockfile npm. Aucun déploiement configuré.
+
+## Développement
+
+TypeScript strict, indentation de deux espaces. Les tests utilisent `node:test` et tsx
+(`apps/api/test`, `apps/web/test`) ; les tests HTTP écoutent temporairement sur
+localhost. Avant chaque PR vers `main` : `npm run test`, `npm run typecheck` et
+`npm run build`. Ne jamais committer de secrets, de base SQLite ni de données de production.
 
 L’admin propose aussi un import des fichiers CSV de votre export LinkedIn, avec
 sélection avant ajout au brouillon. Voir [les formats et limites](docs/linkedin.md).
@@ -61,8 +66,8 @@ Voir [l’export PDF](docs/pdf.md), notamment les assets de police à inclure au
 ## Confidentialité et pages publiques
 
 La notice FR/EN/KO est accessible sur `/privacy`, avec un pied de page commun et
-le contact email public autorisé. Le [rapport du chantier](docs/compliance.md)
-décrit ce qui s’applique et les points à finaliser avant déploiement.
+le contact email public autorisé. Les informations d’hébergement restent à
+compléter avant déploiement (voir les variables ci-dessous).
 
 Le CV publié et la notice sont rendus en HTML par Vue côté serveur, aussi bien en
 développement qu’en production. Le brouillon et les sessions ne sont jamais
