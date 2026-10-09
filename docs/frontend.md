@@ -130,7 +130,7 @@ Référence : https://www.shadcn-vue.com/docs/installation/vite
 
 ## Direction visuelle du CV
 
-CV éditorial affirmé (maquette `design-explorations/portfolio-polish.html`, locale) :
+CV éditorial affirmé (maquette locale non versionnée) :
 blanc cassé chaud, encre bleu-gris, accent bleu pétrole. Titres en Newsreader et
 texte en Inter, hébergés dans le projet via `@fontsource-variable` (aucun service
 de polices externe). Couleurs dans les tokens de `styles/main.css`.
