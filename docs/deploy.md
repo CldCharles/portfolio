@@ -129,3 +129,6 @@ fichiers `-wal`/`-shm`, redémarrer.
   alimentent la notice via `PUBLIC_HOST_*`.
 - Les mises à jour de sécurité d’Ubuntu s’installent automatiquement
   (`unattended-upgrades`, actif par défaut sur Lightsail).
+- Limite : Caddy vient du dépôt `universe` d’Ubuntu (version 2.6), dont les correctifs de
+  sécurité ne sont pas garantis sans Ubuntu Pro (gratuit pour un usage personnel). Le dépôt
+  officiel de Caddy (Cloudsmith) répondait « 402 Payment Required » au premier déploiement.
