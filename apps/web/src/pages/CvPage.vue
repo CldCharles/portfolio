@@ -22,6 +22,7 @@ const languages = computed(() => store.cv?.entries.filter(entry => entry.kind ==
   <div class="portfolio-shell">
     <a href="#main" class="skip-link">{{ t('nav.skip') }}</a>
     <header class="site-header">
+      <a :href="`/cadrage?lang=${locale}`" class="workshop-link">{{ t('scoping.nav') }} →</a>
       <LanguageSwitcher />
     </header>
     <div class="cv-layout" :class="{ 'no-navigation': !sections.length }">
@@ -44,11 +45,14 @@ const languages = computed(() => store.cv?.entries.filter(entry => entry.kind ==
 
 <style scoped>
 .portfolio-shell { --shell-gutter: clamp(1.25rem, 5vw, 4rem); max-inline-size: 1120px; margin-inline: auto; padding-inline: var(--shell-gutter); overflow-x: clip; }
-.site-header { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 1.5rem; border-block-end: 1px solid var(--border); padding-block: 1rem; }
+.site-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem 1.5rem; border-block-end: 1px solid var(--border); padding-block: 1rem; }
 .cv-layout { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: 3rem; align-items: start; }
 .cv-layout > main { min-inline-size: 0; grid-column: 2; }
 .cv-layout.no-navigation { grid-template-columns: minmax(0, 1fr); }
 .cv-layout.no-navigation > main { grid-column: 1; }
+.workshop-link { display: inline-flex; align-items: center; min-block-size: 2.75rem; color: var(--portfolio-accent); font-size: .9rem; font-weight: 600; text-decoration: underline; text-decoration-color: var(--portfolio-accent-line); text-underline-offset: .3rem; }
+.workshop-link:hover { text-decoration-color: currentColor; }
+@media print { .workshop-link { display: none; } }
 .status-panel { padding-block: 7rem; text-align: center; }
 .retry { margin-block-start: 1.5rem; min-block-size: 2.75rem; }
 .skip-link { position: absolute; inset-block-start: -10rem; padding: 1rem; background: var(--foreground); color: var(--background); z-index: 10; }

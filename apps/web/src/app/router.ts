@@ -9,6 +9,7 @@ const router = createRouter({
   routes: [
     { path: '/', component: () => import('@/pages/CvPage.vue') },
     { path: '/privacy', component: () => import('@/pages/PrivacyPage.vue') },
+    { path: '/cadrage', component: () => import('@/pages/ScopingPage.vue') },
     { path: '/admin/login', component: () => import('@/pages/admin/LoginPage.vue') },
     { path: '/admin', component: () => import('@/pages/admin/EditorPage.vue'), meta: { admin: true } },
     { path: '/:pathMatch(.*)*', redirect: '/' },

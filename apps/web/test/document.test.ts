@@ -7,7 +7,8 @@ const site: PublicSiteConfig = { editorName: 'Public Name', publicOrigin: 'https
 test('discovery only indexes published public pages, with language alternates and no fabricated local domain', () => {
   const sitemap = discoveryFile('/sitemap.xml', site)!;
   assert.equal(sitemap.type, 'application/xml');
-  assert.equal((sitemap.body.match(/<url>/g) ?? []).length, 6);
+  assert.equal((sitemap.body.match(/<url>/g) ?? []).length, 9);
+  assert.match(sitemap.body, /\/cadrage\?lang=ko/);
   assert.doesNotMatch(sitemap.body, /admin|localhost|127\.0\.0\.1/);
   assert.match(sitemap.body, /hreflang="ko"/);
   assert.match(discoveryFile('/robots.txt', site)!.body, /Disallow: \/admin/);

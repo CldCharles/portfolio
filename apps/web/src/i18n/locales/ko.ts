@@ -1,11 +1,13 @@
 import legal from './legal-ko';
 import linkedin from './linkedin-ko';
 import admin from './admin-ko';
+import scoping from './scoping-ko';
 import type fr from './fr';
 export default {
   legal,
   admin,
   linkedin,
+  scoping,
   pdf: {"language": "PDF 언어", "download": "이력서 다운로드"},
   app: { description: 'Claude Charles Valentin의 포트폴리오. Vue.js, React와 프런트엔드 개발에 집중하는 소프트웨어 엔지니어 & 솔루션 빌더.' },
   nav: { label: '주요 탐색', language: '사이트 언어', skip: '본문으로 건너뛰기', admin: '관리자' },

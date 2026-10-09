@@ -22,6 +22,12 @@ test('SSR serves public text, links and privacy in all languages, isolates concu
       assert.match(privacy.html, { fr: /Suède/, en: /Sweden/, ko: /스웨덴/ }[locale]);
       assert.match(privacy.html, /portfolio_session/);
       assert.match(privacy.html, /scrypt/);
+      assert.match(privacy.html, /portfolio\.scoping/);
+      // The scoping workshop intro is rendered on the server, in the page language.
+      const scoping = await renderPage(template, '/cadrage', { ...fixture(locale), cv: null });
+      assert.match(scoping.html, { fr: /Du besoin flou à la note de cadrage/, en: /From a vague need to a scoping note/, ko: /막연한 요구에서 프로젝트 정의서까지/ }[locale]);
+      assert.match(scoping.html, { fr: /<title>Atelier de cadrage/, en: /<title>Scoping workshop/, ko: /<title>요구사항 정의 워크숍/ }[locale]);
+      assert.match(scoping.html, /href="\/cadrage\?lang=ko"/);
     }
     const populated = fixture('fr');
     populated.cv!.entries = [
