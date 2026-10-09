@@ -38,19 +38,25 @@ Structure actuelle du CV :
 ```text
 features/cv/
 ├── components/
-│   ├── CvHero.vue           # Identité et présentation ; prop profile
-│   ├── CvSection.vue        # Section typée ; props id, title, entries
+│   ├── CvHero.vue           # Identité, repères, contact ; props profile, languages
+│   ├── CvSection.vue        # Section typée : frise ou cartes ; props id, title, entries
+│   ├── CvNavigation.vue     # Sommaire et repère de section en cours
+│   ├── CvPdfExport.vue      # Téléchargement du PDF et choix de sa langue
 │   └── LanguageSwitcher.vue # Choix de langue dans Vue I18n
-├── lib/sections.ts          # Ordre et regroupement des sections, communs au CV et à l’aperçu
+├── lib/
+│   ├── presentation.ts      # Découpage de la présentation et des descriptions
+│   ├── sections.ts          # Ordre et regroupement des sections, communs au CV et à l’aperçu
+│   └── visual-presentation.ts # Identifiant de l’expérience mise en avant
 ├── stores/cv.ts             # Chargement, erreurs et annulation des anciennes requêtes
 └── api.ts                   # Lecture HTTP
 ```
 
-`App.vue` monte `CvPage.vue`. La page assemble les composants ; le store porte
-les effets réseau. Les contrats publics sont partagés dans `packages/contracts` et
-importés avec `import type`. Pas de duplication des données CV dans les locales.
+`App.vue` rend la route courante (`RouterView`) et le pied de page commun. Les pages
+assemblent les composants ; le store porte les effets réseau. Les contrats publics
+sont partagés dans `packages/contracts` et importés avec `import type`. Pas de
+duplication des données CV dans les locales.
 Vue Router (`app/router.ts`) charge les pages à la demande : `CvPage.vue`,
-`admin/LoginPage.vue` et `admin/EditorPage.vue`. Le garde vérifie la session avant
+`PrivacyPage.vue`, `admin/LoginPage.vue` et `admin/EditorPage.vue`. Le garde vérifie la session avant
 d’afficher l’éditeur ; la sécurité repose sur l’API.
 
 `features/auth` contient API HTTP, store session et formulaire de connexion.
