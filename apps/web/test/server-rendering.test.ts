@@ -17,7 +17,9 @@ test('SSR serves public text, links and privacy in all languages, isolates concu
       assert.match(page.html, /application\/ld\+json/);
       assert.match(page.html, /href="\/\?lang=ko"/);
       for (const other of ['fr', 'en', 'ko'].filter(value => value !== locale)) assert.doesNotMatch(page.html, new RegExp(`Name ${other}`));
-      const privacy = await renderPage(template, '/privacy', { ...fixture(locale), cv: null });
+      const privacy = await renderPage(template, '/privacy', { ...fixture(locale), cv: null, site: { ...fixture(locale).site, hostCountry: 'SE' } });
+      // An ISO hosting country is shown in the page language.
+      assert.match(privacy.html, { fr: /Suède/, en: /Sweden/, ko: /스웨덴/ }[locale]);
       assert.match(privacy.html, /portfolio_session/);
       assert.match(privacy.html, /scrypt/);
     }
