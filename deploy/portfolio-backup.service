@@ -1,0 +1,8 @@
+[Unit]
+Description=Sauvegarde de la base SQLite du portfolio
+
+[Service]
+Type=oneshot
+User=portfolio
+Group=portfolio
+ExecStart=/opt/portfolio/app/deploy/backup.sh
