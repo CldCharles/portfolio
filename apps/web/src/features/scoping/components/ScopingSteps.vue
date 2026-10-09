@@ -6,6 +6,8 @@ import { openItemKinds, priorities, type Priority } from '../model';
 import { STEP_COUNT, useScopingStore } from '../store';
 import { stepKeys } from '../steps';
 import ScopingChecks from './ScopingChecks.vue';
+import ChibiMascot from '@/features/mascot/ChibiMascot.vue';
+import { mascotPose } from '../mascot';
 const { t } = useI18n({ useScope: 'global' });
 const store = useScopingStore();
 const key = computed(() => stepKeys[store.step - 1]!);
@@ -201,7 +203,10 @@ const storiesBy = (priority: Priority) => scoping.value.stories.filter(story => 
           <h2><Lightbulb :size="18" aria-hidden="true" />{{ t('scoping.tip.title') }}</h2>
           <p>{{ t(`scoping.tip.${key}`) }}</p>
         </section>
-        <ScopingChecks :checks="stepChecks" />
+        <div class="checks-with-mascot">
+          <ChibiMascot :pose="mascotPose(stepChecks)" class="mascot" />
+          <ScopingChecks :checks="stepChecks" />
+        </div>
         <p class="saved muted"><Check :size="14" aria-hidden="true" />{{ t('scoping.saved') }}</p>
       </aside>
     </div>
@@ -254,6 +259,10 @@ h1:focus { outline: none; }
 .tip { border-radius: .9rem; padding: 1.25rem; background: var(--portfolio-accent-soft); }
 .tip h2 { margin: 0; display: flex; align-items: center; gap: .5rem; font-size: .9rem; font-weight: 600; color: var(--portfolio-accent-strong); }
 .tip p { margin: .6rem 0 0; font-size: .9rem; line-height: 1.6; }
+.checks-with-mascot { position: relative; margin-block-start: 4.5rem; }
+/* The mascot peeks from behind the panel: only its head and shoulders show. */
+.checks-with-mascot > :last-child { position: relative; }
+.mascot { position: absolute; inset-block-end: calc(100% - 1.4rem); inset-inline-end: .75rem; inline-size: 76px; }
 .saved { margin: 0; display: flex; align-items: center; gap: .4rem; font-size: .8rem; }
 .visually-hidden { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 @media (max-width: 960px) {

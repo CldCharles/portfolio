@@ -6,6 +6,8 @@ import { lines, priorities } from '../model';
 import { storySentence, toMarkdown } from '../markdown';
 import { useScopingStore } from '../store';
 import ScopingChecks from './ScopingChecks.vue';
+import ChibiMascot from '@/features/mascot/ChibiMascot.vue';
+import { mascotPose } from '../mascot';
 const { t, locale } = useI18n({ useScope: 'global' });
 const store = useScopingStore();
 const scoping = computed(() => store.scoping);
@@ -128,7 +130,10 @@ function reset() { if (window.confirm(t('scoping.actions.resetConfirm'))) store.
       </article>
 
       <aside class="aside">
-        <ScopingChecks :checks="store.checks" />
+        <div class="checks-with-mascot">
+          <ChibiMascot :pose="mascotPose(store.checks)" class="mascot" />
+          <ScopingChecks :checks="store.checks" />
+        </div>
         <button type="button" class="btn btn-outline reset" @click="reset"><RotateCcw :size="16" aria-hidden="true" />{{ t('scoping.actions.reset') }}</button>
       </aside>
     </div>
@@ -178,6 +183,10 @@ td { padding: .6rem .75rem .6rem 0; border-block-end: 1px solid var(--border); v
 .note > footer { margin-block-start: 2.5rem; padding-block-start: .9rem; border-block-start: 1px solid var(--border); font-size: .72rem; color: var(--portfolio-ink-mute); }
 .aside { flex: 1 1 17rem; min-inline-size: 0; display: flex; flex-direction: column; gap: 1rem; }
 .reset { align-self: flex-start; }
+.checks-with-mascot { position: relative; margin-block-start: 4.5rem; }
+/* The mascot peeks from behind the panel: only its head and shoulders show. */
+.checks-with-mascot > :last-child { position: relative; }
+.mascot { position: absolute; inset-block-end: calc(100% - 1.4rem); inset-inline-end: .75rem; inline-size: 76px; }
 @media (max-width: 560px) { .scope { grid-template-columns: minmax(0, 1fr); } .status { text-align: start; } }
 @media print {
   .toolbar, .aside { display: none; }
