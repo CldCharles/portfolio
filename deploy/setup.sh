@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# Installation initiale sur un serveur Ubuntu 24.04 neuf (Amazon Lightsail, Séoul).
+# Usage : sudo bash setup.sh mon-domaine.com
+# Relançable : chaque étape vérifie ce qui existe déjà.
+set -euo pipefail
+
+domain="${1:-}"
+repository="${REPOSITORY:-https://github.com/CldCharles/portfolio.git}"
+if [[ ! "$domain" =~ ^[a-z0-9.-]+\.[a-z]{2,}$ ]]; then
+  echo "Usage : sudo bash setup.sh mon-domaine.com" >&2
+  exit 1
+fi
+if [[ $EUID -ne 0 ]]; then echo "Lancer avec sudo." >&2; exit 1; fi
+
+app=/opt/portfolio/app
+export DEBIAN_FRONTEND=noninteractive
+
+echo "== Paquets système, Node.js 22 et Caddy (dépôts officiels)"
+timedatectl set-timezone Asia/Seoul
+apt-get update
+apt-get install -y ca-certificates curl gnupg git sqlite3 build-essential ufw debian-keyring debian-archive-keyring apt-transport-https
+if ! command -v node >/dev/null || [[ "$(node -v)" != v22.* ]]; then
+  curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+  apt-get install -y nodejs
+fi
+if ! command -v caddy >/dev/null; then
+  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' > /etc/apt/sources.list.d/caddy-stable.list
+  apt-get update
+  apt-get install -y caddy
+fi
+
+echo "== Mémoire d'échange (la compilation dépasse 512 Mo)"
+if ! swapon --show | grep -q /swapfile; then
+  fallocate -l 1G /swapfile
+  chmod 600 /swapfile
+  mkswap /swapfile
+  swapon /swapfile
+  grep -q '/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' >> /etc/fstab
+fi
+
+echo "== Utilisateur et dossiers"
+id portfolio >/dev/null 2>&1 || useradd --system --home-dir /opt/portfolio --create-home --shell /usr/sbin/nologin portfolio
+install -d -o portfolio -g portfolio -m 750 /var/lib/portfolio /var/backups/portfolio
+install -d -o root -g portfolio -m 750 /etc/portfolio
+
+echo "== Code et compilation"
+[[ -d "$app/.git" ]] || sudo -u portfolio git clone "$repository" "$app"
+sudo -u portfolio bash -c "cd '$app' && npm ci && npm run build"
+
+echo "== Configuration"
+if [[ ! -f /etc/portfolio/portfolio.env ]]; then
+  sed "s/__DOMAIN__/$domain/g" "$app/deploy/portfolio.env.example" > /etc/portfolio/portfolio.env
+  chown root:portfolio /etc/portfolio/portfolio.env
+  chmod 640 /etc/portfolio/portfolio.env
+fi
+sed "s/__DOMAIN__/$domain/g" "$app/deploy/Caddyfile" > /etc/caddy/Caddyfile
+# Journaux système conservés 14 jours, comme l'indique la notice de confidentialité.
+install -d /etc/systemd/journald.conf.d
+printf '[Journal]\nMaxRetentionSec=14day\n' > /etc/systemd/journald.conf.d/portfolio.conf
+systemctl restart systemd-journald
+
+echo "== Services"
+install -m 644 "$app/deploy/portfolio.service" "$app/deploy/portfolio-backup.service" "$app/deploy/portfolio-backup.timer" /etc/systemd/system/
+systemctl daemon-reload
+systemctl enable --now portfolio portfolio-backup.timer
+systemctl reload caddy || systemctl restart caddy
+
+echo "== Pare-feu (penser aussi à ouvrir 80 et 443 dans la console Lightsail)"
+ufw allow OpenSSH
+ufw allow 80/tcp
+ufw allow 443/tcp
+ufw --force enable
+
+echo
+echo "Installation terminée. Étapes suivantes :"
+echo "  1. Créer le compte admin :"
+echo "     sudo -u portfolio bash -c 'set -a; . /etc/portfolio/portfolio.env; cd $app && npm run admin:setup'"
+echo "  2. Ouvrir https://$domain/admin, préparer puis publier le CV."

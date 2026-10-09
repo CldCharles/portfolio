@@ -1,0 +1,29 @@
+[Unit]
+Description=Portfolio (API, rendu des pages et PDF)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=portfolio
+Group=portfolio
+WorkingDirectory=/opt/portfolio/app/apps/api
+EnvironmentFile=/etc/portfolio/portfolio.env
+ExecStart=/usr/bin/node dist/server.js
+Restart=on-failure
+RestartSec=3
+
+# Seul le dossier de la base est accessible en écriture.
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/portfolio
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+
+[Install]
+WantedBy=multi-user.target

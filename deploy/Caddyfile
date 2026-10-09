@@ -1,0 +1,10 @@
+# HTTPS automatique (Let's Encrypt). __DOMAIN__ est remplacé par setup.sh.
+# Pas de directive `log` : Caddy ne conserve aucun journal d'accès HTTP.
+__DOMAIN__ {
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:3000
+}
+
+www.__DOMAIN__ {
+	redir https://__DOMAIN__{uri} permanent
+}

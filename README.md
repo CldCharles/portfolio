@@ -29,7 +29,7 @@ npm start
 ```
 
 `npm start` lance uniquement l’API compilée. Le front compilé se trouve dans
-`apps/web/dist`. L’hébergement et le service des fichiers statiques restent à définir.
+`apps/web/dist` ; en production, l’API le sert elle-même (voir `docs/deploy.md`).
 Le port API est configurable avec `PORT`, l’interface réseau avec `HOST` ; si le
 port change en développement, adapter aussi la cible du proxy dans `apps/web/vite.config.ts`.
 SQLite est initialisé au démarrage dans `apps/api/data/portfolio.sqlite`. Le seed
@@ -49,7 +49,8 @@ localement avec `npm run admin:setup`, avec mot de passe masqué et haché. Voir
 - `docs/linkedin.md` et `docs/pdf.md` : import LinkedIn et export PDF.
 - `packages/contracts` : types publics partagés, sans code d’exécution.
 
-Un seul dépôt Git et un seul lockfile npm. Aucun déploiement configuré.
+Un seul dépôt Git et un seul lockfile npm. Déploiement : [Amazon Lightsail à Séoul](docs/deploy.md)
+(scripts dans `deploy/`).
 
 ## Développement
 
