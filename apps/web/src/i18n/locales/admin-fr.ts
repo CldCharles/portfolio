@@ -40,6 +40,8 @@ export default {
   "kind": "Type de rubrique",
   "name": "Nom affiché",
   "github": "Lien GitHub",
+  "country": "Pays (code ISO à deux lettres, ex. KR)",
+  "countryHelp": "Affiché dans la langue de chaque version du CV. Laisser vide pour ne rien afficher.",
   "url": "Lien du projet ou de la rubrique",
   "tags": "Technologies, séparées par des virgules",
   "dateHelp": "Année (2024), mois (2024-03) ou date complète (2024-03-15). Conservez la précision connue ; Mar 2024 devient 2024-03.",
@@ -63,7 +65,8 @@ export default {
     "skill": "Compétence",
     "project": "Projet",
     "experience": "Expérience",
-    "education": "Formation"
+    "education": "Formation",
+    "language": "Langue"
   },
   "errors": {
     "UNKNOWN": "Une erreur est survenue. Vérifiez votre connexion et réessayez.",

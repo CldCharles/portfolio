@@ -14,10 +14,17 @@ const date = z.union([
 ]).nullable();
 const earliest = (value: string) => value.length === 4 ? `${value}-01-01` : value.length === 7 ? `${value}-01` : value;
 const latest = (value: string) => value.length === 4 ? `${value}-12-31` : value.length === 7 ? `${value}-31` : value;
-export const profileSchema = z.object({ name: z.string().trim().min(1).max(200), githubUrl: webUrl.nullable() }).strict();
+// Region names come from Intl.DisplayNames in each locale; reject codes it does not know.
+// ISO user-assigned and grouping codes (EU, UN, XA…) are not countries; XK (Kosovo) stays allowed.
+const notCountry = /^(?:AA|Q[M-Z]|X[A-JL-Z]|ZZ|EU|EZ|UN)$/;
+const countryCode = z.string().regex(/^[A-Z]{2}$/)
+  .refine(value => !notCountry.test(value) && new Intl.DisplayNames(['en'], { type: 'region', fallback: 'none' }).of(value) !== undefined, 'Unknown region code');
+export const profileSchema = z.object({
+  name: z.string().trim().min(1).max(200), githubUrl: webUrl.nullable(), countryCode: countryCode.nullable().default(null),
+}).strict();
 export const entrySchema = z.object({
   id: z.string().regex(/^[a-z0-9-]{1,80}$/),
-  kind: z.enum(['skill', 'project', 'experience', 'education']),
+  kind: z.enum(['skill', 'project', 'experience', 'education', 'language']),
   url: webUrl.nullable(), tags: z.array(z.string().trim().min(1).max(80)).max(20),
   startDate: date, endDate: date, position: z.number().int().min(0),
 }).strict().refine(value => !value.startDate || !value.endDate || latest(value.endDate) >= earliest(value.startDate), 'Invalid date range');

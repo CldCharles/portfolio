@@ -13,8 +13,8 @@ note dans la langue demandée. L’export ne traduit pas automatiquement les tex
 Une langue absente utilise le français ; une langue inconnue ou répétée reçoit 400,
 un profil absent 404. Les erreurs de génération passent par le gestionnaire 500 générique.
 
-Mise en page dédiée aux entreprises : nom et titre, présentation, expériences,
-projets, compétences et formation. Les sections vides sont omises. Les textes sont
+Mise en page dédiée aux entreprises : nom, titre et pays, présentation, expériences,
+projets, compétences, langues et formation. Les sections vides sont omises. Les textes sont
 sélectionnables, les URL cliquables, les dates localisées et les pages numérotées.
 Les textes longs passent sur plusieurs pages ; les titres de rubriques sont gardés
 avec le début de leur contenu. Le PDF reste indépendant de la taille de l’écran.

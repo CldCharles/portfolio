@@ -9,7 +9,7 @@ test('SSR serves public text, links and privacy in all languages, isolates concu
   try {
     const { renderPage } = await server.ssrLoadModule('/src/entry-server.ts');
     const template = '<html lang="fr"><head><title>Portfolio</title></head><body><div id="app"></div></body></html>';
-    const fixture = (locale: Locale): PublicBootstrap => ({ locale, site: { editorName: `Name ${locale}`, contactEmail: null, hostName: null, hostCountry: null, hostLogRetention: null, publicOrigin: 'https://example.com' }, cv: { locale, profile: { name: `Name ${locale}`, githubUrl: null, text: { locale, fallback: false, title: `Role ${locale}`, subtitle: '', description: `Published ${locale}` } }, entries: [] } });
+    const fixture = (locale: Locale): PublicBootstrap => ({ locale, site: { editorName: `Name ${locale}`, contactEmail: null, hostName: null, hostCountry: null, hostLogRetention: null, publicOrigin: 'https://example.com' }, cv: { locale, profile: { name: `Name ${locale}`, githubUrl: null, countryCode: null, text: { locale, fallback: false, title: `Role ${locale}`, subtitle: '', description: `Published ${locale}` } }, entries: [] } });
     const results = await Promise.all((['fr', 'en', 'ko'] as const).map(async locale => ({ locale, page: await renderPage(template, '/', fixture(locale)) })));
     for (const { locale, page } of results) {
       assert.match(page.html, new RegExp(`<html lang="${locale}"`));
@@ -28,7 +28,19 @@ test('SSR serves public text, links and privacy in all languages, isolates concu
       { id: 'other-project', kind: 'project', startDate: null, endDate: null, url: null, tags: [], text: { locale: 'fr', fallback: false, title: 'Other project', subtitle: '', description: 'No illustration' } },
       { id: 'vue', kind: 'skill', startDate: null, endDate: null, url: null, tags: [], text: { locale: 'en', fallback: true, title: 'Vue', subtitle: '', description: 'Visible skill description\nSecond line' } },
     ];
+    populated.site.contactEmail = 'contact@example.com';
+    populated.cv!.profile.countryCode = 'KR';
+    populated.cv!.entries.push({ id: 'korean', kind: 'language', startDate: null, endDate: null, url: null, tags: [], text: { locale: 'fr', fallback: false, title: 'Coréen', subtitle: 'Niveau 6', description: '' } });
     const populatedPage = await renderPage(template, '/', populated);
+    // Recruiter facts and contact are in the HTML, without JavaScript.
+    const facts = populatedPage.html.match(/<ul[^>]*class="facts"[\s\S]*?<\/ul>/)![0];
+    assert.match(facts, /Corée du Sud/);
+    assert.match(facts, /Coréen/);
+    assert.match(populatedPage.html, /href="mailto:contact@example.com"/);
+    assert.match(populatedPage.html.match(/<section[^>]*id="languages"[\s\S]*?<\/section>/)![0], /Niveau 6/);
+    assert.match(populatedPage.html, /href="#languages"/);
+    assert.match(populatedPage.html, /href="\/admin\/login"/);
+    assert.match(populatedPage.html, /"knowsLanguage":\["Coréen"\]/);
     const skills = populatedPage.html.match(/<section[^>]*id="skills"[\s\S]*?<\/section>/)![0];
     assert.match(skills, /Visible skill description/);
     assert.match(skills, /Second line/);

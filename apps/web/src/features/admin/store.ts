@@ -49,7 +49,7 @@ export const useEditorStore = defineStore('editor', () => {
     });
   }
   function addEntry(kind: EntryKind) {
-    document.value?.items.push({ id: `entry-${crypto.randomUUID()}`, kind, name: '', githubUrl: null, url: null, tags: [], startDate: null, endDate: null,
+    document.value?.items.push({ id: `entry-${crypto.randomUUID()}`, kind, name: '', githubUrl: null, countryCode: null, url: null, tags: [], startDate: null, endDate: null,
       translations: { fr: { text: { title: '', subtitle: '', description: '' }, reviewedSource: null }, en: null, ko: null },
     });
   }

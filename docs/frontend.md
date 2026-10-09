@@ -130,11 +130,21 @@ Référence : https://www.shadcn-vue.com/docs/installation/vite
 
 ## Direction visuelle du CV
 
-CV éditorial A validé : blanc cassé, anthracite, accent bleu pétrole.
-Présentation courte avec complément accessible, parcours avec dates en colonne
-sur grand écran et au-dessus du texte sur mobile ; contributions en listes.
-Compétences en grille avec descriptions toujours visibles. Ordre commun au public
-et à l’aperçu : expériences, projets, compétences, formation.
+CV éditorial affirmé (maquette `design-explorations/portfolio-polish.html`, locale) :
+blanc cassé chaud, encre bleu-gris, accent bleu pétrole. Titres en Newsreader et
+texte en Inter, hébergés dans le projet via `@fontsource-variable` (aucun service
+de polices externe). Couleurs dans les tokens de `styles/main.css`.
+
+L’en-tête présente le nom, le métier, la présentation et une ligne de repères :
+pays (`profile.countryCode`, nom localisé par `Intl.DisplayNames`), technologies
+(sous-titre du profil) et langues parlées (titres des entrées `language`). Actions :
+télécharger le PDF, « Me contacter » (`PUBLIC_CONTACT_EMAIL`) et GitHub.
+Expériences et formation en frise chronologique : dates en colonne sur grand écran,
+au-dessus du texte sur mobile ; contributions en listes et technologies en pastilles.
+Projets, compétences et langues en cartes, descriptions toujours visibles. Ordre
+commun au public et à l’aperçu : expériences, projets, compétences, langues, formation.
+Pas de numérotation des sections. Le pied de page comporte un lien discret
+« Administration » vers `/admin/login`.
 La mise en page conserve les textes et ne modifie pas les données publiées.
 Les contrôles de langue et d’export PDF restent accessibles dans les trois langues.
 
@@ -152,10 +162,13 @@ n’apparaît que s’il n’y a encore aucun CV. Les métadonnées suivent ensu
 ## Navigation du CV et portrait
 
 `CvNavigation.vue` affiche les sections renseignées dans leur ordre de lecture.
-À partir de 901 px, le sommaire occupe une colonne de 160 px et reste visible
-au défilement. En dessous, les liens restent visibles en ligne et passent à
-la ligne si nécessaire. Les ancres fonctionnent sans JavaScript ; le repère
-de section en cours est une amélioration client, avec `aria-current="location"`.
+À partir de 901 px, le sommaire occupe une colonne d’environ 150 px et reste visible
+au défilement. En dessous, il devient une barre collée en haut, défilable
+horizontalement. Les ancres fonctionnent sans JavaScript. Avec JavaScript, le
+routeur intercepte les ancres : `scrollBehavior` défile vers la section (et non
+en haut de page) en reprenant son `scroll-margin`, qui dégage la barre mobile.
+Le repère de section en cours utilise `aria-current="location"` ; en bas de page,
+la dernière section est marquée même si elle est trop courte pour atteindre le haut.
 
 `CvHero.vue` accepte un portrait local facultatif : ajouter la photo autorisée
 dans `apps/web/src/assets/portrait.webp` (ou `.jpg`, `.png`) puis reconstruire.
@@ -170,8 +183,7 @@ l’administration n’est pas encore implémentée.
 ## Hiérarchie visuelle
 
 `features/cv/lib/visual-presentation.ts` identifie l’expérience `sopra-2021-2024`
-pour un filet discret. Le nom et le métier forment un seul bloc face au portrait ;
-sur mobile le métier occupe toute la largeur. Le téléchargement reste une action
+et la présente en carte dans la frise. Le nom et le métier forment un seul bloc face au portrait. Le téléchargement reste une action
 principale, avec choix de langue accessible et discret. Les projets conservent
 leur texte, leurs technologies et leur lien : la miniature textuelle a été retirée
 après la revue visuelle du propriétaire. Aucune association d’image ni modification

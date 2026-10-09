@@ -123,7 +123,7 @@ export function applyChoices(document: DraftDocument, choices: ImportChoice[], l
     used.add(key);
     if (!item) {
       if (choice.row.kind === 'profile') throw new ImportError('target');
-      item = { id: `entry-${crypto.randomUUID()}`, kind: choice.row.kind, name: '', githubUrl: null, url: null, tags: [], startDate: null, endDate: null,
+      item = { id: `entry-${crypto.randomUUID()}`, kind: choice.row.kind, name: '', githubUrl: null, countryCode: null, url: null, tags: [], startDate: null, endDate: null,
         translations: { fr: { text: choice.french, reviewedSource: null }, en: null, ko: null } };
       copy.items.push(item);
     }

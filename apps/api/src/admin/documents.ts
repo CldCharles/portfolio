@@ -10,8 +10,8 @@ export function readPublishedDocument(db: Database.Database, repository: CvRepos
   const cv = repository.read('fr');
   if (!cv) throw new Error('Missing profile');
   const common: Omit<DraftItem, 'translations'>[] = [
-    { id: 'profile', kind: 'profile', name: cv.profile.name, githubUrl: cv.profile.githubUrl, url: null, tags: [], startDate: null, endDate: null },
-    ...cv.entries.map(({ text: _text, ...item }) => ({ ...item, name: '', githubUrl: null })),
+    { id: 'profile', kind: 'profile', name: cv.profile.name, githubUrl: cv.profile.githubUrl, countryCode: cv.profile.countryCode, url: null, tags: [], startDate: null, endDate: null },
+    ...cv.entries.map(({ text: _text, ...item }) => ({ ...item, name: '', githubUrl: null, countryCode: null })),
   ];
   return { items: common.map(item => {
     const rows = db.prepare('SELECT locale,title,subtitle,description,source_revision FROM cv_translations WHERE item_id=?').all(item.id) as (CvText & { locale: Locale; source_revision: number })[];
@@ -32,7 +32,7 @@ export function previewDocument(document: DraftDocument, locale: Locale): Public
     return { ...text, locale: current ? locale : 'fr' as const, fallback: !current };
   };
   const profile = document.items.find(item => item.kind === 'profile')!;
-  return { locale, profile: { name: profile.name.trim(), githubUrl: profile.githubUrl, text: localize(profile) },
+  return { locale, profile: { name: profile.name.trim(), githubUrl: profile.githubUrl, countryCode: profile.countryCode ?? null, text: localize(profile) },
     entries: document.items.filter(item => item.kind !== 'profile').map(item => ({ id: item.id, kind: item.kind as Exclude<DraftItem['kind'], 'profile'>, url: item.url, tags: item.tags, startDate: item.startDate, endDate: item.endDate, text: localize(item) })),
   };
 }
@@ -43,7 +43,7 @@ export function publishDocument(db: Database.Database, repository: CvRepository,
   const oldIds = db.prepare('SELECT id FROM cv_items').all() as { id: string }[];
   for (const { id } of oldIds) if (!keptIds.has(id)) db.prepare('DELETE FROM cv_items WHERE id=?').run(id);
   document.items.forEach((item, position) => {
-    if (item.kind === 'profile') repository.saveProfile({ name: item.name, githubUrl: item.githubUrl }, item.translations.fr.text);
+    if (item.kind === 'profile') repository.saveProfile({ name: item.name, githubUrl: item.githubUrl, countryCode: item.countryCode }, item.translations.fr.text);
     else repository.saveEntry({ id: item.id, kind: item.kind, url: item.url, tags: item.tags, startDate: item.startDate, endDate: item.endDate, position }, item.translations.fr.text);
     const revision = repository.translationStatus(item.id).revision;
     db.prepare("DELETE FROM cv_translations WHERE item_id=? AND locale != 'fr'").run(item.id);
