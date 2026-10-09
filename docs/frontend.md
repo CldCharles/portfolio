@@ -172,7 +172,7 @@ métadonnées (~31 Ko). Le fichier est public
 une fois ajouté : utiliser une copie sans métadonnées privées. Sans photo,
 aucun emplacement vide n’est affiché. Un clic (ou Entrée) sur la photo lance un
 easter egg de 2,6 s (`PortraitSixSeven.vue`) : deux bras sortent de derrière la photo
-et font le geste « 6-7 » (mains qui montent et descendent en alternance, sous la photo). Sans animation si `prefers-reduced-motion`, masqué à l’impression ;
+et font le geste « 6-7 » (bras attachés au bas des côtés de la photo, mains qui montent et descendent en alternance). Sans animation si `prefers-reduced-motion`, masqué à l’impression ;
 `overflow-x: clip` sur la page évite tout défilement horizontal pendant l’effet. Le portrait a un texte alternatif vide (le nom est juste à côté) ; il est
 dans un bouton nommé qui déclenche l’easter egg, sans annonce pour les lecteurs d’écran. L’export PDF le reprend, recadré au format photo 3:4 (voir `docs/pdf.md`). La gestion du portrait via
 l’administration n’est pas encore implémentée.
