@@ -1,5 +1,5 @@
 import PDFDocument from 'pdfkit';
-import { existsSync } from 'node:fs';
+import { existsSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import type { CvEntry, Locale, PublicCv } from '@portfolio/contracts';
 
@@ -7,10 +7,16 @@ const fonts = {
   regular: fileURLToPath(new URL('../../assets/fonts/NotoSansCJKkr-Regular.otf', import.meta.url)),
   bold: fileURLToPath(new URL('../../assets/fonts/NotoSansCJKkr-Bold.otf', import.meta.url)),
 };
-// Same optional portrait as the public site (apps/web/src/assets); PDFKit reads JPEG and PNG.
-const portraitPath = ['jpg', 'png']
-  .map(extension => fileURLToPath(new URL(`../../../web/src/assets/portrait.${extension}`, import.meta.url)))
-  .find(path => existsSync(path));
+/**
+ * Same optional portrait as the public site (apps/web/src/assets); PDFKit reads JPEG and PNG.
+ * Looked up per generation; `version` lets the caller's cache notice a new or removed photo.
+ */
+export function findPortrait(): { path: string; version: number } | null {
+  const path = ['jpg', 'png']
+    .map(extension => fileURLToPath(new URL(`../../../web/src/assets/portrait.${extension}`, import.meta.url)))
+    .find(candidate => existsSync(candidate));
+  return path ? { path, version: statSync(path).mtimeMs } : null;
+}
 
 type Labels = {
   document: string; summary: string; experience: string; project: string; skill: string; language: string; education: string;
@@ -62,10 +68,11 @@ function descriptionRuns(description: string, size = 9): Run[] {
     .map(line => line.startsWith('• ') || line.startsWith('- ') ? { text: line.slice(2), size, bullet: true, gap: 2 } : { text: line, size, gap: 3 });
 }
 
-export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | null } = {}): Promise<Buffer> {
+/** `compress: false` keeps page streams readable for layout tests. */
+export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | null; compress?: boolean } = {}): Promise<Buffer> {
   const labels = pdfLabels[cv.locale];
   return new Promise((resolve, reject) => {
-    const doc = new PDFDocument({ size: 'A4', margins: { top: 40, bottom: 48, left: 42, right: 42 }, bufferPages: true,
+    const doc = new PDFDocument({ compress: options.compress ?? true, size: 'A4', margins: { top: 40, bottom: 48, left: 42, right: 42 }, bufferPages: true,
       info: { Title: `${cv.profile.name} - ${labels.document} (${cv.locale.toUpperCase()})`, Author: cv.profile.name }, lang: cv.locale });
     const chunks: Buffer[] = [];
     doc.on('data', chunk => chunks.push(chunk));
@@ -87,6 +94,9 @@ export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | n
         for (const run of runs) {
           if (!run.text) continue;
           doc.font(run.bold ? 'bold' : 'regular').fontSize(run.size ?? 9).fillColor(run.color ?? color.ink);
+          // Start the run on the next page when its first line does not fit: PDFKit would
+          // otherwise break inside the run and strand a bullet or a lone line.
+          if (doc.y + doc.currentLineHeight(true) + lineGap > bottom()) doc.addPage();
           if (run.bullet) {
             const y = doc.y;
             doc.text('•', x, y, { width: bulletIndent, lineGap });
@@ -100,16 +110,21 @@ export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | n
       function rule(y: number, weight = .5, stroke = color.rule) {
         doc.moveTo(left, y).lineTo(left + width, y).lineWidth(weight).strokeColor(stroke).stroke();
       }
+      /** `following`: height that must stay with the title (start of the first row). */
       function heading(title: string, following: number) {
-        if (doc.y + 34 + Math.min(following, 90) > bottom()) doc.addPage();
+        if (doc.y + 31 + following > bottom()) doc.addPage();
         doc.y += 11;
         const y = doc.y;
         doc.rect(left, y + 2, 3, 12).fill(color.accent);
         doc.font('bold').fontSize(12).fillColor(color.ink).text(title, left + 10, y, { width: width - 10, lineGap });
         doc.y = y + 20;
       }
-      /** Rows separated by rules; the last column flows across pages when it is long. */
-      function table(columns: Column[], rows: Run[][][]) {
+      /**
+       * Section title and table. Rows are separated by rules; only the last column may
+       * flow across pages. A row starts on a new page unless its fixed columns and the
+       * beginning of its last column fit, so cells never drift apart.
+       */
+      function table(title: string, columns: Column[], rows: Run[][][]) {
         const widths = columns.map((column, index) => index === columns.length - 1 ? width - columns.slice(0, -1).reduce((sum, value) => sum + value.width, 0) : column.width);
         const xs = widths.map((_, index) => left + widths.slice(0, index).reduce((sum, value) => sum + value, 0));
         const padding = 5;
@@ -122,15 +137,19 @@ export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | n
           rule(y + headerHeight);
           doc.y = y + headerHeight;
         };
-        const rowHeight = (row: Run[][]) => Math.max(...row.map((cell, index) => cellHeight(cell, widths[index]! - padding * 2))) + padding * 2;
-        if (doc.y + headerHeight + Math.min(rowHeight(rows[0]!), 80) > bottom()) doc.addPage();
+        const cellHeights = (row: Run[][]) => row.map((cell, index) => cellHeight(cell, widths[index]! - padding * 2));
+        const keep = (row: Run[][]) => {
+          const heights = cellHeights(row);
+          return Math.max(...heights.slice(0, -1), Math.min(heights.at(-1)!, 48)) + padding * 2;
+        };
+        heading(title, headerHeight + keep(rows[0]!));
         header();
         for (const row of rows) {
-          const height = rowHeight(row);
-          if (doc.y + height > bottom() && height < bottom() - doc.page.margins.top - headerHeight) { doc.addPage(); header(); }
+          if (doc.y + keep(row) > bottom()) { doc.addPage(); header(); }
           const top = doc.y + padding;
           const page = doc.page;
           let end = top;
+          // Fixed columns first: they fit on this page, then the last column may flow.
           row.forEach((cell, index) => {
             if (index === row.length - 1) return;
             doc.y = top;
@@ -156,6 +175,7 @@ export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | n
 
       // 인적사항: identity, contact details and photo.
       const photo = { width: 84, height: 112 };
+      const portraitPath = findPortrait()?.path;
       const infoWidth = portraitPath ? width - photo.width - 18 : width;
       const top = doc.y;
       doc.font('bold').fontSize(8).fillColor(color.accent).text(labels.document.toUpperCase(), left, top, { width: infoWidth, characterSpacing: 1.2 });
@@ -192,20 +212,18 @@ export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | n
 
       if (cv.profile.text.description) {
         const runs = [...fallback(cv.profile), ...descriptionRuns(cv.profile.text.description, 9.5)];
-        heading(labels.summary, cellHeight(runs, width));
+        heading(labels.summary, Math.min(cellHeight(runs, width), 40));
         drawRuns(runs, left, width);
       }
       const education = byKind('education');
       if (education.length) {
-        heading(labels.education, 60);
-        table([{ label: labels.period, width: 108 }, { label: labels.school, width: 170 }, { label: labels.program, width: 0 }],
+        table(labels.education, [{ label: labels.period, width: 108 }, { label: labels.school, width: 170 }, { label: labels.program, width: 0 }],
           education.map(entry => [period(entry), [{ text: entry.text.subtitle || entry.text.title, bold: true, size: 9 }],
             [...fallback(entry), ...(entry.text.subtitle ? [{ text: entry.text.title, size: 9 }] : []), ...descriptionRuns(entry.text.description, 8.5).map(run => ({ ...run, color: color.muted }))]]));
       }
       const experience = byKind('experience');
       if (experience.length) {
-        heading(labels.experience, 80);
-        table([{ label: labels.period, width: 108 }, { label: labels.company, width: 0 }],
+        table(labels.experience, [{ label: labels.period, width: 108 }, { label: labels.company, width: 0 }],
           experience.map(entry => [period(entry), [
             ...fallback(entry),
             { text: entry.text.subtitle || entry.text.title, bold: true, size: 10, gap: 1 },
@@ -215,8 +233,7 @@ export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | n
       }
       const projects = byKind('project');
       if (projects.length) {
-        heading(labels.project, 60);
-        table([{ label: labels.projectName, width: 150 }, { label: labels.details, width: 0 }],
+        table(labels.project, [{ label: labels.projectName, width: 150 }, { label: labels.details, width: 0 }],
           projects.map(entry => [
             [{ text: entry.text.title, bold: true, size: 9.5 }, ...(entry.text.subtitle ? [{ text: entry.text.subtitle, size: 8, color: color.muted }] : [])],
             [...fallback(entry), ...descriptionRuns(entry.text.description), ...tags(entry), ...(entry.url ? [{ text: entry.url, size: 8, color: color.accent, link: entry.url }] : [])],
@@ -224,8 +241,7 @@ export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | n
       }
       const skills = byKind('skill');
       if (skills.length) {
-        heading(labels.skill, 50);
-        table([{ label: labels.field, width: 150 }, { label: labels.details, width: 0 }],
+        table(labels.skill, [{ label: labels.field, width: 150 }, { label: labels.details, width: 0 }],
           skills.map(entry => [
             [{ text: entry.text.title, bold: true, size: 9.5 }, ...(entry.text.subtitle ? [{ text: entry.text.subtitle, size: 8, color: color.muted }] : [])],
             [...fallback(entry), ...descriptionRuns(entry.text.description),
@@ -236,8 +252,7 @@ export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | n
       }
       const spoken = byKind('language');
       if (spoken.length) {
-        heading(labels.language, 50);
-        table([{ label: labels.languageName, width: 108 }, { label: labels.level, width: 170 }, { label: labels.notes, width: 0 }],
+        table(labels.language, [{ label: labels.languageName, width: 108 }, { label: labels.level, width: 170 }, { label: labels.notes, width: 0 }],
           spoken.map(entry => [[{ text: entry.text.title, bold: true, size: 9 }], [{ text: entry.text.subtitle, size: 9 }],
             [...fallback(entry), ...descriptionRuns(entry.text.description, 8.5).map(run => ({ ...run, color: color.muted }))]]));
       }

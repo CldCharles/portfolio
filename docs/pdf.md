@@ -29,9 +29,12 @@ Mise en page d’이력서 adaptée aux entreprises coréennes, identique en FR/
 Les dates sont au format `2021.03` (ou l’année seule si le mois est inconnu). La durée
 des expériences est comptée en mois inclus (`2021.03 – 2024.12` : 3 ans 10 mois),
 uniquement quand les deux mois sont connus. Les sections vides sont omises. Les textes
-sont sélectionnables, les URL cliquables et les pages numérotées. Une ligne de tableau
-passe à la page suivante si elle ne tient pas, avec répétition de l’en-tête ; une
-description très longue continue sur plusieurs pages.
+sont sélectionnables, les URL cliquables et les pages numérotées. Un titre de rubrique
+reste avec l’en-tête de son tableau et le début de sa première ligne. Une ligne commence
+sur la page suivante (en-tête répété) si ses colonnes fixes et le début de sa dernière
+colonne ne tiennent pas ; seule la dernière colonne, la description, continue sur
+plusieurs pages. La photo est relue à chaque génération : l’ajouter, la remplacer ou la
+retirer invalide le cache sans redémarrage.
 
 L’API utilise PDFKit avec Noto Sans CJK KR Regular et Bold intégrées (sous-ensembles
 des glyphes utilisés) pour le latin, les accents, le coréen et les caractères chinois.
@@ -48,5 +51,6 @@ conservée en cache. La réponse HTTP est `application/pdf`, en pièce jointe et
 
 Validation : tests HTTP sur base temporaire, refus de langues invalides, brouillon
 privé exclu, invalidation du cache après modification publiée, absence de pages
-vides causées par le pied de page et export coréen long.
+vides causées par le pied de page, export coréen long, et aucune page réduite à un
+titre ou à un fragment de ligne (flux PDF non compressés analysés par page).
 Le rendu est également vérifié avec Poppler et l’extraction de texte avec pypdf.

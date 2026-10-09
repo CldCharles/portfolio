@@ -6,7 +6,7 @@ import { AdminError, type AdminService } from './admin/service.js';
 import { adminRoutes, adminOptionsFromEnv, type AdminOptions } from './admin/routes.js';
 import type { CvRepository } from './cv/repository.js';
 import { localeSchema } from './cv/schema.js';
-import { generateCvPdf, pdfFilename } from './cv/pdf.js';
+import { findPortrait, generateCvPdf, pdfFilename } from './cv/pdf.js';
 import type { Locale } from '@portfolio/contracts';
 
 export function createApp(repository: CvRepository, admin?: AdminService, options?: AdminOptions) {
@@ -24,7 +24,7 @@ export function createApp(repository: CvRepository, admin?: AdminService, option
     const cv = repository.read(locale.data);
     if (!cv) { response.status(404).json({ error: 'CV_NOT_FOUND' }); return; }
     const { contactEmail } = publicSiteConfig(repository);
-    const snapshot = JSON.stringify({ cv, contactEmail });
+    const snapshot = JSON.stringify({ cv, contactEmail, portrait: findPortrait()?.version ?? null });
     let cached = pdfCache.get(locale.data);
     if (!cached || cached.snapshot !== snapshot) {
       const pdf = generateCvPdf(cv, { contactEmail });
