@@ -24,7 +24,7 @@ if ! command -v node >/dev/null || [[ "$(node -v)" != v22.* ]]; then
   apt-get install -y nodejs
 fi
 if ! command -v caddy >/dev/null; then
-  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+  curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor --yes -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
   curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' > /etc/apt/sources.list.d/caddy-stable.list
   apt-get update
   apt-get install -y caddy
@@ -55,21 +55,31 @@ if [[ ! -f /etc/portfolio/portfolio.env ]]; then
   chmod 640 /etc/portfolio/portfolio.env
 fi
 sed "s/__DOMAIN__/$domain/g" "$app/deploy/Caddyfile" > /etc/caddy/Caddyfile
-# Journaux système conservés 14 jours, comme l'indique la notice de confidentialité.
+# Journaux du serveur conservés 14 jours au plus, comme l'indique la notice de
+# confidentialité : journald, fichiers rsyslog et historiques de connexion.
 install -d /etc/systemd/journald.conf.d
 printf '[Journal]\nMaxRetentionSec=14day\n' > /etc/systemd/journald.conf.d/portfolio.conf
 systemctl restart systemd-journald
+for rotation in /etc/logrotate.d/rsyslog /etc/logrotate.d/wtmp /etc/logrotate.d/btmp; do
+  [[ -f "$rotation" ]] || continue
+  sed -i -E 's/^([[:space:]]*)(weekly|monthly)$/\1daily/; s/^([[:space:]]*)rotate [0-9]+$/\1rotate 14/' "$rotation"
+done
 
 echo "== Services"
 install -m 644 "$app/deploy/portfolio.service" "$app/deploy/portfolio-backup.service" "$app/deploy/portfolio-backup.timer" /etc/systemd/system/
 systemctl daemon-reload
-systemctl enable --now portfolio portfolio-backup.timer
+systemctl enable portfolio portfolio-backup.timer
+# restart, pas seulement start : une relance doit charger le code recompilé.
+systemctl restart portfolio
+systemctl start portfolio-backup.timer
 systemctl reload caddy || systemctl restart caddy
 
 echo "== Pare-feu (penser aussi à ouvrir 80 et 443 dans la console Lightsail)"
 ufw allow OpenSSH
 ufw allow 80/tcp
 ufw allow 443/tcp
+# Pas de journal des paquets bloqués (il contiendrait des adresses IP).
+ufw logging off
 ufw --force enable
 
 echo

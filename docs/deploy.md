@@ -59,8 +59,9 @@ Puis ouvrir `https://mon-domaine.com/admin`, préparer le CV et le publier.
 Pour reprendre la base locale à la place (contenu et compte admin compris) :
 
 ```sh
-# Sur l’ordinateur
-scp apps/api/data/portfolio.sqlite ubuntu@IP:/tmp/portfolio.sqlite
+# Sur l’ordinateur : copie cohérente (la base est en mode WAL)
+sqlite3 apps/api/data/portfolio.sqlite ".backup /tmp/portfolio.sqlite"
+scp /tmp/portfolio.sqlite ubuntu@IP:/tmp/portfolio.sqlite
 # Sur le serveur
 sudo systemctl stop portfolio
 sudo install -o portfolio -g portfolio -m 640 /tmp/portfolio.sqlite /var/lib/portfolio/portfolio.sqlite
@@ -77,7 +78,7 @@ sudo bash /opt/portfolio/app/deploy/update.sh
 ```
 
 Le script récupère `main`, réinstalle les dépendances, compile, recharge les
-unités systemd, redémarre l’API et vérifie `/api/health`. Les migrations SQLite
+unités systemd et la configuration Caddy, redémarre l’API et vérifie `/api/health`. Les migrations SQLite
 s’appliquent au démarrage ; une sauvegarde manuelle avant une mise à jour qui
 change le schéma reste prudente (voir ci-dessous).
 
@@ -88,9 +89,21 @@ change le schéma reste prudente (voir ci-dessous).
 | État du service | `systemctl status portfolio` |
 | Journaux de l’API | `journalctl -u portfolio -n 100` |
 | Sauvegarde immédiate | `sudo systemctl start portfolio-backup` |
-| Sauvegardes disponibles | `ls /var/backups/portfolio` (14 jours conservés) |
-| Copier une sauvegarde sur l’ordinateur | `scp ubuntu@IP:/var/backups/portfolio/portfolio-AAAA-MM-JJ.sqlite.gz .` |
+| Sauvegardes disponibles | `sudo ls /var/backups/portfolio` (14 jours conservés) |
+| Copier une sauvegarde sur l’ordinateur | voir ci-dessous |
 | Modifier la configuration | `sudoedit /etc/portfolio/portfolio.env` puis `sudo systemctl restart portfolio` |
+
+Les sauvegardes contiennent l’empreinte du mot de passe admin et les sessions : elles
+ne sont lisibles que par `portfolio`. Pour en récupérer une, la copier temporairement :
+
+```sh
+# Sur le serveur
+sudo install -o ubuntu -m 600 /var/backups/portfolio/portfolio-AAAA-MM-JJ.sqlite.gz /tmp/
+# Sur l’ordinateur
+scp ubuntu@IP:/tmp/portfolio-AAAA-MM-JJ.sqlite.gz .
+# Sur le serveur
+rm /tmp/portfolio-AAAA-MM-JJ.sqlite.gz
+```
 
 Restaurer une sauvegarde : arrêter le service, décompresser le fichier choisi vers
 `/var/lib/portfolio/portfolio.sqlite` (propriétaire `portfolio`), supprimer les
@@ -103,7 +116,9 @@ fichiers `-wal`/`-shm`, redémarrer.
 - Le service tourne sous un utilisateur dédié, sans droit d’écriture hors de
   `/var/lib/portfolio` ; la configuration n’est lisible que par root et ce service.
 - `NODE_ENV=production` active les cookies `Secure`, HSTS et l’origine HTTPS exacte.
-- Aucun journal d’accès HTTP (pas de directive `log` dans Caddy) ; journaux système
-  conservés 14 jours. Ces informations alimentent la notice via `PUBLIC_HOST_*`.
+- Aucun journal d’accès HTTP (pas de directive `log` dans Caddy). Journaux du serveur
+  conservés 14 jours au plus : journald, fichiers rsyslog et historiques de connexion
+  (logrotate quotidien, 14 rotations) ; journal du pare-feu désactivé. Ces informations
+  alimentent la notice via `PUBLIC_HOST_*`.
 - Les mises à jour de sécurité d’Ubuntu s’installent automatiquement
   (`unattended-upgrades`, actif par défaut sur Lightsail).
