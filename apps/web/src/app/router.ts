@@ -19,9 +19,11 @@ const router = createRouter({
   scrollBehavior: (to, from, saved) => {
     if (saved) return saved;
     if (!to.hash) return { top: 0 };
-    const target = typeof document === 'undefined' ? null : document.getElementById(decodeURIComponent(to.hash.slice(1)));
+    // vue-router already decodes the hash.
+    const target = typeof document === 'undefined' ? null : document.getElementById(to.hash.slice(1));
     const margin = target ? Number.parseFloat(getComputedStyle(target).scrollMarginTop) || 0 : 0;
-    return { el: decodeURIComponent(to.hash), top: margin, behavior: to.path === from.path ? 'smooth' : 'auto' };
+    const reducedMotion = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    return { el: to.hash, top: margin, behavior: to.path === from.path && !reducedMotion ? 'smooth' : 'auto' };
   },
 });
 router.beforeEach(async to => {

@@ -15,7 +15,7 @@ onMounted(() => { if (!store.consumeHydration(locale.value as Locale)) void stor
 watch(locale, value => { void store.load(value as Locale); });
 onUnmounted(store.cancel);
 const sections = computed(() => groupSections(store.cv?.entries ?? [], key => t(key)));
-const languages = computed(() => store.cv?.entries.filter(entry => entry.kind === 'language').map(entry => entry.text.title) ?? []);
+const languages = computed(() => store.cv?.entries.filter(entry => entry.kind === 'language').map(entry => ({ title: entry.text.title, locale: entry.text.locale })) ?? []);
 </script>
 
 <template>

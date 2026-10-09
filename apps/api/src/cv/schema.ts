@@ -15,8 +15,10 @@ const date = z.union([
 const earliest = (value: string) => value.length === 4 ? `${value}-01-01` : value.length === 7 ? `${value}-01` : value;
 const latest = (value: string) => value.length === 4 ? `${value}-12-31` : value.length === 7 ? `${value}-31` : value;
 // Region names come from Intl.DisplayNames in each locale; reject codes it does not know.
+// ISO user-assigned and grouping codes (EU, UN, XA…) are not countries; XK (Kosovo) stays allowed.
+const notCountry = /^(?:AA|Q[M-Z]|X[A-JL-Z]|ZZ|EU|EZ|UN)$/;
 const countryCode = z.string().regex(/^[A-Z]{2}$/)
-  .refine(value => value !== 'ZZ' && new Intl.DisplayNames(['en'], { type: 'region', fallback: 'none' }).of(value) !== undefined, 'Unknown region code');
+  .refine(value => !notCountry.test(value) && new Intl.DisplayNames(['en'], { type: 'region', fallback: 'none' }).of(value) !== undefined, 'Unknown region code');
 export const profileSchema = z.object({
   name: z.string().trim().min(1).max(200), githubUrl: webUrl.nullable(), countryCode: countryCode.nullable().default(null),
 }).strict();

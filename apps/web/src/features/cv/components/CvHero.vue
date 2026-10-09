@@ -7,7 +7,11 @@ import type { PublicCv } from '@portfolio/contracts';
 import { Button } from '@/components/ui/button';
 import { useSiteConfig } from '@/features/legal/config';
 import CvPdfExport from './CvPdfExport.vue';
-const props = defineProps<{ profile: PublicCv['profile']; languages?: string[]; exportable?: boolean; headingTag?: 'h1' | 'h2' }>();
+const props = defineProps<{
+  profile: PublicCv['profile']; languages?: { title: string; locale: string }[];
+  /** CV locale; the admin preview may differ from the interface language. */
+  cvLocale?: string; exportable?: boolean; headingTag?: 'h1' | 'h2';
+}>();
 const { t, locale } = useI18n({ useScope: 'global' });
 const site = useSiteConfig();
 // Optional local portrait; no placeholder or external image request.
@@ -16,10 +20,8 @@ const portraitUrl = portraits['/src/assets/portrait.webp'] ?? portraits['/src/as
 const introduction = computed(() => splitIntroduction(props.profile.text.description));
 // Region names come from the browser/Node locale data, so no translation is stored.
 const country = computed(() => props.profile.countryCode
-  ? new Intl.DisplayNames([locale.value], { type: 'region' }).of(props.profile.countryCode) ?? null
+  ? new Intl.DisplayNames([props.cvLocale ?? locale.value], { type: 'region' }).of(props.profile.countryCode) ?? null
   : null);
-// Same separator as the technology line; language names keep their stored casing.
-const spokenLanguages = computed(() => props.languages?.length ? props.languages.join(' · ') : null);
 </script>
 
 <template>
@@ -39,10 +41,13 @@ const spokenLanguages = computed(() => props.languages?.length ? props.languages
         <p class="intro-copy" :lang="profile.text.locale">{{ introduction.rest }}</p>
       </details>
     </div>
-    <ul v-if="country || profile.text.subtitle || spokenLanguages" class="facts" :aria-label="t('cv.atAGlance')">
+    <ul v-if="country || profile.text.subtitle || languages?.length" class="facts" :aria-label="t('cv.atAGlance')">
       <li v-if="country"><MapPin :size="16" aria-hidden="true" /><span class="sr-only">{{ t('cv.location') }} : </span>{{ country }}</li>
-      <li v-if="profile.text.subtitle" :lang="profile.text.locale"><Code :size="16" aria-hidden="true" /><span class="sr-only">{{ t('cv.stack') }} : </span>{{ profile.text.subtitle }}</li>
-      <li v-if="spokenLanguages"><Languages :size="16" aria-hidden="true" /><span class="sr-only">{{ t('cv.spokenLanguages') }} : </span>{{ spokenLanguages }}</li>
+      <li v-if="profile.text.subtitle"><Code :size="16" aria-hidden="true" /><span class="sr-only">{{ t('cv.stack') }} : </span><span :lang="profile.text.locale">{{ profile.text.subtitle }}</span></li>
+      <li v-if="languages?.length"><Languages :size="16" aria-hidden="true" /><span class="sr-only">{{ t('cv.spokenLanguages') }} : </span>
+        <!-- Same separator as the technology line; each name keeps its own language. -->
+        <span><template v-for="(language, index) in languages" :key="index"><template v-if="index"> · </template><span :lang="language.locale">{{ language.title }}</span></template></span>
+      </li>
     </ul>
     <div class="hero-actions">
       <CvPdfExport v-if="exportable" />
