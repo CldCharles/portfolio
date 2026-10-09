@@ -87,7 +87,7 @@ onUnmounted(() => {
   .playing .number { opacity: 1; }
 }
 /* Smaller arms where the page gutter is narrower, so the hands are not clipped. */
-@media (max-width: 1120px) { .arm-slot { inline-size: 60%; } .arm-right { inset-inline-start: 84%; } .arm-left { inset-inline-end: 84%; } }
+@media (max-width: 1120px) { .arm-slot { inline-size: 55%; } .arm-right { inset-inline-start: 84%; } .arm-left { inset-inline-end: 84%; } }
 @media (min-width: 641px) and (max-width: 900px) { .portrait { inline-size: 120px; block-size: 120px; } .arm-slot { inline-size: 52%; } }
 @media (max-width: 640px) { .portrait, .portrait-button { border-radius: .875rem; } .portrait { inline-size: 76px; block-size: 76px; } .arm-slot { inline-size: 46%; } .arm-right { inset-inline-start: 82%; } .arm-left { inset-inline-end: 82%; } .number { font-size: .9rem; } }
 @media (max-width: 360px) { .portrait { inline-size: 64px; block-size: 64px; } }
