@@ -49,7 +49,7 @@ localement avec `npm run admin:setup`, avec mot de passe masqué et haché. Voir
 - `docs/linkedin.md` et `docs/pdf.md` : import LinkedIn et export PDF.
 - `packages/contracts` : types publics partagés, sans code d’exécution.
 
-Un seul dépôt Git et un seul lockfile npm. Déploiement : [Amazon Lightsail à Séoul](docs/deploy.md)
+Un seul dépôt Git et un seul lockfile npm. Déploiement : [Amazon Lightsail à Stockholm](docs/deploy.md)
 (scripts dans `deploy/`).
 
 ## Développement
@@ -92,7 +92,8 @@ origine HTTPS exacte `PUBLIC_ORIGIN` sont requis. Variables publiques facultativ
 - `TRUST_PROXY` : à définir derrière un reverse proxy (nombre de proxys, souvent `1`)
   pour que la limite de connexion admin s’applique à l’IP réelle. Voir le guide admin.
 - `PUBLIC_HOST_NAME`, `PUBLIC_HOST_COUNTRY`, `PUBLIC_HOST_LOG_RETENTION` :
-  informations d’hébergement vérifiées. Sans valeur, la notice affiche les champs
+  informations d’hébergement vérifiées. `PUBLIC_HOST_COUNTRY` accepte un code pays ISO
+  (`SE`), affiché dans la langue de la page. Sans valeur, la notice affiche les champs
   à compléter.
 
 `/robots.txt`, `/sitemap.xml` et `/llms.txt` sont produits à l’exécution. Sans

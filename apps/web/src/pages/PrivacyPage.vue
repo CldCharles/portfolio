@@ -1,9 +1,16 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
 import { useSiteConfig } from '@/features/legal/config';
 const { t, locale } = useI18n();
 const site = useSiteConfig();
+// PUBLIC_HOST_COUNTRY may be an ISO code (e.g. SE): shown in the page language.
+const hostCountry = computed(() => {
+  const value = site.hostCountry;
+  if (!value || !/^[A-Z]{2}$/.test(value)) return value;
+  return new Intl.DisplayNames([locale.value], { type: 'region', fallback: 'code' }).of(value) ?? value;
+});
 const sections = ['overview', 'cv', 'admin', 'storage', 'external', 'rights'] as const;
 </script>
 <template>
@@ -22,7 +29,7 @@ const sections = ['overview', 'cv', 'admin', 'storage', 'external', 'rights'] as
         <h2 id="hosting-heading">{{ t('legal.hostingTitle') }}</h2>
         <dl>
           <dt>{{ t('legal.host') }}</dt><dd>{{ site.hostName ?? t('legal.incomplete') }}</dd>
-          <dt>{{ t('legal.country') }}</dt><dd>{{ site.hostCountry ?? t('legal.incomplete') }}</dd>
+          <dt>{{ t('legal.country') }}</dt><dd>{{ hostCountry ?? t('legal.incomplete') }}</dd>
           <dt>{{ t('legal.logs') }}</dt><dd>{{ site.hostLogRetention ?? t('legal.incomplete') }}</dd>
         </dl>
         <p v-if="!site.hostName || !site.hostCountry || !site.hostLogRetention">{{ t('legal.hostPending') }}</p>

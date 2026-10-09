@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installation initiale sur un serveur Ubuntu 24.04 neuf (Amazon Lightsail, Séoul).
+# Installation initiale sur un serveur Ubuntu 24.04 neuf (Amazon Lightsail, Stockholm).
 # Usage : sudo bash setup.sh mon-domaine.com
 # Relançable : chaque étape vérifie ce qui existe déjà.
 set -euo pipefail
