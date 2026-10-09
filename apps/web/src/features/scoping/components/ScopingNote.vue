@@ -143,7 +143,7 @@ h1:focus { outline: none; }
 .tools { display: flex; flex-wrap: wrap; gap: .5rem; }
 .status { flex-basis: 100%; margin: 0; min-block-size: 1.25rem; font-size: .85rem; color: var(--portfolio-accent); text-align: end; }
 .layout { margin-block-start: 1rem; display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start; }
-.note { flex: 999 1 36rem; min-inline-size: 0; box-sizing: border-box; background: var(--background); border: 1px solid var(--border); border-radius: .5rem; box-shadow: 0 24px 48px -28px rgb(28 42 48 / 30%); padding: clamp(1.5rem, 6vw, 4rem) clamp(1.25rem, 6vw, 4.5rem); }
+.note { flex: 999 1 36rem; min-inline-size: 0; box-sizing: border-box; background: var(--card); border: 1px solid var(--border); border-radius: .5rem; box-shadow: 0 24px 48px -28px rgb(28 42 48 / 30%); padding: clamp(1.5rem, 6vw, 4rem) clamp(1.25rem, 6vw, 4.5rem); }
 .note > header { border-block-end: 2px solid var(--foreground); padding-block-end: 1.25rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1rem; }
 .title { margin: .5rem 0 0; font-size: clamp(1.6rem, 4vw, 2.1rem); line-height: 1.15; overflow-wrap: anywhere; }
 .meta { margin: 0; display: grid; grid-template-columns: auto auto; gap: .15rem .75rem; font-size: .78rem; color: var(--portfolio-ink-mute); }
@@ -155,22 +155,22 @@ p { overflow-wrap: anywhere; }
 .prose { margin: .6rem 0 0; font-size: .95rem; line-height: 1.65; white-space: pre-line; }
 .empty { margin: .6rem 0 0; font-size: .9rem; font-style: italic; color: var(--portfolio-ink-mute); }
 .personas { margin-block-start: .75rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr)); gap: .75rem; }
-.persona { background: #f3f7f8; border-radius: .6rem; padding: .9rem; }
-.persona p { margin: 0; font-size: .85rem; line-height: 1.5; color: #3d4a50; }
+.persona { background: var(--scoping-sunken); border-radius: .6rem; padding: .9rem; }
+.persona p { margin: 0; font-size: .85rem; line-height: 1.5; color: var(--muted-foreground); }
 .persona .persona-name { font-size: .9rem; font-weight: 600; color: var(--foreground); margin-block-end: .3rem; }
 .table-box { margin-block-start: .75rem; overflow-x: auto; }
 table { inline-size: 100%; border-collapse: collapse; font-size: .9rem; }
-th { padding: .5rem .75rem .5rem 0; border-block-end: 1px solid #c9d3d6; text-align: start; font-size: .75rem; font-weight: 600; color: var(--portfolio-ink-mute); }
+th { padding: .5rem .75rem .5rem 0; border-block-end: 1px solid var(--input); text-align: start; font-size: .75rem; font-weight: 600; color: var(--portfolio-ink-mute); }
 td { padding: .6rem .75rem .6rem 0; border-block-end: 1px solid var(--border); vertical-align: top; }
 .target { font-weight: 600; white-space: nowrap; }
 .scope { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
 .scope ul { margin: .6rem 0 0; padding-inline-start: 1.1rem; font-size: .9rem; line-height: 1.7; }
-.constraints { grid-column: 1 / -1; margin: 0; font-size: .85rem; line-height: 1.6; background: #f3f7f8; border-radius: .6rem; padding: .75rem .9rem; white-space: pre-line; }
+.constraints { grid-column: 1 / -1; margin: 0; font-size: .85rem; line-height: 1.6; background: var(--scoping-sunken); border-radius: .6rem; padding: .75rem .9rem; white-space: pre-line; }
 .stories { list-style: none; margin: .6rem 0 0; padding: 0; }
 .stories li { display: flex; gap: .9rem; align-items: baseline; padding-block: .55rem; border-block-end: 1px solid var(--border); font-size: .9rem; line-height: 1.5; }
 .stories li > span:last-child { min-inline-size: 0; overflow-wrap: anywhere; }
 .priority { flex: none; inline-size: 3.5rem; font-size: .7rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--portfolio-accent); }
-.priority.should { color: #3f7484; } .priority.could, .priority.wont { color: var(--portfolio-ink-mute); }
+.priority.should { color: #3a6c7b; } .priority.could, .priority.wont { color: var(--portfolio-ink-mute); }
 .open-items { list-style: none; margin: .6rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; }
 .open-items li { display: flex; gap: .6rem; font-size: .9rem; line-height: 1.55; }
 .open-items li > span:last-child { min-inline-size: 0; overflow-wrap: anywhere; }
