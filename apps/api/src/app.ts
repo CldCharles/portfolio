@@ -23,10 +23,11 @@ export function createApp(repository: CvRepository, admin?: AdminService, option
     if (!locale.success) { response.status(400).json({ error: 'INVALID_LOCALE' }); return; }
     const cv = repository.read(locale.data);
     if (!cv) { response.status(404).json({ error: 'CV_NOT_FOUND' }); return; }
-    const snapshot = JSON.stringify(cv);
+    const { contactEmail } = publicSiteConfig(repository);
+    const snapshot = JSON.stringify({ cv, contactEmail });
     let cached = pdfCache.get(locale.data);
     if (!cached || cached.snapshot !== snapshot) {
-      const pdf = generateCvPdf(cv);
+      const pdf = generateCvPdf(cv, { contactEmail });
       cached = { snapshot, pdf };
       pdfCache.set(locale.data, cached);
       void pdf.catch(() => { if (pdfCache.get(locale.data)?.pdf === pdf) pdfCache.delete(locale.data); });

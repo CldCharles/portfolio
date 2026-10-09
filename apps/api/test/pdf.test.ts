@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { once } from 'node:events';
 import { openDatabase } from '../src/database.js';
 import { createApp } from '../src/app.js';
-import { generateCvPdf } from '../src/cv/pdf.js';
+import { generateCvPdf, pdfDate, pdfDuration } from '../src/cv/pdf.js';
 
 test('PDF download supports each locale, validates queries and never exposes the private draft', async () => {
   const { db, repository, admin } = openDatabase(':memory:');
@@ -49,5 +49,25 @@ test('long Korean descriptions produce multiple complete PDF pages', async () =>
     assert.ok(pages.length >= 3);
     assert.match(pdf.toString('latin1'), /\/ToUnicode/);
     assert.match(pdf.subarray(-100).toString(), /%%EOF/);
+  } finally { db.close(); }
+});
+
+test('Korean-style periods use YYYY.MM and inclusive durations only when months are known', () => {
+  assert.equal(pdfDate('2021-03'), '2021.03');
+  assert.equal(pdfDate('2016'), '2016');
+  assert.deepEqual(pdfDuration('2021-03', '2024-12'), { years: 3, months: 10 });
+  assert.deepEqual(pdfDuration('2019-04', '2019-07'), { years: 0, months: 4 });
+  assert.equal(pdfDuration('2016', '2021'), null);
+  assert.equal(pdfDuration('2021-03', null), null);
+});
+
+test('the PDF header links the public contact email only when one is configured', async () => {
+  const { db, repository } = openDatabase(':memory:');
+  try {
+    const cv = repository.read('ko')!;
+    const withEmail = (await generateCvPdf(cv, { contactEmail: 'contact@example.com' })).toString('latin1');
+    assert.match(withEmail, /\/URI \(mailto:contact@example\.com\)/);
+    const withoutEmail = (await generateCvPdf(cv)).toString('latin1');
+    assert.doesNotMatch(withoutEmail, /mailto:/);
   } finally { db.close(); }
 });

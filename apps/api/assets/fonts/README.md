@@ -1,8 +1,8 @@
 # Police des PDF
 
-`NotoSansCJKkr-Regular.otf` est la police Noto Sans CJK KR Regular officielle,
-utilisée pour le latin, les accents français et le coréen. Le fichier complet est
-livré avec l’API (~16 Mo) ; PDFKit intègre seulement les glyphes utilisés dans le PDF.
+`NotoSansCJKkr-Regular.otf` et `NotoSansCJKkr-Bold.otf` sont les polices Noto Sans
+CJK KR officielles, utilisées pour le latin, les accents français et le coréen.
+Les fichiers complets sont livrés avec l’API (~16 Mo chacun) ; PDFKit intègre seulement les glyphes utilisés dans le PDF.
 Aucun téléchargement de police ni service externe n’est appelé à l’exécution.
 
 Source : [notofonts/noto-cjk, Sans/OTF/Korean](https://github.com/notofonts/noto-cjk/tree/main/Sans/OTF/Korean).
