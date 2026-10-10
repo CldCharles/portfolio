@@ -122,6 +122,28 @@ export default {
     personaWithoutStory: 'Le profil « {persona} » n’apparaît dans aucune user story.',
     personasCovered: 'Le profil a au moins une user story. | Les {count} profils ont au moins une user story.',
   },
+  ai: {
+    title: 'Aller plus loin avec l’IA',
+    lead: 'Copiez un prompt prêt à l’emploi et collez-le dans ChatGPT, Claude ou l’assistant de votre choix : il relit la note comme un analyste senior et propose critères d’acceptation et questions pour le client.',
+    button: 'Copier le prompt d’analyse',
+    copied: 'Prompt copié. Collez-le dans votre assistant IA.',
+    failed: 'Copie automatique bloquée par votre navigateur.',
+    manual: 'Le prompt est sélectionné ci-dessous : copiez-le avec Cmd+C ou Ctrl+C.',
+    privacy: 'Rien n’est envoyé par ce site : vous choisissez l’outil et ce que vous partagez.',
+    prompt: {
+      role: 'Tu es un business analyst senior. Voici la note de cadrage d’un projet, rédigée avec un atelier en six étapes. Analyse-la de façon critique et concrète :',
+      tasks: [
+        'Reformule le problème en une phrase, sans parler de solution.',
+        'Signale les incohérences, les manques et les hypothèses implicites.',
+        'Vérifie que chaque objectif est mesurable ; propose un indicateur et une cible si besoin.',
+        'Pour chaque user story indispensable, propose deux ou trois critères d’acceptation au format Étant donné / Quand / Alors.',
+        'Propose les cinq questions les plus importantes à poser au client lors du prochain atelier.',
+        'Termine par les risques principaux et une recommandation de périmètre pour une première version.',
+      ],
+      rules: 'Reste concis, structure ta réponse avec des titres et n’invente aucun fait : signale ce qui manque. Réponds en français.',
+      flagged: 'Points déjà signalés par l’outil :',
+    },
+  },
   note: {
     eyebrow: 'Note de cadrage',
     ready: 'Votre note de cadrage est prête',

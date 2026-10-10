@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { ArrowLeft, Copy, Printer, RotateCcw } from '@lucide/vue';
+import { ArrowLeft, Copy, Printer, RotateCcw, Sparkles } from '@lucide/vue';
 import { lines, priorities } from '../model';
 import { storySentence, toMarkdown } from '../markdown';
+import { buildAiPrompt } from '../prompt';
 import { useScopingStore } from '../store';
 import ScopingChecks from './ScopingChecks.vue';
 import ChibiMascot from '@/features/mascot/ChibiMascot.vue';
@@ -23,12 +24,38 @@ const personas = computed(() => scoping.value.personas.filter(persona => persona
 const goals = computed(() => scoping.value.goals.filter(goal => goal.goal.trim() || goal.indicator.trim() || goal.target.trim()));
 const openItems = computed(() => scoping.value.openItems.filter(item => item.text.trim()));
 
+// Clearing first lets screen readers announce the same message again on a second click.
+async function announce(target: typeof status, message: string) {
+  target.value = '';
+  await nextTick();
+  target.value = message;
+}
 async function copy() {
   try {
     await navigator.clipboard.writeText(toMarkdown(scoping.value, t, locale.value));
-    status.value = t('scoping.actions.copied');
-  } catch { status.value = t('scoping.actions.copyFailed'); }
+    await announce(status, t('scoping.actions.copied'));
+  } catch { await announce(status, t('scoping.actions.copyFailed')); }
 }
+const aiStatus = ref('');
+// When the clipboard is blocked, the prompt is shown selected so it can be copied by hand.
+const manualPrompt = ref('');
+const manualField = ref<HTMLTextAreaElement | null>(null);
+async function copyPrompt() {
+  const prompt = buildAiPrompt(scoping.value, store.checks, t, locale.value);
+  try {
+    await navigator.clipboard.writeText(prompt);
+    manualPrompt.value = '';
+    await announce(aiStatus, t('scoping.ai.copied'));
+  } catch {
+    manualPrompt.value = prompt;
+    await announce(aiStatus, t('scoping.ai.failed'));
+    await nextTick();
+    manualField.value?.focus();
+    manualField.value?.select();
+  }
+}
+// A prompt shown for manual copy is rebuilt on the next click, in the new language.
+watch(locale, () => { manualPrompt.value = ''; aiStatus.value = ''; });
 const print = () => window.print();
 function reset() { if (window.confirm(t('scoping.actions.resetConfirm'))) store.reset(); }
 </script>
@@ -134,6 +161,16 @@ function reset() { if (window.confirm(t('scoping.actions.resetConfirm'))) store.
           <ChibiMascot :pose="mascotPose(store.checks)" class="mascot" />
           <ScopingChecks :checks="store.checks" />
         </div>
+        <section class="ai" aria-labelledby="ai-title">
+          <h2 id="ai-title"><Sparkles :size="18" aria-hidden="true" />{{ t('scoping.ai.title') }}</h2>
+          <p>{{ t('scoping.ai.lead') }}</p>
+          <button type="button" class="btn btn-primary" @click="copyPrompt"><Copy :size="16" aria-hidden="true" />{{ t('scoping.ai.button') }}</button>
+          <p class="ai-status" role="status">{{ aiStatus }}</p>
+          <label v-if="manualPrompt" class="manual">{{ t('scoping.ai.manual') }}
+            <textarea ref="manualField" :value="manualPrompt" readonly rows="8" />
+          </label>
+          <p class="ai-privacy">{{ t('scoping.ai.privacy') }}</p>
+        </section>
         <button type="button" class="btn btn-outline reset" @click="reset"><RotateCcw :size="16" aria-hidden="true" />{{ t('scoping.actions.reset') }}</button>
       </aside>
     </div>
@@ -183,6 +220,14 @@ td { padding: .6rem .75rem .6rem 0; border-block-end: 1px solid var(--border); v
 .note > footer { margin-block-start: 2.5rem; padding-block-start: .9rem; border-block-start: 1px solid var(--border); font-size: .72rem; color: var(--portfolio-ink-mute); }
 .aside { flex: 1 1 17rem; min-inline-size: 0; display: flex; flex-direction: column; gap: 1rem; }
 .reset { align-self: flex-start; }
+.ai { border-radius: .9rem; padding: 1.25rem; background: var(--portfolio-accent-soft); display: flex; flex-direction: column; gap: .65rem; }
+.ai h2 { margin: 0; display: flex; align-items: center; gap: .5rem; font-size: .9rem; font-weight: 600; color: var(--portfolio-accent-strong); }
+.ai p { margin: 0; font-size: .86rem; line-height: 1.55; }
+.ai .btn { align-self: flex-start; }
+.ai-status { min-block-size: 1.2rem; color: var(--portfolio-accent-strong); font-weight: 500; }
+.manual { display: flex; flex-direction: column; gap: .35rem; font-size: .8rem; font-weight: 600; }
+.manual textarea { inline-size: 100%; box-sizing: border-box; border: 1px solid var(--input); border-radius: .5rem; padding: .5rem; background: var(--card); color: var(--foreground); font: .78rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; resize: vertical; }
+.ai .ai-privacy { font-size: .78rem; color: var(--portfolio-ink-mute); }
 .checks-with-mascot { position: relative; margin-block-start: 4.5rem; }
 /* The mascot peeks from behind the panel: only its head and shoulders show. */
 .checks-with-mascot > :last-child { position: relative; }
