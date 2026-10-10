@@ -123,6 +123,28 @@ export default {
     personaWithoutStory: 'The profile “{persona}” appears in no user story.',
     personasCovered: 'The profile has at least one user story. | All {count} profiles have at least one user story.',
   },
+  ai: {
+    title: 'Go further with AI',
+    lead: 'Copy a ready-made prompt and paste it into ChatGPT, Claude or the assistant of your choice: it reviews the note like a senior analyst and suggests acceptance criteria and questions for the client.',
+    button: 'Copy the analysis prompt',
+    copied: 'Prompt copied. Paste it into your AI assistant.',
+    failed: 'Your browser blocked automatic copying.',
+    manual: 'The prompt is selected below: copy it with Cmd+C or Ctrl+C.',
+    privacy: 'This site sends nothing: you choose the tool and what you share.',
+    prompt: {
+      role: 'You are a senior business analyst. Below is the scoping note for a project, produced in a six-step workshop. Review it critically and concretely:',
+      tasks: [
+        'Restate the problem in one sentence, without describing a solution.',
+        'Point out inconsistencies, gaps and implicit assumptions.',
+        'Check that every goal is measurable; suggest an indicator and a target where needed.',
+        'For each must-have user story, suggest two or three acceptance criteria in Given / When / Then form.',
+        'List the five most important questions to ask the client at the next workshop.',
+        'Finish with the main risks and a scope recommendation for a first version.',
+      ],
+      rules: 'Be concise, structure your answer with headings and do not invent facts: flag what is missing. Answer in English.',
+      flagged: 'Points already flagged by the tool:',
+    },
+  },
   note: {
     eyebrow: 'Scoping note',
     ready: 'Your scoping note is ready',

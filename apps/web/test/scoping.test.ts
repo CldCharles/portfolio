@@ -130,3 +130,22 @@ test('the mascot thinks while a check needs attention and approves once everythi
   scoping.cost = '';
   assert.equal(mascotPose(runChecks(scoping)), 'thinking');
 });
+
+test('the AI prompt carries the analyst brief, the flagged points and the note, in the page language', async () => {
+  const { buildAiPrompt } = await import('../src/features/scoping/prompt.ts');
+  const scoping = exampleScoping('fr');
+  scoping.cost = '';
+  const fr = createPortfolioI18n('fr').global.t as Parameters<typeof buildAiPrompt>[2];
+  const prompt = buildAiPrompt(scoping, runChecks(scoping), fr, 'fr');
+  assert.match(prompt, /^Tu es un business analyst senior\./);
+  assert.match(prompt, /\n4\. Pour chaque user story indispensable/);
+  assert.match(prompt, /Points déjà signalés par l’outil :\n- Le coût du problème n’est pas renseigné/);
+  assert.match(prompt, /--- Note de cadrage ---\n\n# Prise de rendez-vous en ligne/);
+  assert.match(prompt, /Réponds en français\./);
+  // No flagged section when every check passes.
+  const clean = exampleScoping('en');
+  const en = createPortfolioI18n('en').global.t as typeof fr;
+  const english = buildAiPrompt(clean, runChecks(clean), en, 'en');
+  assert.doesNotMatch(english, /already flagged/);
+  assert.match(english, /Answer in English\./);
+});
