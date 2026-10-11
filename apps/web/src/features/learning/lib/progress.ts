@@ -75,3 +75,8 @@ export function getAllResources(program: Program): LibraryEntry[] {
   for (const entry of entries.values()) entry.phases.sort((a, b) => a - b);
   return [...entries.values()];
 }
+
+/** Whole days from `today` to `date` (both YYYY-MM-DD), independent of time zones and daylight saving. */
+export function daysUntil(today: string, date: string) {
+  return Math.round((Date.parse(`${date}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / 86_400_000);
+}

@@ -12,6 +12,7 @@ const router = createRouter({
     { path: '/cadrage', component: () => import('@/pages/ScopingPage.vue') },
     { path: '/admin/login', component: () => import('@/pages/admin/LoginPage.vue') },
     { path: '/admin', component: () => import('@/pages/admin/EditorPage.vue'), meta: { admin: true } },
+    { path: '/admin/apprentissage', component: () => import('@/pages/admin/LearningPage.vue'), meta: { admin: true } },
     { path: '/:pathMatch(.*)*', redirect: '/' },
   ],
   // In-page anchors (CV table of contents) go through the router too: scroll to

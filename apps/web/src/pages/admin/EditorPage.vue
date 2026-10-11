@@ -11,6 +11,7 @@ import ItemEditor from '@/features/admin/components/ItemEditor.vue';
 import LinkedInImport from '@/features/linkedin/LinkedInImport.vue';
 import DraftPreview from '@/features/admin/components/DraftPreview.vue';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
+import AdminNav from '@/features/admin/components/AdminNav.vue';
 const { t, te, locale } = useI18n({ useScope: 'global' });
 const editor = useEditorStore();
 const auth = useAuthStore();
@@ -69,6 +70,7 @@ async function logout() {
   <main class="admin-shell">
     <header class="admin-header"><RouterLink to="/">← {{ t('admin.backToSite') }}</RouterLink><div class="admin-actions"><LanguageSwitcher /><Button v-if="auth.session?.authenticated" type="button" variant="outline" class="admin-button" :disabled="editor.busy" @click="logout">{{ t('admin.logout') }}</Button></div></header>
     <template v-if="auth.session?.authenticated">
+      <AdminNav />
       <div class="editor-heading"><div><p class="admin-eyebrow">{{ t('admin.privateArea') }}</p><h1>{{ t('admin.editorTitle') }}</h1><p class="muted">{{ t('admin.editorIntro') }}</p></div><span class="draft-badge">{{ t(editor.dirty ? 'admin.unsaved' : editor.revision === editor.publishedRevision ? 'admin.inSync' : 'admin.draftSaved') }}</span></div>
       <p v-if="editor.error" role="alert" class="error-message">{{ t(errorKey) }}</p>
       <p v-if="editor.notice && !editor.dirty" role="status" class="notice">{{ t(`admin.${editor.notice}`) }}</p>
