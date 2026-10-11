@@ -1,5 +1,11 @@
 # HTTPS automatique (Let's Encrypt). __DOMAIN__ est remplacé par setup.sh.
 # Pas de directive `log` : Caddy ne conserve aucun journal d'accès HTTP.
+{
+	# Pas d'API d'administration locale : un processus du serveur ne peut pas
+	# reconfigurer Caddy. Conséquence : appliquer un changement = redémarrer Caddy.
+	admin off
+}
+
 __DOMAIN__ {
 	encode zstd gzip
 	reverse_proxy 127.0.0.1:3000

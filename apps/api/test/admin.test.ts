@@ -95,6 +95,8 @@ test('sessions expire and password reset revokes sessions; login throttling surv
     for (let attempt = 0; attempt < 5; attempt++) await assert.rejects(admin.login('tester', 'invalid-password', 'blocked'), { code: 'INVALID_CREDENTIALS' });
     const restarted = createAdminService(db, repository, () => time);
     await assert.rejects(restarted.login('tester', 'another-test-password', 'blocked'), { code: 'RATE_LIMITED' });
+    // Another address still gets in: a few IPs cannot lock the owner out.
+    assert.ok((await restarted.login('tester', 'another-test-password', 'other')).token);
     time += 15 * 60 * 1000;
     assert.ok((await restarted.login('tester', 'another-test-password', 'blocked')).token);
   } finally { db.close(); }

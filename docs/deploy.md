@@ -46,7 +46,7 @@ curl -fsSLO https://raw.githubusercontent.com/CldCharles/portfolio/main/deploy/s
 sudo bash setup.sh mon-domaine.com
 ```
 
-Le script installe Caddy, git et sqlite3 depuis les dépôts Ubuntu, Node.js 22 depuis NodeSource,
+Le script installe git, sqlite3, fail2ban et le paquet Caddy depuis les dépôts Ubuntu, puis le binaire officiel de Caddy, Node.js 22 depuis NodeSource,
 ajoute 1 Go de mémoire d’échange, crée l’utilisateur système `portfolio`, clone le
 dépôt dans `/opt/portfolio/app`, compile, écrit `/etc/portfolio/portfolio.env`,
 active le service, la sauvegarde quotidienne (03:30, heure de Séoul) et le
@@ -84,7 +84,7 @@ Après une fusion dans `main` :
 sudo bash /opt/portfolio/app/deploy/update.sh
 ```
 
-Le script récupère `main`, réinstalle les dépendances, compile, recharge les
+Le script récupère `main`, se relance dans sa nouvelle version, réinstalle les dépendances, compile, recharge les
 unités systemd et la configuration Caddy, redémarre l’API et vérifie `/api/health`. Les migrations SQLite
 s’appliquent au démarrage ; une sauvegarde manuelle avant une mise à jour qui
 change le schéma reste prudente (voir ci-dessous).
@@ -129,6 +129,19 @@ fichiers `-wal`/`-shm`, redémarrer.
   alimentent la notice via `PUBLIC_HOST_*`.
 - Les mises à jour de sécurité d’Ubuntu s’installent automatiquement
   (`unattended-upgrades`, actif par défaut sur Lightsail).
-- Limite : Caddy vient du dépôt `universe` d’Ubuntu (version 2.6), dont les correctifs de
-  sécurité ne sont pas garantis sans Ubuntu Pro (gratuit pour un usage personnel). Le dépôt
-  officiel de Caddy (Cloudsmith) répondait « 402 Payment Required » au premier déploiement.
+- Caddy : binaire officiel (GitHub) installé par `deploy/install-caddy.sh`, version et
+  empreinte SHA-512 figées dans le script ; le paquet Ubuntu (2.6, sans tous les correctifs
+  hors Ubuntu Pro) ne sert plus qu’à l’utilisateur `caddy` et à l’unité systemd. Pour mettre
+  Caddy à jour : changer `version` et `sha512` (fichier `caddy_<version>_checksums.txt` de la
+  release), puis lancer `update.sh`.
+- `admin off` dans le Caddyfile : aucun processus local ne peut reconfigurer Caddy. Un
+  changement s’applique avec `systemctl restart caddy` (pas de `reload`). Le Caddyfile
+  n’est remplacé qu’après validation (`deploy/render-caddyfile.sh`).
+- SSH : clé uniquement (réglage Lightsail), connexion root interdite, fail2ban bannit 1 h
+  après 5 échecs en 10 min. Ses messages vont dans journald (14 jours) et il oublie les
+  bannissements après 1 jour ; aucun fichier `/var/log/fail2ban.log`. Si votre agent SSH
+  propose plusieurs clés, ajoutez `IdentitiesOnly yes` pour ce serveur dans `~/.ssh/config`
+  pour ne pas vous faire bannir ; en dernier recours, le terminal SSH de la console
+  Lightsail passe par une autre adresse.
+- Connexion admin : 5 tentatives par IP et 200 au total par 15 minutes (mot de passe de
+  12 caractères minimum, haché avec scrypt).

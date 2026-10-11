@@ -2,6 +2,8 @@
 # Sauvegarde cohérente de la base (commande .backup de SQLite, sûre pendant
 # que l'API tourne), compressée, conservée 14 jours.
 set -euo pipefail
+# Sauvegardes lisibles par le seul propriétaire (empreinte du mot de passe, sessions).
+umask 077
 database=/var/lib/portfolio/portfolio.sqlite
 destination=/var/backups/portfolio
 file="$destination/portfolio-$(date +%F).sqlite"

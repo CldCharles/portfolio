@@ -12,6 +12,7 @@ export class AdminError extends Error {
 }
 const digest = (token: string) => createHash('sha256').update(token).digest('hex');
 const sessionDuration = 8 * 60 * 60 * 1000;
+export const GLOBAL_ATTEMPTS = 200;
 export function createAdminService(db: Database.Database, repository: CvRepository, now = Date.now) {
   function account() { return db.prepare('SELECT username,password_hash FROM admin_account WHERE id=1').get() as { username: string; password_hash: string } | undefined; }
   async function configure(username: string, password: string, replace = false) {
@@ -36,7 +37,9 @@ export function createAdminService(db: Database.Database, repository: CvReposito
       db.prepare('DELETE FROM admin_login_attempts WHERE expires_at <= ?').run(now());
       for (const key of ['global', `ip:${ip}`]) {
         const record = db.prepare('SELECT count FROM admin_login_attempts WHERE key=?').get(key) as { count: number } | undefined;
-        if ((record?.count ?? 0) >= (key === 'global' ? 20 : 5)) throw new AdminError(429, 'RATE_LIMITED');
+        // 5 tries per IP; the global cap only stops a distributed attack. It stays high so
+        // a handful of addresses cannot lock the owner out (scrypt + 12+ characters do the rest).
+        if ((record?.count ?? 0) >= (key === 'global' ? GLOBAL_ATTEMPTS : 5)) throw new AdminError(429, 'RATE_LIMITED');
       }
       for (const key of ['global', `ip:${ip}`]) db.prepare('INSERT INTO admin_login_attempts (key,count,expires_at) VALUES (?,1,?) ON CONFLICT(key) DO UPDATE SET count=count+1').run(key, now() + 15 * 60 * 1000);
     })();
