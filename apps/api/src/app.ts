@@ -13,7 +13,11 @@ export function createApp(repository: CvRepository, admin?: AdminService, option
   const app = express();
   const pdfCache = new Map<Locale, { snapshot: string; pdf: Promise<Buffer> }>();
   app.disable('x-powered-by');
-  app.use(helmet({ strictTransportSecurity: process.env.NODE_ENV === 'production' ? undefined : false }));
+  app.use(helmet({
+    strictTransportSecurity: process.env.NODE_ENV === 'production' ? undefined : false,
+    // Fonts and styles are served by the site itself: no external origin is allowed.
+    contentSecurityPolicy: { directives: { 'font-src': ["'self'"], 'style-src': ["'self'", "'unsafe-inline'"] } },
+  }));
   app.use(express.json({ limit: '1mb' }));
   if (admin) app.use('/api/admin', adminRoutes(admin, options ?? adminOptionsFromEnv()));
   app.get('/api/site', (_request, response) => response.set('Cache-Control', 'no-cache').json(publicSiteConfig(repository)));

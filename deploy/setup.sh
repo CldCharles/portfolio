@@ -15,12 +15,18 @@ if [[ $EUID -ne 0 ]]; then echo "Lancer avec sudo." >&2; exit 1; fi
 app=/opt/portfolio/app
 export DEBIAN_FRONTEND=noninteractive
 
-echo "== Paquets système (Caddy depuis les dépôts Ubuntu) et Node.js 22"
+echo "== Paquets système et Node.js 22 (Caddy : paquet Ubuntu pour l'unité systemd, binaire officiel ensuite)"
 timedatectl set-timezone Asia/Seoul
 # Ancien dépôt Caddy (Cloudsmith), devenu payant : le retirer s'il a été ajouté.
 rm -f /etc/apt/sources.list.d/caddy-stable.list /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+# fail2ban : configuré avant son installation, qui le démarre aussitôt. Journal dans
+# journald (14 jours, comme les autres journaux), bannissements oubliés après 1 jour.
+install -d /etc/fail2ban/fail2ban.d /etc/fail2ban/jail.d
+printf '[Definition]\nlogtarget = SYSTEMD-JOURNAL\ndbpurgeage = 1d\n' > /etc/fail2ban/fail2ban.d/portfolio.local
+# 5 échecs SSH en 10 min = 1 h de bannissement.
+printf '[sshd]\nenabled = true\nbackend = systemd\nmaxretry = 5\nfindtime = 10m\nbantime = 1h\n' > /etc/fail2ban/jail.d/portfolio.local
 apt-get update
-apt-get install -y ca-certificates curl gnupg git sqlite3 build-essential ufw caddy
+apt-get install -y ca-certificates curl gnupg git sqlite3 build-essential ufw caddy fail2ban python3-systemd
 if ! command -v node >/dev/null || [[ "$(node -v)" != v22.* ]]; then
   curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
   apt-get install -y nodejs
@@ -50,7 +56,8 @@ if [[ ! -f /etc/portfolio/portfolio.env ]]; then
   chown root:portfolio /etc/portfolio/portfolio.env
   chmod 640 /etc/portfolio/portfolio.env
 fi
-sed "s/__DOMAIN__/$domain/g" "$app/deploy/Caddyfile" > /etc/caddy/Caddyfile
+bash "$app/deploy/install-caddy.sh"
+bash "$app/deploy/render-caddyfile.sh" "$domain"
 # Journaux du serveur conservés 14 jours au plus, comme l'indique la notice de
 # confidentialité : journald, fichiers rsyslog et historiques de connexion.
 install -d /etc/systemd/journald.conf.d
@@ -63,6 +70,17 @@ for rotation in /etc/logrotate.d/rsyslog /etc/logrotate.d/wtmp /etc/logrotate.d/
   sed -i -E 's/^([[:space:]]*)(weekly|monthly)$/\1daily/; s/^([[:space:]]*)rotate [0-9]+$/\1rotate 13/; /^[[:space:]]*minsize /d' "$rotation"
 done
 
+echo "== SSH : connexion root interdite, robots bannis"
+# Connexion par clé uniquement (réglage Lightsail) ; root ne se connecte jamais.
+printf 'PermitRootLogin no\n' > /etc/ssh/sshd_config.d/10-portfolio.conf
+# Configuration refusée : la retirer, sinon SSH ne redémarrerait plus.
+if ! sshd -t; then rm -f /etc/ssh/sshd_config.d/10-portfolio.conf; echo "Configuration SSH invalide, retirée." >&2; exit 1; fi
+systemctl reload ssh
+systemctl enable fail2ban
+systemctl restart fail2ban
+# Aucun fichier de journal fail2ban (il contiendrait des IP au-delà de 14 jours).
+rm -f /var/log/fail2ban.log* /etc/logrotate.d/fail2ban
+
 echo "== Services"
 install -m 644 "$app/deploy/portfolio.service" "$app/deploy/portfolio-backup.service" "$app/deploy/portfolio-backup.timer" /etc/systemd/system/
 systemctl daemon-reload
@@ -70,7 +88,8 @@ systemctl enable portfolio portfolio-backup.timer
 # restart, pas seulement start : une relance doit charger le code recompilé.
 systemctl restart portfolio
 systemctl start portfolio-backup.timer
-systemctl reload caddy || systemctl restart caddy
+# admin off dans le Caddyfile : pas de rechargement à chaud.
+systemctl restart caddy
 
 echo "== Pare-feu (penser aussi à ouvrir 80 et 443 dans la console Lightsail)"
 ufw allow OpenSSH
