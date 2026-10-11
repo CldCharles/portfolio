@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { program } from '../program';
-import { getCompletion, getCurrentWeek, getHours, getOverdue, getPhaseCompletion, getStreak } from '../lib/progress';
+import { getCompletion, getFocusWeek, getHours, getOverdue, getPhaseCompletion, getStreak } from '../lib/progress';
 import { useLearningStore } from '../store';
 
 defineEmits<{ overdue: [] }>();
@@ -10,9 +10,10 @@ const { t } = useI18n({ useScope: 'global' });
 const store = useLearningStore();
 const progress = computed(() => store.progress ?? { sessions: {} });
 const total = computed(() => getCompletion(program, progress.value));
-const phase = computed(() => program.phases.find(item => item.id === getCurrentWeek(program, store.today).phase)!);
+// Phase of the next lesson to do: the programme is self-paced.
+const phase = computed(() => program.phases.find(item => item.id === getFocusWeek(program, progress.value).phase)!);
 const phaseCompletion = computed(() => getPhaseCompletion(program, progress.value, phase.value.id));
-const streak = computed(() => getStreak(program, progress.value, store.today));
+const streak = computed(() => getStreak(progress.value, store.today));
 const overdue = computed(() => getOverdue(program, progress.value, store.today).length);
 const hours = computed(() => getHours(program, progress.value));
 </script>

@@ -2,14 +2,14 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { program } from '../program';
-import { getCurrentWeek, getWeekCompletion } from '../lib/progress';
+import { getFocusWeek, getWeekCompletion } from '../lib/progress';
 import { useLearningStore } from '../store';
 
 defineProps<{ selected: number | null }>();
 defineEmits<{ select: [week: number] }>();
 const { t } = useI18n({ useScope: 'global' });
 const store = useLearningStore();
-const current = computed(() => getCurrentWeek(program, store.today).week);
+const current = computed(() => getFocusWeek(program, store.progress ?? { sessions: {} }).week);
 const phases = computed(() => program.phases.map(phase => ({
   ...phase,
   weeks: program.weeks.filter(week => week.phase === phase.id).map(week => ({ ...week, percent: getWeekCompletion(week, store.progress ?? { sessions: {} }).percent })),

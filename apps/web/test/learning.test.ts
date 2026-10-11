@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import type { LearningProgress, LearningStatus } from '@portfolio/contracts';
 import { program } from '../src/features/learning/program.ts';
-import { getAllResources, getCompletion, getCurrentWeek, getHours, getNextSession, getOverdue, getPhaseCompletion, getStreak, getTodaySession, getWeekCompletion, isWorkSession, localDate } from '../src/features/learning/lib/progress.ts';
+import { getAllResources, getCompletion, getFocusWeek, getHours, getNextTodo, getOverdue, getPhaseCompletion, getStreak, getUpcomingTodos, getWeekCompletion, isWorkSession, localDate } from '../src/features/learning/lib/progress.ts';
 
 const sessions = program.weeks.flatMap(week => week.sessions);
 const work = sessions.filter(isWorkSession);
@@ -38,21 +38,23 @@ test('the programme has 26 weeks of six Monday-to-Saturday sessions, with unique
   for (const phase of program.phases) for (let week = phase.weeks[0]; week <= phase.weeks[1]; week += 1) assert.equal(program.weeks[week - 1]!.phase, phase.id);
 });
 
-test('the session of the day follows the local calendar date', () => {
+test('dates are local calendar dates', () => {
   assert.equal(localDate(new Date(2026, 9, 12, 0, 30)), '2026-10-12');
   assert.equal(localDate(new Date(2026, 9, 12, 23, 59)), '2026-10-12');
-  assert.equal(getTodaySession(program, '2026-10-12')?.id, 'w01-d1');
-  assert.equal(getTodaySession(program, '2026-10-17')?.type, 'projet');
-  assert.equal(getTodaySession(program, '2026-10-18'), null, 'Sunday');
-  assert.equal(getNextSession(program, '2026-10-18')?.id, 'w02-d1');
-  assert.equal(getTodaySession(program, '2026-10-11'), null, 'before the start');
-  assert.equal(getNextSession(program, '2026-10-11')?.id, 'w01-d1');
-  assert.equal(getTodaySession(program, '2027-04-11'), null, 'after the end');
-  assert.equal(getNextSession(program, '2027-04-10'), null);
-  assert.equal(getNextSession(program, '2026-12-23')?.id, 'w11-d6', 'rest days are not sessions to do');
-  assert.equal(getCurrentWeek(program, '2026-10-01').week, 1);
-  assert.equal(getCurrentWeek(program, '2026-10-18').week, 2);
-  assert.equal(getCurrentWeek(program, '2027-05-01').week, 26);
+});
+
+test('self-paced: the next lesson is the first still to do in programme order, whatever the date', () => {
+  assert.equal(getNextTodo(program, progress({}))?.id, 'w01-d1');
+  assert.equal(getNextTodo(program, progress({ 'w01-d1': 'done' }))?.id, 'w01-d2');
+  assert.equal(getNextTodo(program, progress({ 'w01-d1': 'done', 'w01-d2': 'skipped' }))?.id, 'w01-d3', 'skipped counts as decided');
+  // A lesson done out of order is left out; an earlier one still to do comes first.
+  assert.equal(getNextTodo(program, progress({ 'w01-d1': 'done', 'w01-d3': 'done' }))?.id, 'w01-d2');
+  assert.deepEqual(getUpcomingTodos(program, progress({ 'w01-d1': 'done', 'w01-d3': 'done' }), 'w01-d2', 3).map(session => session.id), ['w01-d4', 'w01-d5', 'w01-d6']);
+  assert.ok(getUpcomingTodos(program, progress({}), 'w11-d3', 5).every(session => session.type !== 'repos'), 'rest days are not lessons');
+  assert.equal(getNextTodo(program, allDone()), null);
+  assert.equal(getFocusWeek(program, progress({})).week, 1);
+  assert.equal(getFocusWeek(program, allDone('2026-10-24')).week, 3);
+  assert.equal(getFocusWeek(program, allDone()).week, 26);
 });
 
 test('completion counts done work sessions only', () => {
@@ -74,23 +76,17 @@ test('overdue sessions skip rest days, done and skipped sessions, oldest first',
   assert.deepEqual(getOverdue(program, progress({}), '2026-10-12'), []);
 });
 
-test('the streak ignores Sundays and rest days, and breaks on a gap or a skipped session', () => {
-  assert.equal(getStreak(program, progress({}), '2026-10-01'), 0);
-  assert.equal(getStreak(program, allDone('2026-10-14'), '2026-10-14'), 3);
-  assert.equal(getStreak(program, allDone('2026-10-13'), '2026-10-14'), 2, 'today still to do');
-  assert.equal(getStreak(program, allDone('2026-10-24'), '2026-10-25'), 12, 'Sunday in the middle');
-  assert.equal(getStreak(program, allDone('2026-10-24'), '2026-10-26'), 12, 'Monday not yet done');
-  assert.equal(getStreak(program, allDone('2026-10-24', ['w02-d3']), '2026-10-24'), 3, 'gap');
-  const skipped = allDone('2026-10-24');
-  skipped.sessions['w02-d3']!.status = 'skipped';
-  assert.equal(getStreak(program, skipped, '2026-10-24'), 3, 'skipped');
-  const skippedToday = allDone('2026-10-23');
-  skippedToday.sessions['w02-d6'] = { ...skippedToday.sessions['w02-d5']!, status: 'skipped' };
-  assert.equal(getStreak(program, skippedToday, '2026-10-24'), 0);
-  // Christmas week: 24 and 25 December are rest days; 1 January too.
-  const christmas = allDone('2027-01-02');
-  assert.equal(getStreak(program, christmas, '2026-12-26'), 64);
-  assert.equal(getStreak(program, christmas, '2027-01-02'), 69);
+test('the streak counts consecutive days with a lesson done, whatever the lessons planned dates', () => {
+  const doneOn = (...days: string[]): LearningProgress => ({ sessions: Object.fromEntries(days.map((day, index) => [work[index]!.id, { status: 'done' as const, doneAt: new Date(`${day}T20:00:00`).toISOString(), understood: '', unclear: '', link: null }])) });
+  assert.equal(getStreak(progress({}), '2026-10-12'), 0);
+  assert.equal(getStreak(doneOn('2026-10-11'), '2026-10-11'), 1, 'a lesson done before the planned start counts');
+  assert.equal(getStreak(doneOn('2026-10-10', '2026-10-11', '2026-10-11'), '2026-10-11'), 2, 'several lessons on one day count once');
+  assert.equal(getStreak(doneOn('2026-10-10', '2026-10-11'), '2026-10-12'), 2, 'nothing yet today');
+  assert.equal(getStreak(doneOn('2026-10-09', '2026-10-11'), '2026-10-11'), 1, 'a gap breaks it');
+  assert.equal(getStreak(doneOn('2026-10-10'), '2026-10-12'), 0, 'nothing yesterday or today');
+  const skipped = doneOn('2026-10-11');
+  skipped.sessions[work[0]!.id]!.status = 'skipped';
+  assert.equal(getStreak(skipped, '2026-10-11'), 0, 'a skipped lesson is not done');
 });
 
 test('the resource library merges the reading list and session resources by URL', () => {

@@ -6,10 +6,13 @@ Onglet privé de l’administration : `/admin/apprentissage`, accessible après 
 
 ## Ce que fait l’onglet
 
-- **Aujourd’hui** : la séance du jour (objectif, exercice, ressources, boutons « Fait » et
-  « Sauter »), le déroulé type d’une heure, la prochaine séance le dimanche et les jours
-  de repos, un compte à rebours avant le début et un bilan après la fin.
-- **Indicateurs** : progression globale, phase en cours, série, retard, heures cumulées.
+- **Prochaine leçon** (rythme libre) : la première leçon encore à faire dans l’ordre du
+  programme, quelle que soit la date (objectif, exercice, ressources, boutons « Fait » et
+  « Sauter »), le déroulé type d’une heure, puis les trois suivantes avec un lien vers
+  leur semaine. Toute leçon peut être faite à tout moment depuis l’onglet Semaines ; les
+  dates du programme ne sont qu’un rythme conseillé. Bilan une fois tout fait.
+- **Indicateurs** : progression globale, phase de la prochaine leçon, série (jours
+  consécutifs avec au moins une leçon faite), retard sur le rythme conseillé, heures cumulées.
 - **Semaines** : les six séances d’une semaine, l’objectif de fin de phase, la règle IA
   et le jalon du projet fil rouge. La frise des 26 semaines, en bas, ouvre chaque semaine.
 - **Rattrapage** : les séances passées encore à faire, les plus anciennes en premier.
@@ -30,11 +33,14 @@ de la base sauvegardée par `deploy/backup.sh` ; rien n’est public ni dans le 
 
 ## Règles
 
-- La date du jour est celle du navigateur (`localDate`), jamais l’heure UTC : à Séoul la
-  séance ne change pas à 9 h. Elle est recalculée quand l’onglet revient au premier plan.
-- Les séances `repos` ne comptent ni dans le total (153 séances), ni dans le retard, ni dans
-  la série. Une séance `skipped` compte comme non faite et casse la série.
-- La série part d’aujourd’hui, ou d’hier tant que la séance du jour est à faire.
+- La date du jour est celle du navigateur (`localDate`), jamais l’heure UTC : à Séoul le
+  jour ne change pas à 9 h. Elle est recalculée quand l’onglet revient au premier plan.
+- Les séances `repos` ne comptent ni dans le total (153 séances), ni dans le retard. Une
+  séance `skipped` compte comme non faite.
+- Rythme libre : la prochaine leçon et la semaine affichée par défaut suivent la progression,
+  pas le calendrier. Une leçon sautée compte comme décidée.
+- La série compte les jours consécutifs (date de réalisation, fuseau du navigateur) avec au
+  moins une leçon faite, depuis aujourd’hui, ou depuis hier tant que rien n’est fait aujourd’hui.
 
 Les calculs sont des fonctions pures dans `lib/progress.ts`, testées dans
 `apps/web/test/learning.test.ts` (avec l’intégrité du programme). L’API est testée dans
