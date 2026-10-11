@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, onUnmounted, shallowRef } from 'vue';
+import { nextTick, onMounted, onUnmounted, shallowRef, watch } from 'vue';
 import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,7 @@ import LoginForm from '@/features/auth/LoginForm.vue';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
 import AdminNav from '@/features/admin/components/AdminNav.vue';
 import { program } from '@/features/learning/program';
-import { getCurrentWeek } from '@/features/learning/lib/progress';
+import { getFocusWeek } from '@/features/learning/lib/progress';
 import { useLearningStore } from '@/features/learning/store';
 import { useEditorStore } from '@/features/admin/store';
 import LearningStats from '@/features/learning/components/LearningStats.vue';
@@ -30,7 +30,9 @@ const editor = useEditorStore();
 const keepNotes = () => store.unsaved.size > 0 && !window.confirm(t('admin.discardConfirm'));
 function beforeUnload(event: BeforeUnloadEvent) { if (store.unsaved.size) { event.preventDefault(); event.returnValue = ''; } }
 onBeforeRouteLeave(() => !keepNotes());
-const week = shallowRef(getCurrentWeek(program, store.today).week);
+const week = shallowRef(getFocusWeek(program, store.progress ?? { sessions: {} }).week);
+// Once progress is loaded, the Weeks tab opens on the week of the next lesson to do.
+watch(() => store.progress, (progress, previous) => { if (progress && !previous) week.value = getFocusWeek(program, progress).week; });
 
 async function open(target: View, targetWeek?: number) {
   if ((target !== view.value || (targetWeek && targetWeek !== week.value)) && keepNotes()) return;
@@ -68,7 +70,7 @@ async function logout() {
           <button v-for="item in views" :key="item" type="button" :aria-current="view === item ? 'page' : undefined" @click="open(item)">{{ t(`learning.views.${item}`) }}</button>
         </nav>
         <div id="learning-view" class="view">
-          <TodayView v-if="view === 'today'" />
+          <TodayView v-if="view === 'today'" @select="open('week', $event)" />
           <WeekView v-else-if="view === 'week'" :week="week" @select="open('week', $event)" />
           <OverdueView v-else-if="view === 'overdue'" />
           <ResourceLibrary v-else />

@@ -19,15 +19,23 @@ function completion(sessions: Session[], progress: LearningProgress) {
   return { done, total: work.length, percent: work.length ? Math.round((done / work.length) * 100) : 0 };
 }
 
-export function getTodaySession(program: Program, today: string) {
-  return allSessions(program).find(session => session.date === today) ?? null;
+/**
+ * Self-paced: lessons can be done in any order, whatever their planned date. The next lesson
+ * is the first work session still to do in programme order (skipped ones count as decided).
+ */
+export function getNextTodo(program: Program, progress: LearningProgress) {
+  return workSessions(program).find(session => statusOf(progress, session.id) === 'todo') ?? null;
 }
-export function getNextSession(program: Program, today: string) {
-  return workSessions(program).find(session => session.date > today) ?? null;
+/** The `count` lessons still to do after `afterId`, in programme order. */
+export function getUpcomingTodos(program: Program, progress: LearningProgress, afterId: string, count: number) {
+  const sessions = workSessions(program);
+  const start = sessions.findIndex(session => session.id === afterId) + 1;
+  return sessions.slice(start).filter(session => statusOf(progress, session.id) === 'todo').slice(0, count);
 }
-/** Week to show by default: the current one, the next one on Sundays, the first before the start, the last after the end. */
-export function getCurrentWeek(program: Program, today: string): Week {
-  return program.weeks.find(week => week.end >= today) ?? program.weeks.at(-1)!;
+/** Week of the next lesson to do; the last week once everything is done. */
+export function getFocusWeek(program: Program, progress: LearningProgress): Week {
+  const next = getNextTodo(program, progress);
+  return (next && getWeekOf(program, next.id)) ?? program.weeks.at(-1)!;
 }
 export function getCompletion(program: Program, progress: LearningProgress) {
   return completion(allSessions(program), progress);
@@ -41,15 +49,17 @@ export function getWeekCompletion(week: Week, progress: LearningProgress) {
 export function getOverdue(program: Program, progress: LearningProgress, today: string) {
   return workSessions(program).filter(session => session.date < today && statusOf(progress, session.id) === 'todo');
 }
-/** Consecutive done work sessions, back from today (or yesterday while today is still to do). Rest days are ignored. */
-export function getStreak(program: Program, progress: LearningProgress, today: string) {
-  const past = workSessions(program).filter(session => session.date <= today).reverse();
-  if (past[0]?.date === today && statusOf(progress, past[0].id) === 'todo') past.shift();
+/**
+ * Consecutive days with at least one lesson done (by completion date, in the browser's time
+ * zone), back from today, or from yesterday while nothing is done yet today. Self-paced:
+ * the planned dates do not matter, and Sunday is a day like any other.
+ */
+export function getStreak(progress: LearningProgress, today: string) {
+  const days = new Set(Object.values(progress.sessions).flatMap(entry => entry.status === 'done' && entry.doneAt ? [localDate(new Date(entry.doneAt))] : []));
+  const day = new Date(`${today}T12:00:00`);
+  if (!days.has(today)) day.setDate(day.getDate() - 1);
   let streak = 0;
-  for (const session of past) {
-    if (statusOf(progress, session.id) !== 'done') break;
-    streak += 1;
-  }
+  while (days.has(localDate(day))) { streak += 1; day.setDate(day.getDate() - 1); }
   return streak;
 }
 export function getHours(program: Program, progress: LearningProgress) {
@@ -74,9 +84,4 @@ export function getAllResources(program: Program): LibraryEntry[] {
   for (const week of program.weeks) for (const session of week.sessions) for (const resource of session.resources) add({ title: resource.label, url: resource.url, phases: [week.phase] });
   for (const entry of entries.values()) entry.phases.sort((a, b) => a - b);
   return [...entries.values()];
-}
-
-/** Whole days from `today` to `date` (both YYYY-MM-DD), independent of time zones and daylight saving. */
-export function daysUntil(today: string, date: string) {
-  return Math.round((Date.parse(`${date}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / 86_400_000);
 }
