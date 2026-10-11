@@ -5,6 +5,7 @@ import type { CvRepository } from '../cv/repository.js';
 import { documentSchema } from './schema.js';
 import { previewDocument, publishDocument, readPublishedDocument } from './documents.js';
 import { hashPassword, verifyPassword } from './password.js';
+import { createLearningService } from '../learning/service.js';
 
 export class AdminError extends Error {
   constructor(public status: number, public code: string) { super(code); }
@@ -88,6 +89,6 @@ export function createAdminService(db: Database.Database, repository: CvReposito
     checkRevision(revision);
     return previewDocument(draft().document, locale);
   }
-  return { purgeExpired, configure, configured: () => !!account(), login, session, logout, draft, save, publish, preview };
+  return { purgeExpired, configure, configured: () => !!account(), login, session, logout, draft, save, publish, preview, learning: createLearningService(db, now) };
 }
 export type AdminService = ReturnType<typeof createAdminService>;

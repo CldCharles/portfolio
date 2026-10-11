@@ -7,7 +7,7 @@ export function migrateDatabase(db: Database.Database) {
   db.pragma('journal_mode = WAL');
   db.transaction(() => {
     const version = db.pragma('user_version', { simple: true }) as number;
-    if (version > 3) throw new Error('Unsupported database version');
+    if (version > 4) throw new Error('Unsupported database version');
     if (version === 0) {
       db.exec(`
         CREATE TABLE cv_items (
@@ -47,8 +47,19 @@ export function migrateDatabase(db: Database.Database) {
         ALTER TABLE cv_items_next RENAME TO cv_items;
       `);
     }
+    if (version < 4) {
+      // Private learning tracker: one row per programme session that is no longer a blank "todo".
+      db.exec(`
+        CREATE TABLE learning_progress (
+          session_id TEXT PRIMARY KEY,
+          status TEXT NOT NULL CHECK(status IN ('todo','done','skipped')),
+          done_at TEXT, understood TEXT NOT NULL, unclear TEXT NOT NULL, link TEXT,
+          updated_at INTEGER NOT NULL
+        );
+      `);
+    }
     if ((db.pragma('foreign_key_check') as unknown[]).length) throw new Error('Foreign key check failed after migration');
-    db.pragma('user_version = 3');
+    db.pragma('user_version = 4');
   })();
   db.pragma('foreign_keys = ON');
 }
