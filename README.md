@@ -73,6 +73,13 @@ Markdown ou imprimable en PDF. Des contrôles de cohérence signalent les oublis
 classiques. Tout reste dans le navigateur (clé locale `portfolio.scoping`) : rien n’est
 envoyé à l’API. Code dans `apps/web/src/features/scoping`.
 
+## Suivi d’apprentissage
+
+`/admin/apprentissage` (connexion requise) suit le programme de 26 semaines : séance du
+jour, progression, retard, notes par séance et bibliothèque de ressources. La progression
+est enregistrée dans SQLite via l’API admin ; rien n’est public. Voir
+`apps/web/src/features/learning/README.md`.
+
 ## Confidentialité et pages publiques
 
 La notice FR/EN/KO est accessible sur `/privacy`, avec un pied de page commun et
