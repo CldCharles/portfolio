@@ -2,12 +2,15 @@ import legal from './legal-en';
 import linkedin from './linkedin-en';
 import admin from './admin-en';
 import scoping from './scoping-en';
+import learning from './learning-fr';
 import type fr from './fr';
 export default {
   legal,
   admin,
   linkedin,
   scoping,
+  // The programme content is French only: the tracker interface stays in French.
+  learning,
   pdf: {"language": "PDF language", "download": "Download CV"},
   app: { description: 'Claude Charles Valentin’s portfolio. Software Engineer & Solution Builder, focused on Vue.js, React and front-end development.' },
   mascot: { thanks: 'Thanks for stopping by!', surprise: 'Mini me, small surprise' },

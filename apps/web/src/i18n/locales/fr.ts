@@ -2,11 +2,13 @@ import legal from './legal-fr';
 import linkedin from './linkedin-fr';
 import admin from './admin-fr';
 import scoping from './scoping-fr';
+import learning from './learning-fr';
 export default {
   legal,
   admin,
   linkedin,
   scoping,
+  learning,
   pdf: {"language": "Langue du PDF", "download": "Télécharger le CV"},
   app: { description: 'Portfolio de Claude Charles Valentin, Software Engineer & Solution Builder. Vue.js, React et développement front-end.' },
   mascot: { thanks: 'Merci de votre visite !', surprise: 'Mini-moi, petite surprise' },

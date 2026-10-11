@@ -2,12 +2,15 @@ import legal from './legal-ko';
 import linkedin from './linkedin-ko';
 import admin from './admin-ko';
 import scoping from './scoping-ko';
+import learning from './learning-fr';
 import type fr from './fr';
 export default {
   legal,
   admin,
   linkedin,
   scoping,
+  // The programme content is French only: the tracker interface stays in French.
+  learning,
   pdf: {"language": "PDF 언어", "download": "이력서 다운로드"},
   app: { description: 'Claude Charles Valentin의 포트폴리오. Vue.js, React와 프런트엔드 개발에 집중하는 소프트웨어 엔지니어 & 솔루션 빌더.' },
   mascot: { thanks: '방문해 주셔서 감사합니다!', surprise: '미니 나, 작은 깜짝 효과' },

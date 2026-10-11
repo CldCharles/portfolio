@@ -17,12 +17,13 @@ apps/web/
     ├── App.vue              # Racine de l’application
     ├── app/                 # Pinia et Vue Router
     ├── assets/              # Portrait facultatif
-    ├── pages/               # CvPage, PrivacyPage, admin/LoginPage, admin/EditorPage
+    ├── pages/               # CvPage, PrivacyPage, ScopingPage, admin/LoginPage, admin/EditorPage, admin/LearningPage
     ├── features/
     │   ├── cv/              # Composants, lib de présentation, API et store du CV
     │   ├── auth/            # Connexion et session administrateur
     │   ├── admin/           # Édition, aperçu et publication du brouillon
     │   ├── linkedin/        # Import CSV LinkedIn
+    │   ├── learning/        # Suivi privé du programme d’apprentissage (admin)
     │   └── legal/           # Pied de page, configuration publique, métadonnées
     ├── components/ui/       # Composants shadcn (button, input, label)
     ├── lib/utils.ts         # Fonction cn : fusion de classes Tailwind
@@ -57,7 +58,8 @@ assemblent les composants ; le store porte les effets réseau. Les contrats publ
 sont partagés dans `packages/contracts` et importés avec `import type`. Pas de
 duplication des données CV dans les locales.
 Vue Router (`app/router.ts`) charge les pages à la demande : `CvPage.vue`,
-`PrivacyPage.vue`, `admin/LoginPage.vue` et `admin/EditorPage.vue`. Le garde vérifie la session avant
+`PrivacyPage.vue`, `admin/LoginPage.vue`, `admin/EditorPage.vue` et `admin/LearningPage.vue`
+(`/admin/apprentissage`, voir `features/learning/README.md`). Le garde vérifie la session avant
 d’afficher l’éditeur ; la sécurité repose sur l’API.
 
 `features/auth` contient API HTTP, store session et formulaire de connexion.

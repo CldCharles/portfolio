@@ -105,11 +105,17 @@ accessibles sans connexion. Les autres vérifient la session ; les écritures v�
 | PUT | `/draft` | Validation et sauvegarde avec révision attendue |
 | GET | `/preview?lang=fr&revision=…` | Aperçu du brouillon enregistré |
 | POST | `/publish` | Publication atomique avec révision attendue |
+| GET | `/learning` | Progression privée du programme d’apprentissage |
+| PUT | `/learning/:id` | Statut et notes d’une séance (`w01-d1` à `w26-d6`) |
 
 Le profil accepte un pays facultatif (code ISO à deux lettres, par exemple `KR`),
 affiché dans la langue de chaque version. Le type d’entrée « Langue » accepte un
 titre (langue), un sous-titre (niveau) et une description (certification, école),
 traduits comme les autres entrées. Un brouillon enregistré avant ces champs reste valide.
+
+La migration v4 ajoute `learning_progress` (une ligne par séance commencée ou annotée),
+sans toucher aux tables du CV. Le code antérieur refuse une base v4. Voir
+`apps/web/src/features/learning/README.md`.
 
 La migration v3 reconstruit `cv_items` pour autoriser le type `language`, en
 conservant identifiants, révisions et traductions. Le code antérieur refuse une base v3.

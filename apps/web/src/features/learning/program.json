@@ -1,0 +1,2742 @@
+{
+  "version": 1,
+  "title": "Programme dev : de Vue à React solide",
+  "start": "2026-10-12",
+  "end": "2027-04-10",
+  "rhythm": {
+    "minutesPerDay": 60,
+    "days": [
+      "Lun",
+      "Mar",
+      "Mer",
+      "Jeu",
+      "Ven",
+      "Sam"
+    ],
+    "restDay": "Dim"
+  },
+  "sessionTemplate": [
+    {
+      "minutes": 5,
+      "step": "Relire tes notes de la veille"
+    },
+    {
+      "minutes": 35,
+      "step": "Apprendre en codant les exemples toi-même"
+    },
+    {
+      "minutes": 15,
+      "step": "L'exercice du jour, sans copier-coller"
+    },
+    {
+      "minutes": 5,
+      "step": "Noter en 3 lignes ce que tu as compris et ce qui reste flou"
+    }
+  ],
+  "phases": [
+    {
+      "id": 1,
+      "title": "JavaScript solide",
+      "weeks": [
+        1,
+        4
+      ],
+      "goal": "Faire un appel API avec fetch, gérer les erreurs et expliquer l'ordre d'exécution de ton code sans hésiter.",
+      "aiRule": "L'IA explique, elle n'écrit pas ton code."
+    },
+    {
+      "id": 2,
+      "title": "Le web sans framework",
+      "weeks": [
+        5,
+        7
+      ],
+      "goal": "L'appli tourne en HTML, CSS et JS pur, en ligne, et tu sais lire chaque requête dans l'onglet Réseau.",
+      "aiRule": "L'IA explique, elle n'écrit pas ton code."
+    },
+    {
+      "id": 3,
+      "title": "React proprement",
+      "weeks": [
+        8,
+        13
+      ],
+      "goal": "L'appli est réécrite en React, tu sais expliquer pourquoi un composant se re-rend, et tu n'utilises useEffect que quand il le faut.",
+      "aiRule": "L'IA explique, elle n'écrit pas ton code."
+    },
+    {
+      "id": 4,
+      "title": "React de l'intérieur",
+      "weeks": [
+        14,
+        15
+      ],
+      "goal": "Un mini-React qui fait tourner un compteur avec useState, et la capacité d'expliquer les hooks sans parler de magie.",
+      "aiRule": "L'IA explique, elle n'écrit pas ton code."
+    },
+    {
+      "id": 5,
+      "title": "Backend et données",
+      "weeks": [
+        16,
+        22
+      ],
+      "goal": "Le front React parle à ta propre API Node, adossée à PostgreSQL, avec comptes utilisateurs, le tout en ligne.",
+      "aiRule": "L'IA peut générer du code, à condition de le relire et de savoir l'expliquer."
+    },
+    {
+      "id": 6,
+      "title": "Écosystème pro",
+      "weeks": [
+        23,
+        26
+      ],
+      "goal": "Le projet est en TypeScript, testé, avec intégration continue, et présentable en entretien.",
+      "aiRule": "L'IA peut générer du code, à condition de le relire et de savoir l'expliquer."
+    }
+  ],
+  "milestones": [
+    {
+      "id": "m1",
+      "phase": 1,
+      "title": "Script console de gestion de dépenses, versionné sur GitHub"
+    },
+    {
+      "id": "m2",
+      "phase": 2,
+      "title": "Appli vanilla (HTML/CSS/JS) en ligne sur GitHub Pages"
+    },
+    {
+      "id": "m3",
+      "phase": 3,
+      "title": "Appli réécrite en React, avec routing et chargement de données, en ligne"
+    },
+    {
+      "id": "m4",
+      "phase": 4,
+      "title": "Mini-React fonctionnel avec useState"
+    },
+    {
+      "id": "m5",
+      "phase": 5,
+      "title": "API Node + PostgreSQL avec authentification, front et back en ligne"
+    },
+    {
+      "id": "m6",
+      "phase": 6,
+      "title": "Projet en TypeScript strict, testé, avec CI GitHub Actions"
+    }
+  ],
+  "library": [
+    {
+      "title": "javascript.info",
+      "url": "https://javascript.info",
+      "phases": [
+        1,
+        2
+      ],
+      "note": "Le langage, du début à l'asynchrone, plus le DOM."
+    },
+    {
+      "title": "MDN (français)",
+      "url": "https://developer.mozilla.org/fr/",
+      "phases": [
+        2
+      ],
+      "note": "La référence du web : HTML, CSS, HTTP."
+    },
+    {
+      "title": "react.dev/learn",
+      "url": "https://react.dev/learn",
+      "phases": [
+        3,
+        6
+      ],
+      "note": "La documentation officielle de React, à suivre dans l'ordre."
+    },
+    {
+      "title": "Build your own React",
+      "url": "https://pomb.us/build-your-own-react/",
+      "phases": [
+        4
+      ],
+      "note": "React reconstruit pas à pas, de createElement aux hooks."
+    },
+    {
+      "title": "SQLBolt",
+      "url": "https://sqlbolt.com",
+      "phases": [
+        5
+      ],
+      "note": "Exercices interactifs de SQL."
+    },
+    {
+      "title": "PostgreSQL Tutorial",
+      "url": "https://www.postgresqltutorial.com",
+      "phases": [
+        5
+      ],
+      "note": "Référence pratique PostgreSQL."
+    },
+    {
+      "title": "OWASP Cheat Sheets",
+      "url": "https://cheatsheetseries.owasp.org",
+      "phases": [
+        5
+      ],
+      "note": "Les bonnes pratiques de sécurité."
+    },
+    {
+      "title": "TypeScript Handbook",
+      "url": "https://www.typescriptlang.org/docs/handbook/intro.html",
+      "phases": [
+        6
+      ],
+      "note": "La doc officielle TypeScript."
+    },
+    {
+      "title": "Designing Data-Intensive Applications (Martin Kleppmann)",
+      "phases": [
+        5
+      ],
+      "note": "Livre, le seul payant. À lire après le programme."
+    },
+    {
+      "title": "CS50x (Harvard)",
+      "url": "https://cs50.harvard.edu/x/",
+      "phases": [],
+      "note": "Bonus : bases d'informatique, une leçon par semaine si tu as du temps en plus."
+    }
+  ],
+  "weeks": [
+    {
+      "week": 1,
+      "phase": 1,
+      "title": "Les bases, vraiment comprises",
+      "start": "2026-10-12",
+      "end": "2026-10-17",
+      "sessions": [
+        {
+          "id": "w01-d1",
+          "date": "2026-10-12",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Variables, types, conversions",
+          "resources": [
+            {
+              "label": "Variables",
+              "url": "https://javascript.info/variables"
+            },
+            {
+              "label": "Types",
+              "url": "https://javascript.info/types"
+            }
+          ],
+          "exercise": "Prédire le résultat de 10 conversions (\"5\" + 2, \"5\" * 2…) puis vérifier",
+          "durationMin": 60
+        },
+        {
+          "id": "w01-d2",
+          "date": "2026-10-13",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Conditions et boucles",
+          "resources": [
+            {
+              "label": "Conditions",
+              "url": "https://javascript.info/ifelse"
+            },
+            {
+              "label": "Boucles",
+              "url": "https://javascript.info/while-for"
+            }
+          ],
+          "exercise": "FizzBuzz, puis compter les voyelles d'une phrase",
+          "durationMin": 60
+        },
+        {
+          "id": "w01-d3",
+          "date": "2026-10-14",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Fonctions et fonctions fléchées",
+          "resources": [
+            {
+              "label": "Fonctions",
+              "url": "https://javascript.info/function-basics"
+            },
+            {
+              "label": "Fléchées",
+              "url": "https://javascript.info/arrow-functions-basics"
+            }
+          ],
+          "exercise": "Écrire 5 petites fonctions utilitaires",
+          "durationMin": 60
+        },
+        {
+          "id": "w01-d4",
+          "date": "2026-10-15",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Objets et références",
+          "resources": [
+            {
+              "label": "Objets",
+              "url": "https://javascript.info/object"
+            },
+            {
+              "label": "Copie",
+              "url": "https://javascript.info/object-copy"
+            }
+          ],
+          "exercise": "Montrer la différence entre copie superficielle et profonde",
+          "durationMin": 60
+        },
+        {
+          "id": "w01-d5",
+          "date": "2026-10-16",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "map, filter, reduce",
+          "resources": [
+            {
+              "label": "Méthodes de tableau",
+              "url": "https://javascript.info/array-methods"
+            }
+          ],
+          "exercise": "Calculer total et moyenne d'une liste de dépenses",
+          "durationMin": 60
+        },
+        {
+          "id": "w01-d6",
+          "date": "2026-10-17",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Script console : ajouter des dépenses, total, filtre par catégorie",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 2,
+      "phase": 1,
+      "title": "Comment JS fonctionne dessous",
+      "start": "2026-10-19",
+      "end": "2026-10-24",
+      "sessions": [
+        {
+          "id": "w02-d1",
+          "date": "2026-10-19",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Portée et closures",
+          "resources": [
+            {
+              "label": "Closures",
+              "url": "https://javascript.info/closure"
+            }
+          ],
+          "exercise": "Un compteur avec une variable privée",
+          "durationMin": 60
+        },
+        {
+          "id": "w02-d2",
+          "date": "2026-10-20",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "this et bind",
+          "resources": [
+            {
+              "label": "Méthodes",
+              "url": "https://javascript.info/object-methods"
+            },
+            {
+              "label": "Bind",
+              "url": "https://javascript.info/bind"
+            }
+          ],
+          "exercise": "Expliquer par écrit 3 cas où this change",
+          "durationMin": 60
+        },
+        {
+          "id": "w02-d3",
+          "date": "2026-10-21",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Prototypes et classes",
+          "resources": [
+            {
+              "label": "Prototypes",
+              "url": "https://javascript.info/prototype-inheritance"
+            },
+            {
+              "label": "Classes",
+              "url": "https://javascript.info/class"
+            }
+          ],
+          "exercise": "Une classe Depense avec méthodes",
+          "durationMin": 60
+        },
+        {
+          "id": "w02-d4",
+          "date": "2026-10-22",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Déstructuration, spread, rest",
+          "resources": [
+            {
+              "label": "Déstructuration",
+              "url": "https://javascript.info/destructuring-assignment"
+            },
+            {
+              "label": "Spread",
+              "url": "https://javascript.info/rest-parameters-spread"
+            }
+          ],
+          "exercise": "Réécrire le script de samedi avec ces syntaxes",
+          "durationMin": 60
+        },
+        {
+          "id": "w02-d5",
+          "date": "2026-10-23",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Gestion des erreurs",
+          "resources": [
+            {
+              "label": "try/catch",
+              "url": "https://javascript.info/try-catch"
+            }
+          ],
+          "exercise": "Valider les entrées et lever des erreurs claires",
+          "durationMin": 60
+        },
+        {
+          "id": "w02-d6",
+          "date": "2026-10-24",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Passer le script en classes, avec validation",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 3,
+      "phase": 1,
+      "title": "L'asynchrone",
+      "start": "2026-10-26",
+      "end": "2026-10-31",
+      "sessions": [
+        {
+          "id": "w03-d1",
+          "date": "2026-10-26",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Callbacks et timers",
+          "resources": [
+            {
+              "label": "Callbacks",
+              "url": "https://javascript.info/callbacks"
+            },
+            {
+              "label": "Timers",
+              "url": "https://javascript.info/settimeout-setinterval"
+            }
+          ],
+          "exercise": "Un minuteur qui affiche chaque seconde",
+          "durationMin": 60
+        },
+        {
+          "id": "w03-d2",
+          "date": "2026-10-27",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Promesses",
+          "resources": [
+            {
+              "label": "Bases",
+              "url": "https://javascript.info/promise-basics"
+            },
+            {
+              "label": "Chaînage",
+              "url": "https://javascript.info/promise-chaining"
+            }
+          ],
+          "exercise": "Transformer un callback en promesse",
+          "durationMin": 60
+        },
+        {
+          "id": "w03-d3",
+          "date": "2026-10-28",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "async / await",
+          "resources": [
+            {
+              "label": "Async/await",
+              "url": "https://javascript.info/async-await"
+            }
+          ],
+          "exercise": "Réécrire l'exercice d'hier en async",
+          "durationMin": 60
+        },
+        {
+          "id": "w03-d4",
+          "date": "2026-10-29",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "L'event loop",
+          "resources": [
+            {
+              "label": "Event loop",
+              "url": "https://javascript.info/event-loop"
+            },
+            {
+              "label": "Vidéo : What the heck is the event loop anyway? (Philip Roberts, YouTube)"
+            }
+          ],
+          "exercise": "Prédire l'ordre de 10 console.log mêlant timers et promesses",
+          "durationMin": 60
+        },
+        {
+          "id": "w03-d5",
+          "date": "2026-10-30",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "fetch et les API",
+          "resources": [
+            {
+              "label": "Fetch",
+              "url": "https://javascript.info/fetch"
+            },
+            {
+              "label": "JSONPlaceholder",
+              "url": "https://jsonplaceholder.typicode.com"
+            }
+          ],
+          "exercise": "Récupérer une liste, gérer chargement et erreur",
+          "durationMin": 60
+        },
+        {
+          "id": "w03-d6",
+          "date": "2026-10-31",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Charger des données d'une API dans ton script",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 4,
+      "phase": 1,
+      "title": "Outils et consolidation",
+      "start": "2026-11-02",
+      "end": "2026-11-07",
+      "sessions": [
+        {
+          "id": "w04-d1",
+          "date": "2026-11-02",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Modules ES",
+          "resources": [
+            {
+              "label": "Modules",
+              "url": "https://javascript.info/modules-intro"
+            },
+            {
+              "label": "Import/export",
+              "url": "https://javascript.info/import-export"
+            }
+          ],
+          "exercise": "Découper ton script en 3 fichiers",
+          "durationMin": 60
+        },
+        {
+          "id": "w04-d2",
+          "date": "2026-11-03",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "npm et Vite",
+          "resources": [
+            {
+              "label": "Vite, démarrage",
+              "url": "https://vite.dev/guide/"
+            }
+          ],
+          "exercise": "Créer un projet Vite « vanilla » et y déplacer ton code",
+          "durationMin": 60
+        },
+        {
+          "id": "w04-d3",
+          "date": "2026-11-04",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Git",
+          "resources": [
+            {
+              "label": "Learn Git Branching",
+              "url": "https://learngitbranching.js.org"
+            }
+          ],
+          "exercise": "Mettre le projet sur GitHub avec des commits propres",
+          "durationMin": 60
+        },
+        {
+          "id": "w04-d4",
+          "date": "2026-11-05",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Le débogueur",
+          "resources": [
+            {
+              "label": "DevTools, déboguer du JS",
+              "url": "https://developer.chrome.com/docs/devtools/javascript"
+            }
+          ],
+          "exercise": "Trouver un bug avec des points d'arrêt, sans console.log",
+          "durationMin": 60
+        },
+        {
+          "id": "w04-d5",
+          "date": "2026-11-06",
+          "weekday": "Ven",
+          "type": "revision",
+          "objective": "Révision",
+          "resources": [
+            {
+              "label": "Tes notes"
+            }
+          ],
+          "exercise": "Réexpliquer à voix haute closures, this, promesses, event loop",
+          "durationMin": 60
+        },
+        {
+          "id": "w04-d6",
+          "date": "2026-11-07",
+          "weekday": "Sam",
+          "type": "bilan",
+          "objective": "Bilan de phase",
+          "resources": [],
+          "exercise": "Valider l'objectif de fin de phase, sinon rattraper",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 5,
+      "phase": 2,
+      "title": "Le navigateur et le DOM",
+      "start": "2026-11-09",
+      "end": "2026-11-14",
+      "sessions": [
+        {
+          "id": "w05-d1",
+          "date": "2026-11-09",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Comment une page s'affiche",
+          "resources": [
+            {
+              "label": "MDN, fonctionnement des navigateurs",
+              "url": "https://developer.mozilla.org/fr/docs/Web/Performance/How_browsers_work"
+            }
+          ],
+          "exercise": "Résumer en 5 étapes le chemin URL → pixels",
+          "durationMin": 60
+        },
+        {
+          "id": "w05-d2",
+          "date": "2026-11-10",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Lire et modifier le DOM",
+          "resources": [
+            {
+              "label": "Nœuds",
+              "url": "https://javascript.info/dom-nodes"
+            },
+            {
+              "label": "Recherche",
+              "url": "https://javascript.info/searching-elements-dom"
+            },
+            {
+              "label": "Modification",
+              "url": "https://javascript.info/modifying-document"
+            }
+          ],
+          "exercise": "Générer une liste HTML depuis un tableau",
+          "durationMin": 60
+        },
+        {
+          "id": "w05-d3",
+          "date": "2026-11-11",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Les événements",
+          "resources": [
+            {
+              "label": "Événements",
+              "url": "https://javascript.info/introduction-browser-events"
+            },
+            {
+              "label": "Propagation",
+              "url": "https://javascript.info/bubbling-and-capturing"
+            }
+          ],
+          "exercise": "Boutons qui réagissent, observer la propagation",
+          "durationMin": 60
+        },
+        {
+          "id": "w05-d4",
+          "date": "2026-11-12",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Délégation et formulaires",
+          "resources": [
+            {
+              "label": "Délégation",
+              "url": "https://javascript.info/event-delegation"
+            },
+            {
+              "label": "Formulaires",
+              "url": "https://javascript.info/forms-controls"
+            }
+          ],
+          "exercise": "Supprimer un élément de liste avec un seul écouteur",
+          "durationMin": 60
+        },
+        {
+          "id": "w05-d5",
+          "date": "2026-11-13",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Stockage local",
+          "resources": [
+            {
+              "label": "localStorage",
+              "url": "https://javascript.info/localstorage"
+            }
+          ],
+          "exercise": "Conserver les données après rechargement",
+          "durationMin": 60
+        },
+        {
+          "id": "w05-d6",
+          "date": "2026-11-14",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Interface de l'appli : formulaire d'ajout et liste",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 6,
+      "phase": 2,
+      "title": "HTTP et réseau",
+      "start": "2026-11-16",
+      "end": "2026-11-21",
+      "sessions": [
+        {
+          "id": "w06-d1",
+          "date": "2026-11-16",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Requêtes, méthodes, codes de statut",
+          "resources": [
+            {
+              "label": "MDN, aperçu de HTTP",
+              "url": "https://developer.mozilla.org/fr/docs/Web/HTTP/Overview"
+            }
+          ],
+          "exercise": "Lister ce que veulent dire 200, 201, 301, 400, 401, 404, 500",
+          "durationMin": 60
+        },
+        {
+          "id": "w06-d2",
+          "date": "2026-11-17",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Headers et cookies",
+          "resources": [
+            {
+              "label": "MDN, cookies",
+              "url": "https://developer.mozilla.org/fr/docs/Web/HTTP/Cookies"
+            }
+          ],
+          "exercise": "Observer les cookies d'un site dans DevTools",
+          "durationMin": 60
+        },
+        {
+          "id": "w06-d3",
+          "date": "2026-11-18",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "CORS",
+          "resources": [
+            {
+              "label": "MDN, CORS",
+              "url": "https://developer.mozilla.org/fr/docs/Web/HTTP/CORS"
+            }
+          ],
+          "exercise": "Expliquer par écrit pourquoi une requête est bloquée",
+          "durationMin": 60
+        },
+        {
+          "id": "w06-d4",
+          "date": "2026-11-19",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "L'onglet Réseau",
+          "resources": [
+            {
+              "label": "DevTools, réseau",
+              "url": "https://developer.chrome.com/docs/devtools/network"
+            }
+          ],
+          "exercise": "Analyser toutes les requêtes d'un site que tu utilises",
+          "durationMin": 60
+        },
+        {
+          "id": "w06-d5",
+          "date": "2026-11-20",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "JSON et API REST",
+          "resources": [
+            {
+              "label": "MDN, JSON",
+              "url": "https://developer.mozilla.org/fr/docs/Learn/JavaScript/Objects/JSON"
+            }
+          ],
+          "exercise": "Faire GET, POST, PUT, DELETE sur JSONPlaceholder",
+          "durationMin": 60
+        },
+        {
+          "id": "w06-d6",
+          "date": "2026-11-21",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Brancher l'appli sur une API avec états de chargement et d'erreur",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 7,
+      "phase": 2,
+      "title": "CSS et appli vanilla terminée",
+      "start": "2026-11-23",
+      "end": "2026-11-28",
+      "sessions": [
+        {
+          "id": "w07-d1",
+          "date": "2026-11-23",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Box model et Flexbox",
+          "resources": [
+            {
+              "label": "MDN, Flexbox",
+              "url": "https://developer.mozilla.org/fr/docs/Learn/CSS/CSS_layout/Flexbox"
+            },
+            {
+              "label": "Flexbox Froggy",
+              "url": "https://flexboxfroggy.com"
+            }
+          ],
+          "exercise": "Finir Flexbox Froggy",
+          "durationMin": 60
+        },
+        {
+          "id": "w07-d2",
+          "date": "2026-11-24",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Grid et responsive",
+          "resources": [
+            {
+              "label": "Grid Garden",
+              "url": "https://cssgridgarden.com"
+            },
+            {
+              "label": "MDN, responsive",
+              "url": "https://developer.mozilla.org/fr/docs/Learn/CSS/CSS_layout/Responsive_Design"
+            }
+          ],
+          "exercise": "Rendre l'appli lisible sur mobile",
+          "durationMin": 60
+        },
+        {
+          "id": "w07-d3",
+          "date": "2026-11-25",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Accessibilité de base",
+          "resources": [
+            {
+              "label": "MDN, accessibilité",
+              "url": "https://developer.mozilla.org/fr/docs/Learn/Accessibility/What_is_accessibility"
+            }
+          ],
+          "exercise": "Utiliser l'appli au clavier seul et corriger",
+          "durationMin": 60
+        },
+        {
+          "id": "w07-d4",
+          "date": "2026-11-26",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Rendu à partir d'un état",
+          "resources": [
+            {
+              "label": "Tes notes"
+            }
+          ],
+          "exercise": "Réécrire l'appli autour d'une fonction render(state) : tu réinventes l'idée de React",
+          "durationMin": 60
+        },
+        {
+          "id": "w07-d5",
+          "date": "2026-11-27",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Debounce et performance",
+          "resources": [
+            {
+              "label": "Décorateurs (exercice debounce)",
+              "url": "https://javascript.info/call-apply-decorators"
+            }
+          ],
+          "exercise": "Ajouter une recherche avec debounce",
+          "durationMin": 60
+        },
+        {
+          "id": "w07-d6",
+          "date": "2026-11-28",
+          "weekday": "Sam",
+          "type": "bilan",
+          "objective": "Bilan de phase",
+          "resources": [
+            {
+              "label": "GitHub Pages",
+              "url": "https://pages.github.com"
+            }
+          ],
+          "exercise": "Mettre l'appli en ligne et noter ce qui a été pénible à faire à la main",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 8,
+      "phase": 3,
+      "title": "Décrire une interface",
+      "start": "2026-11-30",
+      "end": "2026-12-05",
+      "sessions": [
+        {
+          "id": "w08-d1",
+          "date": "2026-11-30",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Premier contact",
+          "resources": [
+            {
+              "label": "Tutoriel morpion",
+              "url": "https://react.dev/learn/tutorial-tic-tac-toe"
+            }
+          ],
+          "exercise": "Faire la première moitié du tutoriel",
+          "durationMin": 60
+        },
+        {
+          "id": "w08-d2",
+          "date": "2026-12-01",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Premier contact, suite",
+          "resources": [
+            {
+              "label": "Tutoriel morpion",
+              "url": "https://react.dev/learn/tutorial-tic-tac-toe"
+            }
+          ],
+          "exercise": "Finir le morpion, historique compris",
+          "durationMin": 60
+        },
+        {
+          "id": "w08-d3",
+          "date": "2026-12-02",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Composants et JSX",
+          "resources": [
+            {
+              "label": "Premier composant",
+              "url": "https://react.dev/learn/your-first-component"
+            },
+            {
+              "label": "JSX",
+              "url": "https://react.dev/learn/writing-markup-with-jsx"
+            },
+            {
+              "label": "Accolades",
+              "url": "https://react.dev/learn/javascript-in-jsx-with-curly-braces"
+            }
+          ],
+          "exercise": "Découper une maquette en composants sur papier",
+          "durationMin": 60
+        },
+        {
+          "id": "w08-d4",
+          "date": "2026-12-03",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Props",
+          "resources": [
+            {
+              "label": "Props",
+              "url": "https://react.dev/learn/passing-props-to-a-component"
+            }
+          ],
+          "exercise": "Un composant CarteDepense réutilisable",
+          "durationMin": 60
+        },
+        {
+          "id": "w08-d5",
+          "date": "2026-12-04",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Conditions, listes, key",
+          "resources": [
+            {
+              "label": "Rendu conditionnel",
+              "url": "https://react.dev/learn/conditional-rendering"
+            },
+            {
+              "label": "Listes",
+              "url": "https://react.dev/learn/rendering-lists"
+            }
+          ],
+          "exercise": "Expliquer pourquoi l'index est une mauvaise key",
+          "durationMin": 60
+        },
+        {
+          "id": "w08-d6",
+          "date": "2026-12-05",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [
+            {
+              "label": "Vite + React",
+              "url": "https://vite.dev/guide/"
+            }
+          ],
+          "exercise": "Nouveau projet React qui affiche la liste statique",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 9,
+      "phase": 3,
+      "title": "L'état et l'interactivité",
+      "start": "2026-12-07",
+      "end": "2026-12-12",
+      "sessions": [
+        {
+          "id": "w09-d1",
+          "date": "2026-12-07",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Événements et état",
+          "resources": [
+            {
+              "label": "Événements",
+              "url": "https://react.dev/learn/responding-to-events"
+            },
+            {
+              "label": "État",
+              "url": "https://react.dev/learn/state-a-components-memory"
+            }
+          ],
+          "exercise": "Un compteur, puis un champ texte contrôlé",
+          "durationMin": 60
+        },
+        {
+          "id": "w09-d2",
+          "date": "2026-12-08",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Rendu et snapshot",
+          "resources": [
+            {
+              "label": "Rendu et commit",
+              "url": "https://react.dev/learn/render-and-commit"
+            },
+            {
+              "label": "Snapshot",
+              "url": "https://react.dev/learn/state-as-a-snapshot"
+            }
+          ],
+          "exercise": "Expliquer pourquoi un console.log après setState affiche l'ancienne valeur",
+          "durationMin": 60
+        },
+        {
+          "id": "w09-d3",
+          "date": "2026-12-09",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Mises à jour en série",
+          "resources": [
+            {
+              "label": "File de mises à jour",
+              "url": "https://react.dev/learn/queueing-a-series-of-state-updates"
+            }
+          ],
+          "exercise": "Comparer setN(n + 1) et setN(n => n + 1)",
+          "durationMin": 60
+        },
+        {
+          "id": "w09-d4",
+          "date": "2026-12-10",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Immutabilité",
+          "resources": [
+            {
+              "label": "Objets",
+              "url": "https://react.dev/learn/updating-objects-in-state"
+            },
+            {
+              "label": "Tableaux",
+              "url": "https://react.dev/learn/updating-arrays-in-state"
+            }
+          ],
+          "exercise": "Ajouter, modifier, supprimer dans un tableau d'état",
+          "durationMin": 60
+        },
+        {
+          "id": "w09-d5",
+          "date": "2026-12-11",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Composants purs",
+          "resources": [
+            {
+              "label": "Pureté",
+              "url": "https://react.dev/learn/keeping-components-pure"
+            }
+          ],
+          "exercise": "Trouver l'impureté dans 3 exemples de la doc",
+          "durationMin": 60
+        },
+        {
+          "id": "w09-d6",
+          "date": "2026-12-12",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Ajout et suppression de dépenses avec l'état",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 10,
+      "phase": 3,
+      "title": "Organiser l'état",
+      "start": "2026-12-14",
+      "end": "2026-12-19",
+      "sessions": [
+        {
+          "id": "w10-d1",
+          "date": "2026-12-14",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Penser en React",
+          "resources": [
+            {
+              "label": "Thinking in React",
+              "url": "https://react.dev/learn/thinking-in-react"
+            }
+          ],
+          "exercise": "Appliquer la méthode à ton appli, sur papier",
+          "durationMin": 60
+        },
+        {
+          "id": "w10-d2",
+          "date": "2026-12-15",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Structurer l'état",
+          "resources": [
+            {
+              "label": "Réagir aux saisies",
+              "url": "https://react.dev/learn/reacting-to-input-with-state"
+            },
+            {
+              "label": "Structure de l'état",
+              "url": "https://react.dev/learn/choosing-the-state-structure"
+            }
+          ],
+          "exercise": "Supprimer un état redondant de ton appli",
+          "durationMin": 60
+        },
+        {
+          "id": "w10-d3",
+          "date": "2026-12-16",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Partager l'état",
+          "resources": [
+            {
+              "label": "Remonter l'état",
+              "url": "https://react.dev/learn/sharing-state-between-components"
+            }
+          ],
+          "exercise": "Un filtre qui pilote la liste et le total",
+          "durationMin": 60
+        },
+        {
+          "id": "w10-d4",
+          "date": "2026-12-17",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Conserver ou réinitialiser",
+          "resources": [
+            {
+              "label": "Préserver l'état",
+              "url": "https://react.dev/learn/preserving-and-resetting-state"
+            }
+          ],
+          "exercise": "Réinitialiser un formulaire avec une key",
+          "durationMin": 60
+        },
+        {
+          "id": "w10-d5",
+          "date": "2026-12-18",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "useReducer",
+          "resources": [
+            {
+              "label": "Reducer",
+              "url": "https://react.dev/learn/extracting-state-logic-into-a-reducer"
+            }
+          ],
+          "exercise": "Passer la logique des dépenses dans un reducer",
+          "durationMin": 60
+        },
+        {
+          "id": "w10-d6",
+          "date": "2026-12-19",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Filtres, formulaire contrôlé, reducer en place",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 11,
+      "phase": 3,
+      "title": "Semaine allégée (Noël)",
+      "start": "2026-12-21",
+      "end": "2026-12-26",
+      "sessions": [
+        {
+          "id": "w11-d1",
+          "date": "2026-12-21",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Context",
+          "resources": [
+            {
+              "label": "Context",
+              "url": "https://react.dev/learn/passing-data-deeply-with-context"
+            }
+          ],
+          "exercise": "Identifier ce qui mérite un context dans ton appli",
+          "durationMin": 60
+        },
+        {
+          "id": "w11-d2",
+          "date": "2026-12-22",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Reducer + context",
+          "resources": [
+            {
+              "label": "Passer à l'échelle",
+              "url": "https://react.dev/learn/scaling-up-with-reducer-and-context"
+            }
+          ],
+          "exercise": "Combiner les deux pour les dépenses",
+          "durationMin": 60
+        },
+        {
+          "id": "w11-d3",
+          "date": "2026-12-23",
+          "weekday": "Mer",
+          "type": "revision",
+          "objective": "Rattrapage",
+          "resources": [
+            {
+              "label": "Tes notes"
+            }
+          ],
+          "exercise": "Relire les semaines 8 à 10",
+          "durationMin": 60
+        },
+        {
+          "id": "w11-d4",
+          "date": "2026-12-24",
+          "weekday": "Jeu",
+          "type": "repos",
+          "objective": "Repos",
+          "resources": [],
+          "durationMin": 0
+        },
+        {
+          "id": "w11-d5",
+          "date": "2026-12-25",
+          "weekday": "Ven",
+          "type": "repos",
+          "objective": "Repos",
+          "resources": [],
+          "durationMin": 0
+        },
+        {
+          "id": "w11-d6",
+          "date": "2026-12-26",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet léger",
+          "resources": [],
+          "exercise": "Thème clair ou sombre via un context",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 12,
+      "phase": 3,
+      "title": "Semaine allégée (Nouvel An)",
+      "start": "2026-12-28",
+      "end": "2027-01-02",
+      "sessions": [
+        {
+          "id": "w12-d1",
+          "date": "2026-12-28",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Refs",
+          "resources": [
+            {
+              "label": "Refs",
+              "url": "https://react.dev/learn/referencing-values-with-refs"
+            },
+            {
+              "label": "DOM et refs",
+              "url": "https://react.dev/learn/manipulating-the-dom-with-refs"
+            }
+          ],
+          "exercise": "Mettre le focus sur un champ au clic",
+          "durationMin": 60
+        },
+        {
+          "id": "w12-d2",
+          "date": "2026-12-29",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Les effets",
+          "resources": [
+            {
+              "label": "Synchroniser avec les effets",
+              "url": "https://react.dev/learn/synchronizing-with-effects"
+            }
+          ],
+          "exercise": "Expliquer pourquoi un effet s'exécute deux fois en mode dev",
+          "durationMin": 60
+        },
+        {
+          "id": "w12-d3",
+          "date": "2026-12-30",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Éviter les effets inutiles",
+          "resources": [
+            {
+              "label": "You Might Not Need an Effect",
+              "url": "https://react.dev/learn/you-might-not-need-an-effect"
+            }
+          ],
+          "exercise": "Lire la page deux fois, c'est la plus importante",
+          "durationMin": 60
+        },
+        {
+          "id": "w12-d4",
+          "date": "2026-12-31",
+          "weekday": "Jeu",
+          "type": "revision",
+          "objective": "Rattrapage",
+          "resources": [],
+          "durationMin": 60
+        },
+        {
+          "id": "w12-d5",
+          "date": "2027-01-01",
+          "weekday": "Ven",
+          "type": "repos",
+          "objective": "Repos",
+          "resources": [],
+          "durationMin": 0
+        },
+        {
+          "id": "w12-d6",
+          "date": "2027-01-02",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Supprimer chaque useEffect inutile de ton appli",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 13,
+      "phase": 3,
+      "title": "Effets, hooks et appli complète",
+      "start": "2027-01-04",
+      "end": "2027-01-09",
+      "sessions": [
+        {
+          "id": "w13-d1",
+          "date": "2027-01-04",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Cycle de vie des effets",
+          "resources": [
+            {
+              "label": "Cycle de vie",
+              "url": "https://react.dev/learn/lifecycle-of-reactive-effects"
+            }
+          ],
+          "exercise": "Prédire quand un effet se relance",
+          "durationMin": 60
+        },
+        {
+          "id": "w13-d2",
+          "date": "2027-01-05",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Dépendances",
+          "resources": [
+            {
+              "label": "Événements vs effets",
+              "url": "https://react.dev/learn/separating-events-from-effects"
+            },
+            {
+              "label": "Dépendances",
+              "url": "https://react.dev/learn/removing-effect-dependencies"
+            }
+          ],
+          "exercise": "Corriger une boucle infinie volontaire",
+          "durationMin": 60
+        },
+        {
+          "id": "w13-d3",
+          "date": "2027-01-06",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Hooks personnalisés",
+          "resources": [
+            {
+              "label": "Custom hooks",
+              "url": "https://react.dev/learn/reusing-logic-with-custom-hooks"
+            }
+          ],
+          "exercise": "Écrire useLocalStorage",
+          "durationMin": 60
+        },
+        {
+          "id": "w13-d4",
+          "date": "2027-01-07",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Charger des données",
+          "resources": [
+            {
+              "label": "TanStack Query",
+              "url": "https://tanstack.com/query/latest/docs/framework/react/overview"
+            }
+          ],
+          "exercise": "Charger la liste depuis une API avec cache",
+          "durationMin": 60
+        },
+        {
+          "id": "w13-d5",
+          "date": "2027-01-08",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Navigation",
+          "resources": [
+            {
+              "label": "React Router",
+              "url": "https://reactrouter.com"
+            }
+          ],
+          "exercise": "Deux pages : liste et statistiques",
+          "durationMin": 60
+        },
+        {
+          "id": "w13-d6",
+          "date": "2027-01-09",
+          "weekday": "Sam",
+          "type": "bilan",
+          "objective": "Bilan de phase",
+          "resources": [
+            {
+              "label": "React DevTools",
+              "url": "https://react.dev/learn/react-developer-tools"
+            }
+          ],
+          "exercise": "Mettre l'appli en ligne, puis expliquer chaque re-rendu avec le Profiler",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 14,
+      "phase": 4,
+      "title": "Rendu et fibers",
+      "start": "2027-01-11",
+      "end": "2027-01-16",
+      "sessions": [
+        {
+          "id": "w14-d1",
+          "date": "2027-01-11",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Ce que devient le JSX",
+          "resources": [
+            {
+              "label": "Build your own React, étapes 0 et 1",
+              "url": "https://pomb.us/build-your-own-react/"
+            }
+          ],
+          "exercise": "Écrire createElement toi-même",
+          "durationMin": 60
+        },
+        {
+          "id": "w14-d2",
+          "date": "2027-01-12",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Afficher dans le DOM",
+          "resources": [
+            {
+              "label": "Build your own React, étape 2",
+              "url": "https://pomb.us/build-your-own-react/"
+            }
+          ],
+          "exercise": "Écrire render et afficher un arbre simple",
+          "durationMin": 60
+        },
+        {
+          "id": "w14-d3",
+          "date": "2027-01-13",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Découper le travail",
+          "resources": [
+            {
+              "label": "Build your own React, étape 3",
+              "url": "https://pomb.us/build-your-own-react/"
+            }
+          ],
+          "exercise": "Comprendre la boucle de travail interruptible",
+          "durationMin": 60
+        },
+        {
+          "id": "w14-d4",
+          "date": "2027-01-14",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Les fibers",
+          "resources": [
+            {
+              "label": "Build your own React, étape 4",
+              "url": "https://pomb.us/build-your-own-react/"
+            }
+          ],
+          "exercise": "Dessiner l'arbre de fibers d'un petit composant",
+          "durationMin": 60
+        },
+        {
+          "id": "w14-d5",
+          "date": "2027-01-15",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Phases render et commit",
+          "resources": [
+            {
+              "label": "Build your own React, étape 5",
+              "url": "https://pomb.us/build-your-own-react/"
+            }
+          ],
+          "exercise": "Expliquer pourquoi on sépare les deux phases",
+          "durationMin": 60
+        },
+        {
+          "id": "w14-d6",
+          "date": "2027-01-16",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Faire un schéma de tout le mécanisme, de mémoire",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 15,
+      "phase": 4,
+      "title": "Réconciliation et hooks",
+      "start": "2027-01-18",
+      "end": "2027-01-23",
+      "sessions": [
+        {
+          "id": "w15-d1",
+          "date": "2027-01-18",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Réconciliation",
+          "resources": [
+            {
+              "label": "Build your own React, étape 6",
+              "url": "https://pomb.us/build-your-own-react/"
+            }
+          ],
+          "exercise": "Relier ce que tu codes au rôle des key",
+          "durationMin": 60
+        },
+        {
+          "id": "w15-d2",
+          "date": "2027-01-19",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Composants fonctions",
+          "resources": [
+            {
+              "label": "Build your own React, étape 7",
+              "url": "https://pomb.us/build-your-own-react/"
+            }
+          ],
+          "exercise": "Faire tourner un composant fonction dans ton mini-React",
+          "durationMin": 60
+        },
+        {
+          "id": "w15-d3",
+          "date": "2027-01-20",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Les hooks",
+          "resources": [
+            {
+              "label": "Build your own React, étape 8",
+              "url": "https://pomb.us/build-your-own-react/"
+            }
+          ],
+          "exercise": "Implémenter useState et un compteur",
+          "durationMin": 60
+        },
+        {
+          "id": "w15-d4",
+          "date": "2027-01-21",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "L'autre modèle : la réactivité de Vue",
+          "resources": [
+            {
+              "label": "Vue, la réactivité en profondeur",
+              "url": "https://vuejs.org/guide/extras/reactivity-in-depth.html"
+            }
+          ],
+          "exercise": "Recoder une réactivité minimale avec Proxy",
+          "durationMin": 60
+        },
+        {
+          "id": "w15-d5",
+          "date": "2027-01-22",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Comparer",
+          "resources": [
+            {
+              "label": "Tes deux implémentations"
+            }
+          ],
+          "exercise": "Écrire une page « React vs Vue : qui re-rend quoi, et pourquoi »",
+          "durationMin": 60
+        },
+        {
+          "id": "w15-d6",
+          "date": "2027-01-23",
+          "weekday": "Sam",
+          "type": "bilan",
+          "objective": "Bilan de phase",
+          "resources": [],
+          "exercise": "Expliquer à voix haute pourquoi les hooks ne vont pas dans un if",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 16,
+      "phase": 5,
+      "title": "Node et Express",
+      "start": "2027-01-25",
+      "end": "2027-01-30",
+      "sessions": [
+        {
+          "id": "w16-d1",
+          "date": "2027-01-25",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Ce qu'est Node",
+          "resources": [
+            {
+              "label": "Node.js, introduction",
+              "url": "https://nodejs.org/en/learn/getting-started/introduction-to-nodejs"
+            }
+          ],
+          "exercise": "Lire et écrire un fichier JSON avec fs",
+          "durationMin": 60
+        },
+        {
+          "id": "w16-d2",
+          "date": "2027-01-26",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Un serveur sans framework",
+          "resources": [
+            {
+              "label": "Module http",
+              "url": "https://nodejs.org/api/http.html"
+            }
+          ],
+          "exercise": "Un serveur qui répond du JSON selon l'URL",
+          "durationMin": 60
+        },
+        {
+          "id": "w16-d3",
+          "date": "2027-01-27",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Express et les routes",
+          "resources": [
+            {
+              "label": "Express, routage",
+              "url": "https://expressjs.com/en/guide/routing.html"
+            }
+          ],
+          "exercise": "Refaire le serveur d'hier avec Express",
+          "durationMin": 60
+        },
+        {
+          "id": "w16-d4",
+          "date": "2027-01-28",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Middlewares",
+          "resources": [
+            {
+              "label": "Express, middlewares",
+              "url": "https://expressjs.com/en/guide/using-middleware.html"
+            }
+          ],
+          "exercise": "Écrire ton propre logger de requêtes",
+          "durationMin": 60
+        },
+        {
+          "id": "w16-d5",
+          "date": "2027-01-29",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "API CRUD",
+          "resources": [
+            {
+              "label": "Docs Express",
+              "url": "https://expressjs.com"
+            }
+          ],
+          "exercise": "Routes GET, POST, PUT, DELETE sur des données en mémoire",
+          "durationMin": 60
+        },
+        {
+          "id": "w16-d6",
+          "date": "2027-01-30",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [
+            {
+              "label": "Bruno",
+              "url": "https://www.usebruno.com"
+            }
+          ],
+          "exercise": "API des dépenses, testée avec un client HTTP",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 17,
+      "phase": 5,
+      "title": "SQL",
+      "start": "2027-02-01",
+      "end": "2027-02-06",
+      "sessions": [
+        {
+          "id": "w17-d1",
+          "date": "2027-02-01",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Bases relationnelles, installation",
+          "resources": [
+            {
+              "label": "PostgreSQL Tutorial",
+              "url": "https://www.postgresqltutorial.com"
+            }
+          ],
+          "exercise": "Installer PostgreSQL et créer une base",
+          "durationMin": 60
+        },
+        {
+          "id": "w17-d2",
+          "date": "2027-02-02",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Lire des données",
+          "resources": [
+            {
+              "label": "SQLBolt, leçons 1 à 5",
+              "url": "https://sqlbolt.com"
+            }
+          ],
+          "exercise": "Faire les exercices",
+          "durationMin": 60
+        },
+        {
+          "id": "w17-d3",
+          "date": "2027-02-03",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Jointures",
+          "resources": [
+            {
+              "label": "SQLBolt, leçons 6 à 8",
+              "url": "https://sqlbolt.com"
+            }
+          ],
+          "exercise": "Faire les exercices",
+          "durationMin": 60
+        },
+        {
+          "id": "w17-d4",
+          "date": "2027-02-04",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Agrégats",
+          "resources": [
+            {
+              "label": "SQLBolt, leçons 9 à 12",
+              "url": "https://sqlbolt.com"
+            }
+          ],
+          "exercise": "Total des dépenses par catégorie",
+          "durationMin": 60
+        },
+        {
+          "id": "w17-d5",
+          "date": "2027-02-05",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Écrire et créer des tables",
+          "resources": [
+            {
+              "label": "SQLBolt, leçons 13 à 18",
+              "url": "https://sqlbolt.com"
+            }
+          ],
+          "exercise": "Faire les exercices",
+          "durationMin": 60
+        },
+        {
+          "id": "w17-d6",
+          "date": "2027-02-06",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Dessiner le schéma : utilisateurs, dépenses, catégories",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 18,
+      "phase": 5,
+      "title": "Brancher l'API sur la base",
+      "start": "2027-02-08",
+      "end": "2027-02-13",
+      "sessions": [
+        {
+          "id": "w18-d1",
+          "date": "2027-02-08",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Clés et contraintes",
+          "resources": [
+            {
+              "label": "Clés étrangères",
+              "url": "https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-foreign-key/"
+            }
+          ],
+          "exercise": "Créer tes tables avec leurs relations",
+          "durationMin": 60
+        },
+        {
+          "id": "w18-d2",
+          "date": "2027-02-09",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Node + PostgreSQL",
+          "resources": [
+            {
+              "label": "node-postgres",
+              "url": "https://node-postgres.com"
+            }
+          ],
+          "exercise": "Lire les dépenses depuis la base",
+          "durationMin": 60
+        },
+        {
+          "id": "w18-d3",
+          "date": "2027-02-10",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Injection SQL",
+          "resources": [
+            {
+              "label": "OWASP, injection SQL",
+              "url": "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html"
+            }
+          ],
+          "exercise": "Passer toutes tes requêtes en paramétré",
+          "durationMin": 60
+        },
+        {
+          "id": "w18-d4",
+          "date": "2027-02-11",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Index",
+          "resources": [
+            {
+              "label": "Use The Index, Luke",
+              "url": "https://use-the-index-luke.com"
+            }
+          ],
+          "exercise": "Comparer EXPLAIN avant et après un index",
+          "durationMin": 60
+        },
+        {
+          "id": "w18-d5",
+          "date": "2027-02-12",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "ORM et migrations",
+          "resources": [
+            {
+              "label": "Drizzle ORM",
+              "url": "https://orm.drizzle.team"
+            }
+          ],
+          "exercise": "Écrire une migration qui ajoute une colonne",
+          "durationMin": 60
+        },
+        {
+          "id": "w18-d6",
+          "date": "2027-02-13",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "API complète branchée sur PostgreSQL",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 19,
+      "phase": 5,
+      "title": "Authentification et sécurité",
+      "start": "2027-02-15",
+      "end": "2027-02-20",
+      "sessions": [
+        {
+          "id": "w19-d1",
+          "date": "2027-02-15",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Stocker un mot de passe",
+          "resources": [
+            {
+              "label": "OWASP, stockage des mots de passe",
+              "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html"
+            }
+          ],
+          "exercise": "Hacher et vérifier un mot de passe",
+          "durationMin": 60
+        },
+        {
+          "id": "w19-d2",
+          "date": "2027-02-16",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Sessions et cookies",
+          "resources": [
+            {
+              "label": "OWASP, sessions",
+              "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html"
+            }
+          ],
+          "exercise": "Lister les options de cookie et leur rôle",
+          "durationMin": 60
+        },
+        {
+          "id": "w19-d3",
+          "date": "2027-02-17",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Sessions ou JWT",
+          "resources": [
+            {
+              "label": "Introduction aux JWT",
+              "url": "https://jwt.io/introduction"
+            }
+          ],
+          "exercise": "Écrire le pour et le contre de chaque approche",
+          "durationMin": 60
+        },
+        {
+          "id": "w19-d4",
+          "date": "2027-02-18",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Inscription et connexion",
+          "resources": [
+            {
+              "label": "Tes notes"
+            }
+          ],
+          "exercise": "Routes d'inscription, connexion, déconnexion",
+          "durationMin": 60
+        },
+        {
+          "id": "w19-d5",
+          "date": "2027-02-19",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Valider les entrées",
+          "resources": [
+            {
+              "label": "Zod",
+              "url": "https://zod.dev"
+            },
+            {
+              "label": "OWASP Top 10",
+              "url": "https://owasp.org/Top10/"
+            }
+          ],
+          "exercise": "Valider chaque requête entrante",
+          "durationMin": 60
+        },
+        {
+          "id": "w19-d6",
+          "date": "2027-02-20",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Chaque utilisateur ne voit que ses propres dépenses",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 20,
+      "phase": 5,
+      "title": "Relier le front et le back",
+      "start": "2027-02-22",
+      "end": "2027-02-27",
+      "sessions": [
+        {
+          "id": "w20-d1",
+          "date": "2027-02-22",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Front branché sur l'API",
+          "resources": [
+            {
+              "label": "TanStack Query, mutations",
+              "url": "https://tanstack.com/query/latest/docs/framework/react/guides/mutations"
+            }
+          ],
+          "exercise": "Créer une dépense depuis React vers ta base",
+          "durationMin": 60
+        },
+        {
+          "id": "w20-d2",
+          "date": "2027-02-23",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "CORS et proxy",
+          "resources": [
+            {
+              "label": "Vite, proxy",
+              "url": "https://vite.dev/config/server-options"
+            }
+          ],
+          "exercise": "Configurer le proxy de dev",
+          "durationMin": 60
+        },
+        {
+          "id": "w20-d3",
+          "date": "2027-02-24",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Erreurs de bout en bout",
+          "resources": [
+            {
+              "label": "Tes notes"
+            }
+          ],
+          "exercise": "Afficher un message clair pour 400, 401 et 500",
+          "durationMin": 60
+        },
+        {
+          "id": "w20-d4",
+          "date": "2027-02-25",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Pagination et filtres",
+          "resources": [
+            {
+              "label": "LIMIT et OFFSET",
+              "url": "https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-limit/"
+            }
+          ],
+          "exercise": "Paginer la liste côté serveur",
+          "durationMin": 60
+        },
+        {
+          "id": "w20-d5",
+          "date": "2027-02-26",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Configuration et secrets",
+          "resources": [
+            {
+              "label": "The Twelve-Factor App, config",
+              "url": "https://12factor.net/config"
+            }
+          ],
+          "exercise": "Sortir les secrets du code",
+          "durationMin": 60
+        },
+        {
+          "id": "w20-d6",
+          "date": "2027-02-27",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Appli complète qui tourne en local",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 21,
+      "phase": 5,
+      "title": "Mise en ligne",
+      "start": "2027-03-01",
+      "end": "2027-03-06",
+      "sessions": [
+        {
+          "id": "w21-d1",
+          "date": "2027-03-01",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Conteneurs",
+          "resources": [
+            {
+              "label": "Docker, premiers pas",
+              "url": "https://docs.docker.com/get-started/"
+            }
+          ],
+          "exercise": "Lancer PostgreSQL dans un conteneur",
+          "durationMin": 60
+        },
+        {
+          "id": "w21-d2",
+          "date": "2027-03-02",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Dockeriser l'API",
+          "resources": [
+            {
+              "label": "Docs Docker",
+              "url": "https://docs.docker.com"
+            }
+          ],
+          "exercise": "Écrire le Dockerfile de l'API",
+          "durationMin": 60
+        },
+        {
+          "id": "w21-d3",
+          "date": "2027-03-03",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Déployer l'API et la base",
+          "resources": [
+            {
+              "label": "Render (ou équivalent)",
+              "url": "https://render.com"
+            }
+          ],
+          "exercise": "API en ligne avec sa base",
+          "durationMin": 60
+        },
+        {
+          "id": "w21-d4",
+          "date": "2027-03-04",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Déployer le front",
+          "resources": [
+            {
+              "label": "Même hébergeur"
+            }
+          ],
+          "exercise": "Front en ligne qui appelle l'API",
+          "durationMin": 60
+        },
+        {
+          "id": "w21-d5",
+          "date": "2027-03-05",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Logs structurés",
+          "resources": [
+            {
+              "label": "Pino",
+              "url": "https://getpino.io"
+            }
+          ],
+          "exercise": "Logger chaque requête avec durée et statut",
+          "durationMin": 60
+        },
+        {
+          "id": "w21-d6",
+          "date": "2027-03-06",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Tout fonctionne en ligne",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 22,
+      "phase": 5,
+      "title": "Consolider",
+      "start": "2027-03-08",
+      "end": "2027-03-13",
+      "sessions": [
+        {
+          "id": "w22-d1",
+          "date": "2027-03-08",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Déboguer en production",
+          "resources": [
+            {
+              "label": "Tes logs"
+            }
+          ],
+          "exercise": "Introduire un bug, le retrouver grâce aux logs",
+          "durationMin": 60
+        },
+        {
+          "id": "w22-d2",
+          "date": "2027-03-09",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Transactions",
+          "resources": [
+            {
+              "label": "Transactions PostgreSQL",
+              "url": "https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-transaction/"
+            }
+          ],
+          "exercise": "Une opération qui touche deux tables sans incohérence",
+          "durationMin": 60
+        },
+        {
+          "id": "w22-d3",
+          "date": "2027-03-10",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Performance",
+          "resources": [
+            {
+              "label": "EXPLAIN ANALYZE"
+            }
+          ],
+          "exercise": "Trouver et accélérer ta requête la plus lente",
+          "durationMin": 60
+        },
+        {
+          "id": "w22-d4",
+          "date": "2027-03-11",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Lecture de fond",
+          "resources": [
+            {
+              "label": "Designing Data-Intensive Applications, chapitre 1 (livre)"
+            }
+          ],
+          "exercise": "Résumer fiabilité, scalabilité, maintenabilité",
+          "durationMin": 60
+        },
+        {
+          "id": "w22-d5",
+          "date": "2027-03-12",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Doc de design",
+          "resources": [],
+          "exercise": "Une page sur l'architecture de ton appli et ses compromis",
+          "durationMin": 60
+        },
+        {
+          "id": "w22-d6",
+          "date": "2027-03-13",
+          "weekday": "Sam",
+          "type": "bilan",
+          "objective": "Bilan de phase",
+          "resources": [],
+          "exercise": "Valider l'objectif de fin de phase",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 23,
+      "phase": 6,
+      "title": "TypeScript",
+      "start": "2027-03-15",
+      "end": "2027-03-20",
+      "sessions": [
+        {
+          "id": "w23-d1",
+          "date": "2027-03-15",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Types de base",
+          "resources": [
+            {
+              "label": "Handbook, types courants",
+              "url": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+            }
+          ],
+          "exercise": "Typer tes fonctions utilitaires",
+          "durationMin": 60
+        },
+        {
+          "id": "w23-d2",
+          "date": "2027-03-16",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Affiner les types",
+          "resources": [
+            {
+              "label": "Narrowing",
+              "url": "https://www.typescriptlang.org/docs/handbook/2/narrowing.html"
+            }
+          ],
+          "exercise": "Gérer un type « succès ou erreur »",
+          "durationMin": 60
+        },
+        {
+          "id": "w23-d3",
+          "date": "2027-03-17",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Génériques",
+          "resources": [
+            {
+              "label": "Generics",
+              "url": "https://www.typescriptlang.org/docs/handbook/2/generics.html"
+            }
+          ],
+          "exercise": "Une fonction fetchJson<T> typée",
+          "durationMin": 60
+        },
+        {
+          "id": "w23-d4",
+          "date": "2027-03-18",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "TypeScript avec React",
+          "resources": [
+            {
+              "label": "react.dev, TypeScript",
+              "url": "https://react.dev/learn/typescript"
+            }
+          ],
+          "exercise": "Typer props, état et reducer",
+          "durationMin": 60
+        },
+        {
+          "id": "w23-d5",
+          "date": "2027-03-19",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "TypeScript côté API",
+          "resources": [
+            {
+              "label": "Zod",
+              "url": "https://zod.dev"
+            }
+          ],
+          "exercise": "Partager les types entre validation et code",
+          "durationMin": 60
+        },
+        {
+          "id": "w23-d6",
+          "date": "2027-03-20",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Tout le projet en mode strict",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 24,
+      "phase": 6,
+      "title": "Next.js",
+      "start": "2027-03-22",
+      "end": "2027-03-27",
+      "sessions": [
+        {
+          "id": "w24-d1",
+          "date": "2027-03-22",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Pourquoi un framework",
+          "resources": [
+            {
+              "label": "Next.js Learn",
+              "url": "https://nextjs.org/learn"
+            }
+          ],
+          "exercise": "Suivre les premiers chapitres",
+          "durationMin": 60
+        },
+        {
+          "id": "w24-d2",
+          "date": "2027-03-23",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Routes et layouts",
+          "resources": [
+            {
+              "label": "Next.js, démarrage",
+              "url": "https://nextjs.org/docs/app/getting-started"
+            }
+          ],
+          "exercise": "Deux pages avec un layout commun",
+          "durationMin": 60
+        },
+        {
+          "id": "w24-d3",
+          "date": "2027-03-24",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Composants serveur et client",
+          "resources": [
+            {
+              "label": "Server Components",
+              "url": "https://react.dev/reference/rsc/server-components"
+            }
+          ],
+          "exercise": "Expliquer ce qui tourne où, et pourquoi",
+          "durationMin": 60
+        },
+        {
+          "id": "w24-d4",
+          "date": "2027-03-25",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Charger et modifier des données",
+          "resources": [
+            {
+              "label": "Docs Next.js",
+              "url": "https://nextjs.org/docs"
+            }
+          ],
+          "exercise": "Une page qui lit tes dépenses côté serveur",
+          "durationMin": 60
+        },
+        {
+          "id": "w24-d5",
+          "date": "2027-03-26",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Modes de rendu",
+          "resources": [
+            {
+              "label": "Docs Next.js",
+              "url": "https://nextjs.org/docs"
+            }
+          ],
+          "exercise": "Comparer rendu statique et dynamique sur ta page",
+          "durationMin": 60
+        },
+        {
+          "id": "w24-d6",
+          "date": "2027-03-27",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [],
+          "exercise": "Refaire la page statistiques en Next.js",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 25,
+      "phase": 6,
+      "title": "Tests et intégration continue",
+      "start": "2027-03-29",
+      "end": "2027-04-03",
+      "sessions": [
+        {
+          "id": "w25-d1",
+          "date": "2027-03-29",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Pourquoi et quoi tester",
+          "resources": [
+            {
+              "label": "The Practical Test Pyramid",
+              "url": "https://martinfowler.com/articles/practical-test-pyramid.html"
+            }
+          ],
+          "exercise": "Lister les 5 choses les plus risquées de ton appli",
+          "durationMin": 60
+        },
+        {
+          "id": "w25-d2",
+          "date": "2027-03-30",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Tests unitaires",
+          "resources": [
+            {
+              "label": "Vitest",
+              "url": "https://vitest.dev/guide/"
+            }
+          ],
+          "exercise": "Tester ton reducer",
+          "durationMin": 60
+        },
+        {
+          "id": "w25-d3",
+          "date": "2027-03-31",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Tester des composants",
+          "resources": [
+            {
+              "label": "React Testing Library",
+              "url": "https://testing-library.com/docs/react-testing-library/intro/"
+            }
+          ],
+          "exercise": "Tester le formulaire d'ajout",
+          "durationMin": 60
+        },
+        {
+          "id": "w25-d4",
+          "date": "2027-04-01",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Tester l'API",
+          "resources": [
+            {
+              "label": "Supertest",
+              "url": "https://github.com/ladjs/supertest"
+            }
+          ],
+          "exercise": "Tester l'inscription et les droits d'accès",
+          "durationMin": 60
+        },
+        {
+          "id": "w25-d5",
+          "date": "2027-04-02",
+          "weekday": "Ven",
+          "type": "lecon",
+          "objective": "Tests de bout en bout",
+          "resources": [
+            {
+              "label": "Playwright",
+              "url": "https://playwright.dev/docs/intro"
+            }
+          ],
+          "exercise": "Un scénario complet : connexion puis ajout d'une dépense",
+          "durationMin": 60
+        },
+        {
+          "id": "w25-d6",
+          "date": "2027-04-03",
+          "weekday": "Sam",
+          "type": "projet",
+          "objective": "Projet ou rattrapage",
+          "resources": [
+            {
+              "label": "GitHub Actions",
+              "url": "https://docs.github.com/actions"
+            }
+          ],
+          "exercise": "Lancer les tests à chaque push",
+          "durationMin": 60
+        }
+      ]
+    },
+    {
+      "week": 26,
+      "phase": 6,
+      "title": "Finaliser et faire le bilan",
+      "start": "2027-04-05",
+      "end": "2027-04-10",
+      "sessions": [
+        {
+          "id": "w26-d1",
+          "date": "2027-04-05",
+          "weekday": "Lun",
+          "type": "lecon",
+          "objective": "Git en équipe",
+          "resources": [
+            {
+              "label": "Pro Git",
+              "url": "https://git-scm.com/book/fr/v2"
+            }
+          ],
+          "exercise": "Travailler par branches et pull requests",
+          "durationMin": 60
+        },
+        {
+          "id": "w26-d2",
+          "date": "2027-04-06",
+          "weekday": "Mar",
+          "type": "lecon",
+          "objective": "Revue de code",
+          "resources": [
+            {
+              "label": "Tes notes"
+            }
+          ],
+          "exercise": "Faire générer une feature par l'IA, puis la relire comme un reviewer exigeant",
+          "durationMin": 60
+        },
+        {
+          "id": "w26-d3",
+          "date": "2027-04-07",
+          "weekday": "Mer",
+          "type": "lecon",
+          "objective": "Documentation",
+          "resources": [],
+          "exercise": "Un README clair : but, installation, architecture",
+          "durationMin": 60
+        },
+        {
+          "id": "w26-d4",
+          "date": "2027-04-08",
+          "weekday": "Jeu",
+          "type": "lecon",
+          "objective": "Présenter ton travail",
+          "resources": [],
+          "exercise": "Préparer 5 minutes de présentation du projet",
+          "durationMin": 60
+        },
+        {
+          "id": "w26-d5",
+          "date": "2027-04-09",
+          "weekday": "Ven",
+          "type": "revision",
+          "objective": "Rétrospective",
+          "resources": [
+            {
+              "label": "Tes notes de séance"
+            }
+          ],
+          "exercise": "Lister ce qui est acquis et ce qui reste flou",
+          "durationMin": 60
+        },
+        {
+          "id": "w26-d6",
+          "date": "2027-04-10",
+          "weekday": "Sam",
+          "type": "bilan",
+          "objective": "Bilan final",
+          "resources": [],
+          "exercise": "Choisir la suite : backend avancé, React Native ou system design",
+          "durationMin": 60
+        }
+      ]
+    }
+  ]
+}

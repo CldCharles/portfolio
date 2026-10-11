@@ -148,10 +148,10 @@ test('migration preserves existing v1 content and rejects future versions', () =
   try {
     db.exec("CREATE TABLE cv_items(id TEXT PRIMARY KEY,kind TEXT,common TEXT,position INTEGER,revision INTEGER); CREATE TABLE cv_translations(item_id TEXT,locale TEXT,title TEXT,subtitle TEXT,description TEXT,source_revision INTEGER); INSERT INTO cv_items VALUES ('profile','profile','{}',0,7); PRAGMA user_version=1;");
     migrateDatabase(db);
-    assert.equal(db.pragma('user_version', { simple: true }), 3);
+    assert.equal(db.pragma('user_version', { simple: true }), 4);
     assert.equal((db.prepare('SELECT revision FROM cv_items').get() as { revision: number }).revision, 7);
     migrateDatabase(db);
-    db.pragma('user_version=4');
+    db.pragma('user_version=5');
     assert.throws(() => migrateDatabase(db), /Unsupported/);
   } finally { db.close(); }
 });
@@ -165,7 +165,7 @@ test('migration to v3 keeps translations, accepts languages and still cascades d
       INSERT INTO cv_translations VALUES ('vue','fr','Vue.js','','',4), ('vue','ko','Vue.js','','',4);
       PRAGMA user_version=1;`);
     migrateDatabase(db);
-    assert.equal(db.pragma('user_version', { simple: true }), 3);
+    assert.equal(db.pragma('user_version', { simple: true }), 4);
     assert.equal((db.prepare('SELECT COUNT(*) AS count FROM cv_translations').get() as { count: number }).count, 2);
     db.prepare("INSERT INTO cv_items (id,kind,common) VALUES ('korean','language','{}')").run();
     db.prepare("DELETE FROM cv_items WHERE id='vue'").run();

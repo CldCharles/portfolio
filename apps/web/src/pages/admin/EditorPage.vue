@@ -6,15 +6,18 @@ import type { DraftDocument, EntryKind, Locale } from '@portfolio/contracts';
 import { Button } from '@/components/ui/button';
 import { useEditorStore } from '@/features/admin/store';
 import { useAuthStore } from '@/features/auth/store';
+import { useLearningStore } from '@/features/learning/store';
 import LoginForm from '@/features/auth/LoginForm.vue';
 import ItemEditor from '@/features/admin/components/ItemEditor.vue';
 import LinkedInImport from '@/features/linkedin/LinkedInImport.vue';
 import DraftPreview from '@/features/admin/components/DraftPreview.vue';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
+import AdminNav from '@/features/admin/components/AdminNav.vue';
 const { t, te, locale } = useI18n({ useScope: 'global' });
 const editor = useEditorStore();
 const auth = useAuthStore();
 const router = useRouter();
+const learning = useLearningStore();
 const selectedId = shallowRef('profile');
 const addingKind = shallowRef<EntryKind>('experience');
 const importMode = shallowRef(false);
@@ -61,7 +64,7 @@ async function preview() { await editor.showPreview(locale.value as Locale); if 
 async function publish() { await editor.publish(); confirmingPublish.value = false; if (!editor.error) previewMode.value = false; }
 async function logout() {
   if (unsaved.value && !confirmDiscard()) return;
-  try { await auth.logout(); importPending.value = false; editor.clear(); await router.replace('/admin/login'); }
+  try { await auth.logout(); importPending.value = false; editor.clear(); learning.clear(); await router.replace('/admin/login'); }
   catch { editor.error = 'UNKNOWN'; }
 }
 </script>
@@ -69,6 +72,7 @@ async function logout() {
   <main class="admin-shell">
     <header class="admin-header"><RouterLink to="/">← {{ t('admin.backToSite') }}</RouterLink><div class="admin-actions"><LanguageSwitcher /><Button v-if="auth.session?.authenticated" type="button" variant="outline" class="admin-button" :disabled="editor.busy" @click="logout">{{ t('admin.logout') }}</Button></div></header>
     <template v-if="auth.session?.authenticated">
+      <AdminNav />
       <div class="editor-heading"><div><p class="admin-eyebrow">{{ t('admin.privateArea') }}</p><h1>{{ t('admin.editorTitle') }}</h1><p class="muted">{{ t('admin.editorIntro') }}</p></div><span class="draft-badge">{{ t(editor.dirty ? 'admin.unsaved' : editor.revision === editor.publishedRevision ? 'admin.inSync' : 'admin.draftSaved') }}</span></div>
       <p v-if="editor.error" role="alert" class="error-message">{{ t(errorKey) }}</p>
       <p v-if="editor.notice && !editor.dirty" role="status" class="notice">{{ t(`admin.${editor.notice}`) }}</p>

@@ -6,7 +6,7 @@ export const textSchema = z.object({
   subtitle: z.string().trim().max(300),
   description: z.string().trim().max(5000),
 }).strict();
-const webUrl = z.url().refine(value => ['https:', 'http:'].includes(new URL(value).protocol), 'HTTP(S) required');
+export const webUrl = z.url().refine(value => ['https:', 'http:'].includes(new URL(value).protocol), 'HTTP(S) required');
 // Keep the supplied precision; an unknown month/day must not be invented.
 const date = z.union([
   z.iso.date(),

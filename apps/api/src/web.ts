@@ -31,7 +31,7 @@ export async function installBuiltWeb(app: Express, repository: CvRepository) {
     const file = renderer.discoveryFile(request.path, publicSiteConfig(repository))!;
     response.status(file.status).type(file.type).send(file.body);
   });
-  app.get(['/', '/privacy', '/cadrage', '/admin', '/admin/login'], async (request, response) => {
+  app.get(['/', '/privacy', '/cadrage', '/admin', '/admin/login', '/admin/apprentissage'], async (request, response) => {
     const value = request.query.lang ?? 'fr';
     if (typeof value !== 'string' || !['fr', 'en', 'ko'].includes(value)) { response.status(400).send('INVALID_LOCALE'); return; }
     const locale = value as Locale;

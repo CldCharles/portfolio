@@ -63,5 +63,7 @@ export function adminRoutes(admin: AdminService, options: AdminOptions) {
     const { revision } = revisionSchema.parse(request.body);
     response.json(admin.publish(revision));
   });
+  router.get('/learning', (_request, response) => response.json(admin.learning.list()));
+  router.put('/learning/:id', (request, response) => response.json(admin.learning.save(request.params.id, request.body)));
   return router;
 }

@@ -41,3 +41,17 @@ export interface PublicSiteConfig {
   publicOrigin: string | null;
 }
 export interface PublicBootstrap { locale: Locale; cv: PublicCv | null; site: PublicSiteConfig }
+
+/** Private learning tracker (admin only). Key: programme session id ("w01-d1"); absent = "todo". */
+export type LearningStatus = 'todo' | 'done' | 'skipped';
+export interface LearningSessionProgress {
+  status: LearningStatus;
+  /** ISO timestamp, set when the session is marked done. */
+  doneAt: string | null;
+  understood: string;
+  unclear: string;
+  /** Commit, repository or demo (HTTP(S) only). */
+  link: string | null;
+}
+export interface LearningProgress { sessions: Record<string, LearningSessionProgress> }
+export type LearningSessionInput = Omit<LearningSessionProgress, 'doneAt'>;
