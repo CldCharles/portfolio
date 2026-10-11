@@ -7,6 +7,7 @@ import { groupSections } from '@/features/cv/lib/sections';
 import CvHero from '@/features/cv/components/CvHero.vue';
 import CvSection from '@/features/cv/components/CvSection.vue';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
+import AdminLink from '@/features/auth/AdminLink.vue';
 import CvNavigation from '@/features/cv/components/CvNavigation.vue';
 import { Button } from '@/components/ui/button';
 const { t, locale } = useI18n({ useScope: 'global' });
@@ -23,7 +24,7 @@ const languages = computed(() => store.cv?.entries.filter(entry => entry.kind ==
     <a href="#main" class="skip-link">{{ t('nav.skip') }}</a>
     <header class="site-header">
       <a :href="`/cadrage?lang=${locale}`" class="workshop-link">{{ t('scoping.nav') }} →</a>
-      <LanguageSwitcher />
+      <div class="header-tools"><AdminLink /><LanguageSwitcher /></div>
     </header>
     <div class="cv-layout" :class="{ 'no-navigation': !sections.length }">
     <CvNavigation :sections="sections" />
@@ -52,6 +53,7 @@ const languages = computed(() => store.cv?.entries.filter(entry => entry.kind ==
 .cv-layout.no-navigation > main { grid-column: 1; }
 .workshop-link { display: inline-flex; align-items: center; min-block-size: 2.75rem; color: var(--portfolio-accent); font-size: .9rem; font-weight: 600; text-decoration: underline; text-decoration-color: var(--portfolio-accent-line); text-underline-offset: .3rem; }
 .workshop-link:hover { text-decoration-color: currentColor; }
+.header-tools { display: flex; align-items: center; gap: .5rem; }
 @media print { .workshop-link { display: none; } }
 .status-panel { padding-block: 7rem; text-align: center; }
 .retry { margin-block-start: 1.5rem; min-block-size: 2.75rem; }
