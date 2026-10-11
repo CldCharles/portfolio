@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
+import AdminLink from '@/features/auth/AdminLink.vue';
 import { useSiteConfig } from '@/features/legal/config';
 const { t, locale } = useI18n();
 const site = useSiteConfig();
@@ -16,7 +17,7 @@ const sections = ['overview', 'cv', 'admin', 'storage', 'external', 'rights'] as
 <template>
   <div class="privacy-shell">
     <a href="#privacy-main" class="skip-link">{{ t('nav.skip') }}</a>
-    <header><a :href="`/?lang=${locale}`">← {{ t('legal.back') }}</a><LanguageSwitcher /></header>
+    <header><a :href="`/?lang=${locale}`">← {{ t('legal.back') }}</a><div class="header-tools"><AdminLink /><LanguageSwitcher /></div></header>
     <main id="privacy-main" tabindex="-1">
       <h1>{{ t('legal.title') }}</h1>
       <p class="intro">{{ t('legal.intro', { name: site.editorName }) }}</p>
@@ -44,6 +45,7 @@ const sections = ['overview', 'cv', 'admin', 'storage', 'external', 'rights'] as
 <style scoped>
 .privacy-shell { max-inline-size: 960px; margin-inline: auto; padding-inline: clamp(1.25rem, 5vw, 4rem); }
 header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; padding-block: 1.5rem; border-block-end: 1px solid var(--border); }
+.header-tools { display: flex; align-items: center; gap: .5rem; }
 main { padding-block: 3rem; } h1 { font-family: Georgia, serif; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; }
 h2 { font-size: 1.25rem; font-weight: 600; margin-block-end: .7rem; }
 p, dd { line-height: 1.8; color: var(--muted-foreground); } p + p { margin-block-start: .8rem; }
