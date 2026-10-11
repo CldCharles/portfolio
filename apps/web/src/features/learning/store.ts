@@ -12,6 +12,8 @@ export const useLearningStore = defineStore('learning', () => {
   const progress = ref<LearningProgress | null>(null);
   const loading = shallowRef(false);
   const saving = ref(new Set<string>());
+  /** Sessions whose notes are typed but not saved yet (reported by the cards). */
+  const unsaved = ref(new Set<string>());
   /** Loading error only; each session card shows its own save errors. */
   const error = shallowRef('');
   /** Browser-local date, refreshed when the page comes back to the foreground (a tab left open overnight). */
@@ -43,7 +45,8 @@ export const useLearningStore = defineStore('learning', () => {
     } catch (reason) { return errorCode(reason); }
     finally { saving.value.delete(id); }
   }
-  function refreshToday() { today.value = localDate(); }
-  function clear() { progress.value = null; error.value = ''; }
-  return { progress, loading, saving, error, today, load, entry, save, refreshToday, clear };
+  // Never swap the session of the day under notes being typed.
+  function refreshToday() { if (!unsaved.value.size) today.value = localDate(); }
+  function clear() { progress.value = null; error.value = ''; unsaved.value.clear(); }
+  return { progress, loading, saving, unsaved, error, today, load, entry, save, refreshToday, clear };
 });

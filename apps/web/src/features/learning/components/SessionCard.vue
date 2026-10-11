@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, shallowRef, watch } from 'vue';
+import { computed, onUnmounted, shallowRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Check, Clock, ExternalLink, SkipForward } from '@lucide/vue';
 import type { LearningStatus } from '@portfolio/contracts';
@@ -26,16 +26,22 @@ const failureKey = computed(() => te(`learning.errors.${failure.value}`) ? `lear
 function reset() { understood.value = entry.value.understood; unclear.value = entry.value.unclear; link.value = entry.value.link ?? ''; }
 watch(() => props.session.id, reset, { immediate: true });
 const dirty = computed(() => understood.value !== entry.value.understood || unclear.value !== entry.value.unclear || link.value.trim() !== (entry.value.link ?? ''));
+watch(dirty, value => { if (value) store.unsaved.add(props.session.id); else store.unsaved.delete(props.session.id); }, { immediate: true });
+onUnmounted(() => store.unsaved.delete(props.session.id));
+const notesChange = () => ({ understood: understood.value, unclear: unclear.value, link: link.value.trim() || null });
 const hasNotes = computed(() => !!(entry.value.understood || entry.value.unclear || entry.value.link));
 
 async function setStatus(status: LearningStatus) {
   notice.value = false;
   // Clicking the active status again puts the session back to "todo".
-  failure.value = await store.save(props.session.id, { status: entry.value.status === status ? 'todo' : status }) ?? '';
+  // Typed notes go with the status: in the overdue list, a done card disappears right away.
+  const withNotes = dirty.value;
+  failure.value = await store.save(props.session.id, { status: entry.value.status === status ? 'todo' : status, ...(withNotes ? notesChange() : {}) }) ?? '';
+  if (!failure.value && withNotes) reset();
 }
 async function saveNotes() {
   notice.value = false;
-  failure.value = await store.save(props.session.id, { understood: understood.value, unclear: unclear.value, link: link.value.trim() || null }) ?? '';
+  failure.value = await store.save(props.session.id, notesChange()) ?? '';
   if (!failure.value) { reset(); notice.value = true; }
 }
 </script>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { nextTick, onMounted, onUnmounted, shallowRef } from 'vue';
-import { useRouter } from 'vue-router';
+import { onBeforeRouteLeave, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/features/auth/store';
@@ -10,6 +10,7 @@ import AdminNav from '@/features/admin/components/AdminNav.vue';
 import { program } from '@/features/learning/program';
 import { getCurrentWeek } from '@/features/learning/lib/progress';
 import { useLearningStore } from '@/features/learning/store';
+import { useEditorStore } from '@/features/admin/store';
 import LearningStats from '@/features/learning/components/LearningStats.vue';
 import WeekTimeline from '@/features/learning/components/WeekTimeline.vue';
 import TodayView from '@/features/learning/components/TodayView.vue';
@@ -25,9 +26,14 @@ const store = useLearningStore();
 const router = useRouter();
 const view = shallowRef<View>('today');
 const logoutFailed = shallowRef(false);
+const editor = useEditorStore();
+const keepNotes = () => store.unsaved.size > 0 && !window.confirm(t('admin.discardConfirm'));
+function beforeUnload(event: BeforeUnloadEvent) { if (store.unsaved.size) { event.preventDefault(); event.returnValue = ''; } }
+onBeforeRouteLeave(() => !keepNotes());
 const week = shallowRef(getCurrentWeek(program, store.today).week);
 
 async function open(target: View, targetWeek?: number) {
+  if ((target !== view.value || (targetWeek && targetWeek !== week.value)) && keepNotes()) return;
   view.value = target;
   if (targetWeek) week.value = targetWeek;
   await nextTick();
@@ -35,11 +41,13 @@ async function open(target: View, targetWeek?: number) {
 }
 // A tab left open overnight must move on to the new day's session.
 function refresh() { if (document.visibilityState === 'visible') store.refreshToday(); }
-onMounted(() => { document.addEventListener('visibilitychange', refresh); if (!store.progress) void store.load(); });
-onUnmounted(() => document.removeEventListener('visibilitychange', refresh));
+onMounted(() => { document.addEventListener('visibilitychange', refresh); window.addEventListener('beforeunload', beforeUnload); if (!store.progress) void store.load(); });
+onUnmounted(() => { document.removeEventListener('visibilitychange', refresh); window.removeEventListener('beforeunload', beforeUnload); });
 async function logout() {
+  if (keepNotes()) return;
   logoutFailed.value = false;
-  try { await auth.logout(); store.clear(); await router.replace('/admin/login'); }
+  // Clear both admin tabs: a later login must reload them, not reuse this session's data.
+  try { await auth.logout(); store.clear(); editor.clear(); await router.replace('/admin/login'); }
   catch { logoutFailed.value = true; }
 }
 </script>

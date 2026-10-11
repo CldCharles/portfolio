@@ -6,6 +6,7 @@ import type { DraftDocument, EntryKind, Locale } from '@portfolio/contracts';
 import { Button } from '@/components/ui/button';
 import { useEditorStore } from '@/features/admin/store';
 import { useAuthStore } from '@/features/auth/store';
+import { useLearningStore } from '@/features/learning/store';
 import LoginForm from '@/features/auth/LoginForm.vue';
 import ItemEditor from '@/features/admin/components/ItemEditor.vue';
 import LinkedInImport from '@/features/linkedin/LinkedInImport.vue';
@@ -16,6 +17,7 @@ const { t, te, locale } = useI18n({ useScope: 'global' });
 const editor = useEditorStore();
 const auth = useAuthStore();
 const router = useRouter();
+const learning = useLearningStore();
 const selectedId = shallowRef('profile');
 const addingKind = shallowRef<EntryKind>('experience');
 const importMode = shallowRef(false);
@@ -62,7 +64,7 @@ async function preview() { await editor.showPreview(locale.value as Locale); if 
 async function publish() { await editor.publish(); confirmingPublish.value = false; if (!editor.error) previewMode.value = false; }
 async function logout() {
   if (unsaved.value && !confirmDiscard()) return;
-  try { await auth.logout(); importPending.value = false; editor.clear(); await router.replace('/admin/login'); }
+  try { await auth.logout(); importPending.value = false; editor.clear(); learning.clear(); await router.replace('/admin/login'); }
   catch { editor.error = 'UNKNOWN'; }
 }
 </script>

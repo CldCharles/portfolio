@@ -32,7 +32,7 @@ router.beforeEach(async to => {
   if (server || !to.path.startsWith('/admin')) return;
   const auth = useAuthStore(store);
   try { await auth.check(); } catch { auth.expire(); }
-  if (to.meta.admin && !auth.session?.authenticated) return '/admin/login';
+  if (to.meta.admin && !auth.session?.authenticated) return { path: '/admin/login', query: to.path === '/admin' ? {} : { redirect: to.path } };
   if (to.path === '/admin/login' && auth.session?.authenticated) return '/admin';
 });
 
