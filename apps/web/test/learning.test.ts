@@ -100,3 +100,13 @@ test('the resource library merges the reading list and session resources by URL'
   assert.equal(resources.filter(resource => resource.title === 'Tes notes').length, 1);
   assert.ok(resources.some(resource => !resource.url && resource.title.startsWith('Designing Data-Intensive')));
 });
+
+test('every Udemy video resource names its section and its course is in the library', () => {
+  const library = new Set(program.library.map(item => item.url));
+  const udemy = sessions.flatMap(session => session.resources).filter(resource => resource.url?.startsWith('https://www.udemy.com/course/'));
+  assert.ok(udemy.length > 50);
+  for (const resource of udemy) {
+    assert.ok(library.has(resource.url), resource.url);
+    assert.match(resource.label, /^Udemy · .+ — « .+ »$/);
+  }
+});
