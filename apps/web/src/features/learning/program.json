@@ -582,6 +582,10 @@
             {
               "label": "Udemy · Complete JavaScript Course — « Numbers, Dates, Intl and Timers (timers) »",
               "url": "https://www.udemy.com/course/the-complete-javascript-course/"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Asynchronous JavaScript (callbacks et callback hell) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Un minuteur qui affiche chaque seconde",
