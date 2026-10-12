@@ -206,6 +206,86 @@
       "url": "https://cs50.harvard.edu/x/",
       "phases": [],
       "note": "Bonus : bases d'informatique, une leçon par semaine si tu as du temps en plus."
+    },
+    {
+      "title": "Udemy · Complete JavaScript Course",
+      "url": "https://www.udemy.com/course/the-complete-javascript-course/",
+      "phases": [
+        1,
+        2
+      ],
+      "note": "Vidéo, en anglais. Le langage en profondeur, du DOM à l’asynchrone."
+    },
+    {
+      "title": "Udemy · Ultimate React Course",
+      "url": "https://www.udemy.com/course/the-ultimate-react-course/",
+      "phases": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "note": "Vidéo, en anglais. React, React Query, React Router et Next.js (App Router)."
+    },
+    {
+      "title": "Udemy · Node.js Bootcamp (Jonas)",
+      "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/",
+      "phases": [
+        1,
+        2,
+        5
+      ],
+      "note": "Vidéo, en anglais. Node et Express ; la base de données y est MongoDB, à transposer en PostgreSQL."
+    },
+    {
+      "title": "Udemy · SQL and PostgreSQL (Grider)",
+      "url": "https://www.udemy.com/course/sql-and-postgresql/",
+      "phases": [
+        5,
+        6
+      ],
+      "note": "Vidéo, en anglais. SQL et PostgreSQL : requêtes, index, transactions, migrations, accès depuis Node."
+    },
+    {
+      "title": "Udemy · Understanding TypeScript",
+      "url": "https://www.udemy.com/course/understanding-typescript/",
+      "phases": [
+        6
+      ],
+      "note": "Vidéo, en anglais. Du typage de base à React et Express."
+    },
+    {
+      "title": "Udemy · Responsive Websites HTML/CSS",
+      "url": "https://www.udemy.com/course/design-and-develop-a-killer-website-with-html5-and-css3/",
+      "phases": [
+        2
+      ],
+      "note": "Vidéo, en anglais. HTML, CSS, Flexbox, Grid et responsive."
+    },
+    {
+      "title": "Udemy · Docker & Kubernetes",
+      "url": "https://www.udemy.com/course/docker-kubernetes-the-practical-guide/",
+      "phases": [
+        5
+      ],
+      "note": "Vidéo, en anglais. Images, conteneurs, Compose et déploiement."
+    },
+    {
+      "title": "Udemy · Git & GitHub Bootcamp",
+      "url": "https://www.udemy.com/course/git-and-github-bootcamp/",
+      "phases": [
+        1,
+        6
+      ],
+      "note": "Vidéo, en anglais. Git de la base au travail en équipe."
+    },
+    {
+      "title": "Udemy · React Testing Library and Jest",
+      "url": "https://www.udemy.com/course/react-testing-library-and-jest/",
+      "phases": [
+        6
+      ],
+      "note": "Vidéo, en anglais. Tester des composants React (Jest, transposable à Vitest)."
     }
   ],
   "weeks": [
@@ -230,6 +310,10 @@
             {
               "label": "Types",
               "url": "https://javascript.info/types"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « JavaScript Fundamentals – Part 1 »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Prédire le résultat de 10 conversions (\"5\" + 2, \"5\" * 2…) puis vérifier",
@@ -249,6 +333,10 @@
             {
               "label": "Boucles",
               "url": "https://javascript.info/while-for"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « JavaScript Fundamentals – Part 1 (if/else) puis Part 2 (boucles) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "FizzBuzz, puis compter les voyelles d'une phrase",
@@ -268,6 +356,10 @@
             {
               "label": "Fléchées",
               "url": "https://javascript.info/arrow-functions-basics"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « JavaScript Fundamentals – Part 2 »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Écrire 5 petites fonctions utilitaires",
@@ -287,6 +379,14 @@
             {
               "label": "Copie",
               "url": "https://javascript.info/object-copy"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « JavaScript Fundamentals – Part 2 (objets) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « How JavaScript Works Behind the Scenes (primitives et références) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Montrer la différence entre copie superficielle et profonde",
@@ -302,6 +402,10 @@
             {
               "label": "Méthodes de tableau",
               "url": "https://javascript.info/array-methods"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Working With Arrays »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Calculer total et moyenne d'une liste de dépenses",
@@ -336,6 +440,14 @@
             {
               "label": "Closures",
               "url": "https://javascript.info/closure"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « How JavaScript Works Behind the Scenes (portée) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « A Closer Look at Functions (closures) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Un compteur avec une variable privée",
@@ -355,6 +467,14 @@
             {
               "label": "Bind",
               "url": "https://javascript.info/bind"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « How JavaScript Works Behind the Scenes (this) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « A Closer Look at Functions (call, apply, bind) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Expliquer par écrit 3 cas où this change",
@@ -374,6 +494,10 @@
             {
               "label": "Classes",
               "url": "https://javascript.info/class"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Object-Oriented Programming (OOP) With JavaScript »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Une classe Depense avec méthodes",
@@ -393,6 +517,10 @@
             {
               "label": "Spread",
               "url": "https://javascript.info/rest-parameters-spread"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Data Structures, Modern Operators and Strings »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Réécrire le script de samedi avec ces syntaxes",
@@ -408,6 +536,10 @@
             {
               "label": "try/catch",
               "url": "https://javascript.info/try-catch"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Asynchronous JavaScript (leçons sur les erreurs et try…catch) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Valider les entrées et lever des erreurs claires",
@@ -446,6 +578,10 @@
             {
               "label": "Timers",
               "url": "https://javascript.info/settimeout-setinterval"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Numbers, Dates, Intl and Timers (timers) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Un minuteur qui affiche chaque seconde",
@@ -465,6 +601,10 @@
             {
               "label": "Chaînage",
               "url": "https://javascript.info/promise-chaining"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Asynchronous JavaScript: Promises, Async/Await, and AJAX »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Transformer un callback en promesse",
@@ -480,6 +620,10 @@
             {
               "label": "Async/await",
               "url": "https://javascript.info/async-await"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Asynchronous JavaScript: Promises, Async/Await, and AJAX (async/await) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Réécrire l'exercice d'hier en async",
@@ -498,6 +642,14 @@
             },
             {
               "label": "Vidéo : What the heck is the event loop anyway? (Philip Roberts, YouTube)"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Asynchronous JavaScript: Promises, Async/Await, and AJAX (event loop) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « How Node.js Works: A Look Behind the Scenes »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
             }
           ],
           "exercise": "Prédire l'ordre de 10 console.log mêlant timers et promesses",
@@ -517,6 +669,10 @@
             {
               "label": "JSONPlaceholder",
               "url": "https://jsonplaceholder.typicode.com"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Asynchronous JavaScript: Promises, Async/Await, and AJAX (fetch et API) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Récupérer une liste, gérer chargement et erreur",
@@ -555,6 +711,10 @@
             {
               "label": "Import/export",
               "url": "https://javascript.info/import-export"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Modern JavaScript Development: Modules, Tooling, and Functional »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Découper ton script en 3 fichiers",
@@ -570,6 +730,10 @@
             {
               "label": "Vite, démarrage",
               "url": "https://vite.dev/guide/"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Modern JavaScript Development (NPM ; Parcel à la place de Vite) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Créer un projet Vite « vanilla » et y déplacer ton code",
@@ -585,6 +749,14 @@
             {
               "label": "Learn Git Branching",
               "url": "https://learngitbranching.js.org"
+            },
+            {
+              "label": "Udemy · Git & GitHub Bootcamp — « The Very Basics Of Git: Adding & Committing »",
+              "url": "https://www.udemy.com/course/git-and-github-bootcamp/"
+            },
+            {
+              "label": "Udemy · Git & GitHub Bootcamp — « Working With Branches »",
+              "url": "https://www.udemy.com/course/git-and-github-bootcamp/"
             }
           ],
           "exercise": "Mettre le projet sur GitHub avec des commits propres",
@@ -600,6 +772,10 @@
             {
               "label": "DevTools, déboguer du JS",
               "url": "https://developer.chrome.com/docs/devtools/javascript"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Developer Skills & Editor Setup (débogage) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Trouver un bug avec des points d'arrêt, sans console.log",
@@ -671,6 +847,10 @@
             {
               "label": "Modification",
               "url": "https://javascript.info/modifying-document"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « JavaScript in the Browser: DOM and Events »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Générer une liste HTML depuis un tableau",
@@ -690,6 +870,10 @@
             {
               "label": "Propagation",
               "url": "https://javascript.info/bubbling-and-capturing"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Advanced DOM and Events (propagation) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Boutons qui réagissent, observer la propagation",
@@ -709,6 +893,10 @@
             {
               "label": "Formulaires",
               "url": "https://javascript.info/forms-controls"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Advanced DOM and Events (délégation) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Supprimer un élément de liste avec un seul écouteur",
@@ -724,6 +912,10 @@
             {
               "label": "localStorage",
               "url": "https://javascript.info/localstorage"
+            },
+            {
+              "label": "Udemy · Complete JavaScript Course — « Mapty App: OOP, Geolocation, External Libraries (localStorage) »",
+              "url": "https://www.udemy.com/course/the-complete-javascript-course/"
             }
           ],
           "exercise": "Conserver les données après rechargement",
@@ -758,6 +950,10 @@
             {
               "label": "MDN, aperçu de HTTP",
               "url": "https://developer.mozilla.org/fr/docs/Web/HTTP/Overview"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « Introduction to Back-End Web Development »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
             }
           ],
           "exercise": "Lister ce que veulent dire 200, 201, 301, 400, 401, 404, 500",
@@ -818,6 +1014,10 @@
             {
               "label": "MDN, JSON",
               "url": "https://developer.mozilla.org/fr/docs/Learn/JavaScript/Objects/JSON"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « Express: Let's Start Building the Natours API! (API REST) »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
             }
           ],
           "exercise": "Faire GET, POST, PUT, DELETE sur JSONPlaceholder",
@@ -856,6 +1056,14 @@
             {
               "label": "Flexbox Froggy",
               "url": "https://flexboxfroggy.com"
+            },
+            {
+              "label": "Udemy · Responsive Websites HTML/CSS — « CSS Fundamentals (box model) »",
+              "url": "https://www.udemy.com/course/design-and-develop-a-killer-website-with-html5-and-css3/"
+            },
+            {
+              "label": "Udemy · Responsive Websites HTML/CSS — « Layouts: Floats, Flexbox, and CSS Grid Fundamentals »",
+              "url": "https://www.udemy.com/course/design-and-develop-a-killer-website-with-html5-and-css3/"
             }
           ],
           "exercise": "Finir Flexbox Froggy",
@@ -875,6 +1083,14 @@
             {
               "label": "MDN, responsive",
               "url": "https://developer.mozilla.org/fr/docs/Learn/CSS/CSS_layout/Responsive_Design"
+            },
+            {
+              "label": "Udemy · Responsive Websites HTML/CSS — « Layouts: Floats, Flexbox, and CSS Grid Fundamentals (Grid) »",
+              "url": "https://www.udemy.com/course/design-and-develop-a-killer-website-with-html5-and-css3/"
+            },
+            {
+              "label": "Udemy · Responsive Websites HTML/CSS — « Omnifood Project – Responsive Web Design »",
+              "url": "https://www.udemy.com/course/design-and-develop-a-killer-website-with-html5-and-css3/"
             }
           ],
           "exercise": "Rendre l'appli lisible sur mobile",
@@ -958,6 +1174,10 @@
             {
               "label": "Tutoriel morpion",
               "url": "https://react.dev/learn/tutorial-tic-tac-toe"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « A First Look at React »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Faire la première moitié du tutoriel",
@@ -973,6 +1193,10 @@
             {
               "label": "Tutoriel morpion",
               "url": "https://react.dev/learn/tutorial-tic-tac-toe"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « A First Look at React »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Finir le morpion, historique compris",
@@ -996,6 +1220,10 @@
             {
               "label": "Accolades",
               "url": "https://react.dev/learn/javascript-in-jsx-with-curly-braces"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Working With Components, Props, and JSX »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Découper une maquette en composants sur papier",
@@ -1011,6 +1239,10 @@
             {
               "label": "Props",
               "url": "https://react.dev/learn/passing-props-to-a-component"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Working With Components, Props, and JSX (props) »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Un composant CarteDepense réutilisable",
@@ -1030,6 +1262,10 @@
             {
               "label": "Listes",
               "url": "https://react.dev/learn/rendering-lists"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Working With Components, Props, and JSX (listes et rendu conditionnel) »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Expliquer pourquoi l'index est une mauvaise key",
@@ -1073,6 +1309,10 @@
             {
               "label": "État",
               "url": "https://react.dev/learn/state-a-components-memory"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « State, Events, and Forms: Interactive Components »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Un compteur, puis un champ texte contrôlé",
@@ -1092,6 +1332,10 @@
             {
               "label": "Snapshot",
               "url": "https://react.dev/learn/state-as-a-snapshot"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « How React Works Behind the Scenes (rendu et commit) »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Expliquer pourquoi un console.log après setState affiche l'ancienne valeur",
@@ -1107,6 +1351,10 @@
             {
               "label": "File de mises à jour",
               "url": "https://react.dev/learn/queueing-a-series-of-state-updates"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « How React Works Behind the Scenes (batching) »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Comparer setN(n + 1) et setN(n => n + 1)",
@@ -1126,6 +1374,10 @@
             {
               "label": "Tableaux",
               "url": "https://react.dev/learn/updating-arrays-in-state"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « State, Events, and Forms: Interactive Components (mise à jour de l'état) »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Ajouter, modifier, supprimer dans un tableau d'état",
@@ -1141,6 +1393,10 @@
             {
               "label": "Pureté",
               "url": "https://react.dev/learn/keeping-components-pure"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « How React Works Behind the Scenes (logique de rendu pure) »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Trouver l'impureté dans 3 exemples de la doc",
@@ -1175,6 +1431,10 @@
             {
               "label": "Thinking in React",
               "url": "https://react.dev/learn/thinking-in-react"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Thinking In React: State Management »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Appliquer la méthode à ton appli, sur papier",
@@ -1194,6 +1454,10 @@
             {
               "label": "Structure de l'état",
               "url": "https://react.dev/learn/choosing-the-state-structure"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Thinking In React: State Management »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Supprimer un état redondant de ton appli",
@@ -1209,6 +1473,10 @@
             {
               "label": "Remonter l'état",
               "url": "https://react.dev/learn/sharing-state-between-components"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Thinking In React: State Management (remonter l'état) »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Un filtre qui pilote la liste et le total",
@@ -1224,6 +1492,10 @@
             {
               "label": "Préserver l'état",
               "url": "https://react.dev/learn/preserving-and-resetting-state"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « How React Works Behind the Scenes (key et réinitialisation de l'état) »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Réinitialiser un formulaire avec une key",
@@ -1239,6 +1511,10 @@
             {
               "label": "Reducer",
               "url": "https://react.dev/learn/extracting-state-logic-into-a-reducer"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « The Advanced useReducer Hook »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Passer la logique des dépenses dans un reducer",
@@ -1273,6 +1549,10 @@
             {
               "label": "Context",
               "url": "https://react.dev/learn/passing-data-deeply-with-context"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Advanced State Management: The Context API »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Identifier ce qui mérite un context dans ton appli",
@@ -1288,6 +1568,10 @@
             {
               "label": "Passer à l'échelle",
               "url": "https://react.dev/learn/scaling-up-with-reducer-and-context"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Advanced State Management: The Context API »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Combiner les deux pour les dépenses",
@@ -1358,6 +1642,10 @@
             {
               "label": "DOM et refs",
               "url": "https://react.dev/learn/manipulating-the-dom-with-refs"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Custom Hooks, Refs, and More State »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Mettre le focus sur un champ au clic",
@@ -1373,6 +1661,10 @@
             {
               "label": "Synchroniser avec les effets",
               "url": "https://react.dev/learn/synchronizing-with-effects"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Effects and Data Fetching »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Expliquer pourquoi un effet s'exécute deux fois en mode dev",
@@ -1388,6 +1680,10 @@
             {
               "label": "You Might Not Need an Effect",
               "url": "https://react.dev/learn/you-might-not-need-an-effect"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Performance Optimization and Advanced useEffect »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Lire la page deux fois, c'est la plus importante",
@@ -1440,6 +1736,10 @@
             {
               "label": "Cycle de vie",
               "url": "https://react.dev/learn/lifecycle-of-reactive-effects"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Effects and Data Fetching »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Prédire quand un effet se relance",
@@ -1459,6 +1759,10 @@
             {
               "label": "Dépendances",
               "url": "https://react.dev/learn/removing-effect-dependencies"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Performance Optimization and Advanced useEffect »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Corriger une boucle infinie volontaire",
@@ -1474,6 +1778,10 @@
             {
               "label": "Custom hooks",
               "url": "https://react.dev/learn/reusing-logic-with-custom-hooks"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Custom Hooks, Refs, and More State »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Écrire useLocalStorage",
@@ -1489,6 +1797,10 @@
             {
               "label": "TanStack Query",
               "url": "https://tanstack.com/query/latest/docs/framework/react/overview"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « React Query: Managing Remote State »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Charger la liste depuis une API avec cache",
@@ -1504,6 +1816,10 @@
             {
               "label": "React Router",
               "url": "https://reactrouter.com"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « React Router: Building Single-Page Applications (SPA) »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Deux pages : liste et statistiques",
@@ -1543,6 +1859,10 @@
             {
               "label": "Build your own React, étapes 0 et 1",
               "url": "https://pomb.us/build-your-own-react/"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « How React Works Behind the Scenes (composants, éléments, arbre) »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Écrire createElement toi-même",
@@ -1588,6 +1908,10 @@
             {
               "label": "Build your own React, étape 4",
               "url": "https://pomb.us/build-your-own-react/"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « How React Works Behind the Scenes (fiber tree) »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Dessiner l'arbre de fibers d'un petit composant",
@@ -1637,6 +1961,10 @@
             {
               "label": "Build your own React, étape 6",
               "url": "https://pomb.us/build-your-own-react/"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « How React Works Behind the Scenes (réconciliation et diffing) »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Relier ce que tu codes au rôle des key",
@@ -1730,6 +2058,14 @@
             {
               "label": "Node.js, introduction",
               "url": "https://nodejs.org/en/learn/getting-started/introduction-to-nodejs"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « Introduction to Node.js and NPM »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « How Node.js Works: A Look Behind the Scenes »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
             }
           ],
           "exercise": "Lire et écrire un fichier JSON avec fs",
@@ -1745,6 +2081,10 @@
             {
               "label": "Module http",
               "url": "https://nodejs.org/api/http.html"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « Introduction to Node.js and NPM (serveur et routage sans framework) »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
             }
           ],
           "exercise": "Un serveur qui répond du JSON selon l'URL",
@@ -1760,6 +2100,10 @@
             {
               "label": "Express, routage",
               "url": "https://expressjs.com/en/guide/routing.html"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « Express: Let's Start Building the Natours API! »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
             }
           ],
           "exercise": "Refaire le serveur d'hier avec Express",
@@ -1775,6 +2119,10 @@
             {
               "label": "Express, middlewares",
               "url": "https://expressjs.com/en/guide/using-middleware.html"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « Express: Let's Start Building the Natours API! (middlewares) »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
             }
           ],
           "exercise": "Écrire ton propre logger de requêtes",
@@ -1790,6 +2138,10 @@
             {
               "label": "Docs Express",
               "url": "https://expressjs.com"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « Express: Let's Start Building the Natours API! (CRUD) »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
             }
           ],
           "exercise": "Routes GET, POST, PUT, DELETE sur des données en mémoire",
@@ -1829,6 +2181,14 @@
             {
               "label": "PostgreSQL Tutorial",
               "url": "https://www.postgresqltutorial.com"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « Local PostgreSQL Installation »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « Simple - But Powerful - SQL Statements »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
             }
           ],
           "exercise": "Installer PostgreSQL et créer une base",
@@ -1844,6 +2204,10 @@
             {
               "label": "SQLBolt, leçons 1 à 5",
               "url": "https://sqlbolt.com"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « Filtering Records »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
             }
           ],
           "exercise": "Faire les exercices",
@@ -1859,6 +2223,10 @@
             {
               "label": "SQLBolt, leçons 6 à 8",
               "url": "https://sqlbolt.com"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « Relating Records with Joins »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
             }
           ],
           "exercise": "Faire les exercices",
@@ -1874,6 +2242,10 @@
             {
               "label": "SQLBolt, leçons 9 à 12",
               "url": "https://sqlbolt.com"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « Aggregation of Records »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
             }
           ],
           "exercise": "Total des dépenses par catégorie",
@@ -1889,6 +2261,10 @@
             {
               "label": "SQLBolt, leçons 13 à 18",
               "url": "https://sqlbolt.com"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « Working with Tables »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
             }
           ],
           "exercise": "Faire les exercices",
@@ -1923,6 +2299,10 @@
             {
               "label": "Clés étrangères",
               "url": "https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-foreign-key/"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « Database-Side Validation and Constraints »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
             }
           ],
           "exercise": "Créer tes tables avec leurs relations",
@@ -1938,6 +2318,10 @@
             {
               "label": "node-postgres",
               "url": "https://node-postgres.com"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « Accessing PostgreSQL From API's »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
             }
           ],
           "exercise": "Lire les dépenses depuis la base",
@@ -1953,6 +2337,10 @@
             {
               "label": "OWASP, injection SQL",
               "url": "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « Security Around PostgreSQL »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
             }
           ],
           "exercise": "Passer toutes tes requêtes en paramétré",
@@ -1968,6 +2356,10 @@
             {
               "label": "Use The Index, Luke",
               "url": "https://use-the-index-luke.com"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « A Look at Indexes for Performance »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
             }
           ],
           "exercise": "Comparer EXPLAIN avant et après un index",
@@ -1983,6 +2375,10 @@
             {
               "label": "Drizzle ORM",
               "url": "https://orm.drizzle.team"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « Managing Database Design with Schema Migrations »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
             }
           ],
           "exercise": "Écrire une migration qui ajoute une colonne",
@@ -2017,6 +2413,10 @@
             {
               "label": "OWASP, stockage des mots de passe",
               "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « Authentication, Authorization and Security »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
             }
           ],
           "exercise": "Hacher et vérifier un mot de passe",
@@ -2032,6 +2432,10 @@
             {
               "label": "OWASP, sessions",
               "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « Authentication, Authorization and Security (cookies) »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
             }
           ],
           "exercise": "Lister les options de cookie et leur rôle",
@@ -2047,6 +2451,10 @@
             {
               "label": "Introduction aux JWT",
               "url": "https://jwt.io/introduction"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « Authentication, Authorization and Security (JWT) »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
             }
           ],
           "exercise": "Écrire le pour et le contre de chaque approche",
@@ -2061,6 +2469,10 @@
           "resources": [
             {
               "label": "Tes notes"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « Authentication, Authorization and Security (inscription et connexion) »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
             }
           ],
           "exercise": "Routes d'inscription, connexion, déconnexion",
@@ -2080,6 +2492,10 @@
             {
               "label": "OWASP Top 10",
               "url": "https://owasp.org/Top10/"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « Authentication, Authorization and Security (validation et nettoyage des données) »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
             }
           ],
           "exercise": "Valider chaque requête entrante",
@@ -2114,6 +2530,10 @@
             {
               "label": "TanStack Query, mutations",
               "url": "https://tanstack.com/query/latest/docs/framework/react/guides/mutations"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « React Query: Managing Remote State (mutations) »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Créer une dépense depuis React vers ta base",
@@ -2143,6 +2563,10 @@
           "resources": [
             {
               "label": "Tes notes"
+            },
+            {
+              "label": "Udemy · Node.js Bootcamp (Jonas) — « Error Handling with Express »",
+              "url": "https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/"
             }
           ],
           "exercise": "Afficher un message clair pour 400, 401 et 500",
@@ -2207,6 +2631,14 @@
             {
               "label": "Docker, premiers pas",
               "url": "https://docs.docker.com/get-started/"
+            },
+            {
+              "label": "Udemy · Docker & Kubernetes — « Getting Started »",
+              "url": "https://www.udemy.com/course/docker-kubernetes-the-practical-guide/"
+            },
+            {
+              "label": "Udemy · Docker & Kubernetes — « Docker Images & Containers: The Core Building Blocks »",
+              "url": "https://www.udemy.com/course/docker-kubernetes-the-practical-guide/"
             }
           ],
           "exercise": "Lancer PostgreSQL dans un conteneur",
@@ -2222,6 +2654,10 @@
             {
               "label": "Docs Docker",
               "url": "https://docs.docker.com"
+            },
+            {
+              "label": "Udemy · Docker & Kubernetes — « Docker Images & Containers: The Core Building Blocks »",
+              "url": "https://www.udemy.com/course/docker-kubernetes-the-practical-guide/"
             }
           ],
           "exercise": "Écrire le Dockerfile de l'API",
@@ -2237,6 +2673,10 @@
             {
               "label": "Render (ou équivalent)",
               "url": "https://render.com"
+            },
+            {
+              "label": "Udemy · Docker & Kubernetes — « Deploying Docker Containers »",
+              "url": "https://www.udemy.com/course/docker-kubernetes-the-practical-guide/"
             }
           ],
           "exercise": "API en ligne avec sa base",
@@ -2251,6 +2691,10 @@
           "resources": [
             {
               "label": "Même hébergeur"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Deployment With Netlify and Vercel »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Front en ligne qui appelle l'API",
@@ -2314,6 +2758,10 @@
             {
               "label": "Transactions PostgreSQL",
               "url": "https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-transaction/"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « Handling Concurrency and Reversibility with Transactions »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
             }
           ],
           "exercise": "Une opération qui touche deux tables sans incohérence",
@@ -2328,6 +2776,14 @@
           "resources": [
             {
               "label": "EXPLAIN ANALYZE"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « Basic Query Tuning »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « Advanced Query Tuning »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
             }
           ],
           "exercise": "Trouver et accélérer ta requête la plus lente",
@@ -2386,6 +2842,10 @@
             {
               "label": "Handbook, types courants",
               "url": "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html"
+            },
+            {
+              "label": "Udemy · Understanding TypeScript — « TypeScript Basics & Basic Types »",
+              "url": "https://www.udemy.com/course/understanding-typescript/"
             }
           ],
           "exercise": "Typer tes fonctions utilitaires",
@@ -2401,6 +2861,10 @@
             {
               "label": "Narrowing",
               "url": "https://www.typescriptlang.org/docs/handbook/2/narrowing.html"
+            },
+            {
+              "label": "Udemy · Understanding TypeScript — « Advanced Types »",
+              "url": "https://www.udemy.com/course/understanding-typescript/"
             }
           ],
           "exercise": "Gérer un type « succès ou erreur »",
@@ -2416,6 +2880,10 @@
             {
               "label": "Generics",
               "url": "https://www.typescriptlang.org/docs/handbook/2/generics.html"
+            },
+            {
+              "label": "Udemy · Understanding TypeScript — « Generic Types »",
+              "url": "https://www.udemy.com/course/understanding-typescript/"
             }
           ],
           "exercise": "Une fonction fetchJson<T> typée",
@@ -2431,6 +2899,10 @@
             {
               "label": "react.dev, TypeScript",
               "url": "https://react.dev/learn/typescript"
+            },
+            {
+              "label": "Udemy · Understanding TypeScript — « React.js & TypeScript »",
+              "url": "https://www.udemy.com/course/understanding-typescript/"
             }
           ],
           "exercise": "Typer props, état et reducer",
@@ -2446,6 +2918,10 @@
             {
               "label": "Zod",
               "url": "https://zod.dev"
+            },
+            {
+              "label": "Udemy · Understanding TypeScript — « Node.js + Express & TypeScript »",
+              "url": "https://www.udemy.com/course/understanding-typescript/"
             }
           ],
           "exercise": "Partager les types entre validation et code",
@@ -2480,6 +2956,10 @@
             {
               "label": "Next.js Learn",
               "url": "https://nextjs.org/learn"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Overview of Next.js With the \"App\" Router »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Suivre les premiers chapitres",
@@ -2495,6 +2975,10 @@
             {
               "label": "Next.js, démarrage",
               "url": "https://nextjs.org/docs/app/getting-started"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Overview of Next.js With the \"App\" Router (routes et layouts) »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Deux pages avec un layout commun",
@@ -2510,6 +2994,10 @@
             {
               "label": "Server Components",
               "url": "https://react.dev/reference/rsc/server-components"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Client and Server Interactions »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Expliquer ce qui tourne où, et pourquoi",
@@ -2525,6 +3013,14 @@
             {
               "label": "Docs Next.js",
               "url": "https://nextjs.org/docs"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Data Fetching, Caching, and Rendering »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Mutations With Server Actions + Modern React Hooks »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Une page qui lit tes dépenses côté serveur",
@@ -2540,6 +3036,10 @@
             {
               "label": "Docs Next.js",
               "url": "https://nextjs.org/docs"
+            },
+            {
+              "label": "Udemy · Ultimate React Course — « Data Fetching, Caching, and Rendering »",
+              "url": "https://www.udemy.com/course/the-ultimate-react-course/"
             }
           ],
           "exercise": "Comparer rendu statique et dynamique sur ta page",
@@ -2574,6 +3074,10 @@
             {
               "label": "The Practical Test Pyramid",
               "url": "https://martinfowler.com/articles/practical-test-pyramid.html"
+            },
+            {
+              "label": "Udemy · React Testing Library and Jest — « A Whirlwind Overview of Testing »",
+              "url": "https://www.udemy.com/course/react-testing-library-and-jest/"
             }
           ],
           "exercise": "Lister les 5 choses les plus risquées de ton appli",
@@ -2589,6 +3093,10 @@
             {
               "label": "Vitest",
               "url": "https://vitest.dev/guide/"
+            },
+            {
+              "label": "Udemy · React Testing Library and Jest — « Matchers in Jest (même API que Vitest) »",
+              "url": "https://www.udemy.com/course/react-testing-library-and-jest/"
             }
           ],
           "exercise": "Tester ton reducer",
@@ -2604,6 +3112,14 @@
             {
               "label": "React Testing Library",
               "url": "https://testing-library.com/docs/react-testing-library/intro/"
+            },
+            {
+              "label": "Udemy · React Testing Library and Jest — « Understanding Element Roles »",
+              "url": "https://www.udemy.com/course/react-testing-library-and-jest/"
+            },
+            {
+              "label": "Udemy · React Testing Library and Jest — « Finding Elements with Query Functions »",
+              "url": "https://www.udemy.com/course/react-testing-library-and-jest/"
             }
           ],
           "exercise": "Tester le formulaire d'ajout",
@@ -2619,6 +3135,10 @@
             {
               "label": "Supertest",
               "url": "https://github.com/ladjs/supertest"
+            },
+            {
+              "label": "Udemy · SQL and PostgreSQL (Grider) — « Fast Parallel Testing (tests d'API Node contre PostgreSQL) »",
+              "url": "https://www.udemy.com/course/sql-and-postgresql/"
             }
           ],
           "exercise": "Tester l'inscription et les droits d'accès",
@@ -2673,6 +3193,14 @@
             {
               "label": "Pro Git",
               "url": "https://git-scm.com/book/fr/v2"
+            },
+            {
+              "label": "Udemy · Git & GitHub Bootcamp — « Git Collaboration Workflows »",
+              "url": "https://www.udemy.com/course/git-and-github-bootcamp/"
+            },
+            {
+              "label": "Udemy · Git & GitHub Bootcamp — « Rebasing: The Scariest Git Command? »",
+              "url": "https://www.udemy.com/course/git-and-github-bootcamp/"
             }
           ],
           "exercise": "Travailler par branches et pull requests",

@@ -18,6 +18,8 @@ Onglet privé de l’administration : `/admin/apprentissage`, accessible après 
 - **Rattrapage** : les séances passées encore à faire, les plus anciennes en premier.
 - **Ressources** : la bibliothèque du programme et toutes les ressources des séances,
   dédupliquées par URL et filtrables par phase. Les liens s’ouvrent dans un nouvel onglet.
+  Les cours Udemy (vidéo, en anglais) sont associés aux leçons avec la section à regarder ;
+  l’accès dépend de l’abonnement, le lien mène à la page du cours.
 
 Chaque séance a deux zones de notes (« Ce que j’ai compris », « Ce qui reste flou ») et un
 lien facultatif (commit, dépôt, démo), enregistrés avec le bouton « Enregistrer les notes ».
