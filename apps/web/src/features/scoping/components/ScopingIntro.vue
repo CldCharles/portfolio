@@ -68,7 +68,7 @@ h1:focus { outline: none; }
 .lead { margin: 1.5rem 0 0; max-inline-size: 35rem; font-size: 1.12rem; line-height: 1.6; color: var(--muted-foreground); }
 .actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-block-start: 2rem; }
 .meta { margin: 1rem 0 0; font-size: .82rem; }
-.output { flex: 1 1 20rem; min-inline-size: 0; border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; background: var(--card); box-shadow: 0 12px 32px -20px rgb(28 42 48 / 35%); }
+.output { flex: 1 1 20rem; min-inline-size: 0; border: 1px solid var(--border); border-radius: 1rem; padding: 1.5rem; background: var(--card); box-shadow: 0 12px 32px -20px rgb(var(--portfolio-shadow-rgb) / 35%); }
 .output h2 { margin: 0; font-size: .75rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--portfolio-ink-mute); }
 .output ol { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .75rem; }
 .output li { display: flex; gap: .75rem; align-items: baseline; font-size: .92rem; line-height: 1.45; }
@@ -86,6 +86,6 @@ h1:focus { outline: none; }
 .analyst > div p { margin: .75rem 0 0; line-height: 1.6; color: var(--muted-foreground); }
 .analyst ul { flex: 2 1 26rem; min-inline-size: 0; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .75rem; }
 .analyst li { display: flex; gap: .75rem; align-items: flex-start; background: var(--card); border-radius: .75rem; padding: .9rem 1rem; font-size: .9rem; line-height: 1.5; }
-.warning-icon { flex: none; margin-block-start: .1rem; color: #a15c07; }
+.warning-icon { flex: none; margin-block-start: .1rem; color: var(--warning-icon); }
 .privacy { margin: 2rem 0 0; font-size: .85rem; }
 </style>

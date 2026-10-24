@@ -49,7 +49,7 @@ onUnmounted(() => { observer?.disconnect(); clearTimeout(timer); });
 .visible .figure { transform: translateY(0); }
 /* Rises during the 6-7 so both hands show above the line. */
 .visible .playing .figure { transform: translateY(-24%); }
-.bubble { margin: 0; max-inline-size: 12rem; padding: .45rem .7rem; border-radius: .8rem .8rem .15rem .8rem; background: var(--portfolio-accent); color: #fff; font-size: .78rem; font-weight: 500; line-height: 1.35; opacity: 0; transform: translateY(.4rem); transition: opacity .3s .45s, transform .3s .45s; }
+.bubble { margin: 0; max-inline-size: 12rem; padding: .45rem .7rem; border-radius: .8rem .8rem .15rem .8rem; background: var(--portfolio-accent); color: var(--portfolio-on-accent); font-size: .78rem; font-weight: 500; line-height: 1.35; opacity: 0; transform: translateY(.4rem); transition: opacity .3s .45s, transform .3s .45s; }
 .visible .bubble { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .figure, .bubble { transition: none; } }
 @media (max-width: 480px) { .bubble { display: none; } }

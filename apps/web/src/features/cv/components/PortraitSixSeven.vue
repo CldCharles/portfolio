@@ -47,7 +47,7 @@ onUnmounted(() => {
 <style scoped>
 .portrait-button { position: relative; display: block; padding: 0; border: 0; background: none; border-radius: 1.25rem; cursor: pointer; }
 .portrait-button:focus-visible { outline: 2px solid var(--portfolio-accent); outline-offset: 4px; }
-.portrait { position: relative; z-index: 1; display: block; inline-size: 152px; block-size: 152px; border-radius: 1.25rem; object-fit: cover; box-shadow: 0 0 0 1px rgb(28 42 48 / 8%), 0 12px 32px -16px rgb(28 42 48 / 35%); }
+.portrait { position: relative; z-index: 1; display: block; inline-size: 152px; block-size: 152px; border-radius: 1.25rem; object-fit: cover; box-shadow: 0 0 0 1px rgb(var(--portfolio-shadow-rgb) / 8%), 0 12px 32px -16px rgb(var(--portfolio-shadow-rgb) / 35%); }
 
 /*
  * Arms start hidden behind the photo and slide out from the lower part of its sides.

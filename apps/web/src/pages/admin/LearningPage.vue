@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useAuthStore } from '@/features/auth/store';
 import LoginForm from '@/features/auth/LoginForm.vue';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
+import ThemeToggle from '@/features/theme/ThemeToggle.vue';
 import AdminNav from '@/features/admin/components/AdminNav.vue';
 import { program } from '@/features/learning/program';
 import { getFocusWeek } from '@/features/learning/lib/progress';
@@ -56,7 +57,7 @@ async function logout() {
 
 <template>
   <main class="admin-shell">
-    <header class="admin-header"><RouterLink to="/">← {{ t('admin.backToSite') }}</RouterLink><div class="admin-actions"><LanguageSwitcher /><Button v-if="auth.session?.authenticated" type="button" variant="outline" class="admin-button" @click="logout">{{ t('admin.logout') }}</Button></div></header>
+    <header class="admin-header"><RouterLink to="/">← {{ t('admin.backToSite') }}</RouterLink><div class="admin-actions"><ThemeToggle /><LanguageSwitcher /><Button v-if="auth.session?.authenticated" type="button" variant="outline" class="admin-button" @click="logout">{{ t('admin.logout') }}</Button></div></header>
     <template v-if="auth.session?.authenticated">
       <AdminNav />
       <div class="heading"><p class="admin-eyebrow">{{ t('admin.privateArea') }}</p><h1>{{ t('learning.title') }}</h1><p class="muted">{{ t('learning.intro') }}</p></div>

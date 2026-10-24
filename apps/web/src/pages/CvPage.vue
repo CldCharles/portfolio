@@ -8,6 +8,7 @@ import CvHero from '@/features/cv/components/CvHero.vue';
 import CvSection from '@/features/cv/components/CvSection.vue';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
 import AdminLink from '@/features/auth/AdminLink.vue';
+import ThemeToggle from '@/features/theme/ThemeToggle.vue';
 import CvNavigation from '@/features/cv/components/CvNavigation.vue';
 import { Button } from '@/components/ui/button';
 const { t, locale } = useI18n({ useScope: 'global' });
@@ -24,7 +25,7 @@ const languages = computed(() => store.cv?.entries.filter(entry => entry.kind ==
     <a href="#main" class="skip-link">{{ t('nav.skip') }}</a>
     <header class="site-header">
       <a :href="`/cadrage?lang=${locale}`" class="workshop-link">{{ t('scoping.nav') }} →</a>
-      <div class="header-tools"><AdminLink /><LanguageSwitcher /></div>
+      <div class="header-tools"><AdminLink /><ThemeToggle /><LanguageSwitcher /></div>
     </header>
     <div class="cv-layout" :class="{ 'no-navigation': !sections.length }">
     <CvNavigation :sections="sections" />
