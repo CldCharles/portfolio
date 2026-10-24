@@ -54,7 +54,7 @@ progress { inline-size: 100%; block-size: .5rem; appearance: none; border: 0; bo
 progress::-webkit-progress-bar { background: var(--muted); }
 progress::-webkit-progress-value { background: var(--portfolio-accent); border-radius: 1rem; }
 progress::-moz-progress-bar { background: var(--portfolio-accent); border-radius: 1rem; }
-.late { border-color: #b04b3c; }
-.overdue { justify-self: start; min-block-size: 2.75rem; padding: 0; border: 0; background: none; color: #922f22; font: inherit; font-size: 1.15rem; font-weight: 600; text-decoration: underline; text-underline-offset: .25rem; cursor: pointer; }
+.late { border-color: var(--danger-line); }
+.overdue { justify-self: start; min-block-size: 2.75rem; padding: 0; border: 0; background: none; color: var(--danger-ink); font: inherit; font-size: 1.15rem; font-weight: 600; text-decoration: underline; text-underline-offset: .25rem; cursor: pointer; }
 @media (max-width: 560px) { .main, .stat:nth-child(2) { grid-column: 1 / -1; } .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 </style>

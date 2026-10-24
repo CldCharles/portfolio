@@ -41,10 +41,10 @@ ol { display: flex; flex-wrap: wrap; gap: .3rem; margin: 0; padding: 0; list-sty
 button { display: grid; place-items: center; inline-size: 2.75rem; block-size: 3rem; padding: 0; border: 1px solid var(--border); border-radius: .35rem; background: var(--card); color: var(--foreground); font: inherit; cursor: pointer; line-height: 1.1; }
 .number { font-size: .9rem; font-weight: 600; }
 .percent { font-size: .62rem; }
-.level-1 { background: #eef4f5; }
+.level-1 { background: var(--portfolio-accent-faint); }
 .level-2 { background: var(--portfolio-accent-soft-hover); }
 .level-3 { background: var(--portfolio-accent-line); }
-.level-4 { background: var(--portfolio-accent); border-color: var(--portfolio-accent); color: #fff; }
+.level-4 { background: var(--portfolio-accent); border-color: var(--portfolio-accent); color: var(--portfolio-on-accent); }
 .current { outline: 2px dashed var(--portfolio-accent); outline-offset: 2px; }
 button[aria-current] { box-shadow: 0 0 0 3px var(--foreground); }
 button:focus-visible { outline: 2px solid var(--portfolio-accent); outline-offset: 3px; }

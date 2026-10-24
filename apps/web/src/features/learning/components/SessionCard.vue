@@ -92,7 +92,7 @@ async function saveNotes() {
 <style scoped>
 .session { display: grid; gap: .8rem; padding: 1.2rem; border: 1px solid var(--border); border-inline-start: 4px solid var(--border); border-radius: .4rem; background: var(--card); min-inline-size: 0; }
 .session.is-done { border-inline-start-color: var(--portfolio-accent); }
-.session.is-late { border-inline-start-color: #b04b3c; }
+.session.is-late { border-inline-start-color: var(--danger-line); }
 .session.is-skipped { border-inline-start-color: var(--muted-foreground); }
 .session.rest { background: var(--muted); }
 .session-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .8rem; font-size: .8rem; }
@@ -101,7 +101,7 @@ async function saveNotes() {
 .type { padding: .15rem .5rem; border-radius: 1rem; background: var(--muted); color: var(--muted-foreground); }
 .status { display: inline-flex; align-items: center; gap: .25rem; font-weight: 600; }
 .is-done .status { color: var(--portfolio-accent); }
-.is-late .status { color: #922f22; }
+.is-late .status { color: var(--danger-ink); }
 .is-skipped .status, .is-todo .status { color: var(--muted-foreground); }
 .objective { margin: 0; font-family: var(--font-serif); font-size: 1.3rem; font-weight: 500; line-height: 1.3; }
 .exercise { margin: 0; line-height: 1.6; }
@@ -115,7 +115,7 @@ async function saveNotes() {
 .notes summary { display: flex; align-items: center; min-block-size: 2.75rem; cursor: pointer; font-size: .9rem; font-weight: 600; }
 .notes form { display: grid; gap: 1rem; padding-block: .5rem; }
 .notes input { border: 1px solid var(--input); border-radius: .35rem; padding: .6rem .75rem; background: var(--background); font: inherit; }
-.unsaved { font-weight: 400; color: #922f22; }
+.unsaved { font-weight: 400; color: var(--danger-ink); }
 .hint { font-size: .8rem; line-height: 1.4; }
 .sr-only { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 </style>

@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
 import AdminLink from '@/features/auth/AdminLink.vue';
+import ThemeToggle from '@/features/theme/ThemeToggle.vue';
 import { useSiteConfig } from '@/features/legal/config';
 const { t, locale } = useI18n();
 const site = useSiteConfig();
@@ -17,7 +18,7 @@ const sections = ['overview', 'cv', 'admin', 'storage', 'external', 'rights'] as
 <template>
   <div class="privacy-shell">
     <a href="#privacy-main" class="skip-link">{{ t('nav.skip') }}</a>
-    <header><a :href="`/?lang=${locale}`">← {{ t('legal.back') }}</a><div class="header-tools"><AdminLink /><LanguageSwitcher /></div></header>
+    <header><a :href="`/?lang=${locale}`">← {{ t('legal.back') }}</a><div class="header-tools"><AdminLink /><ThemeToggle /><LanguageSwitcher /></div></header>
     <main id="privacy-main" tabindex="-1">
       <h1>{{ t('legal.title') }}</h1>
       <p class="intro">{{ t('legal.intro', { name: site.editorName }) }}</p>

@@ -3,6 +3,7 @@ import { nextTick, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
 import AdminLink from '@/features/auth/AdminLink.vue';
+import ThemeToggle from '@/features/theme/ThemeToggle.vue';
 import ScopingIntro from '@/features/scoping/components/ScopingIntro.vue';
 import ScopingSteps from '@/features/scoping/components/ScopingSteps.vue';
 import ScopingNote from '@/features/scoping/components/ScopingNote.vue';
@@ -24,7 +25,7 @@ watch(() => [store.view, store.step], async () => {
     <a href="#scoping-main" class="skip-link">{{ t('nav.skip') }}</a>
     <header class="scoping-header">
       <a :href="`/?lang=${locale}`" class="back">← {{ t('scoping.backToCv') }}</a>
-      <div class="header-tools"><AdminLink /><LanguageSwitcher /></div>
+      <div class="header-tools"><AdminLink /><ThemeToggle /><LanguageSwitcher /></div>
     </header>
     <main id="scoping-main" tabindex="-1">
       <ScopingIntro v-if="store.view === 'intro'" />
@@ -35,7 +36,7 @@ watch(() => [store.view, store.step], async () => {
 </template>
 
 <style scoped>
-.scoping-shell { --scoping-sunken: #efede6; --scoping-raised: 0 1px 2px rgb(28 42 48 / 6%), 0 8px 24px -18px rgb(28 42 48 / 30%); max-inline-size: 1180px; margin-inline: auto; padding-inline: clamp(1.25rem, 5vw, 4rem); }
+.scoping-shell { --scoping-sunken: var(--portfolio-sunken); --scoping-raised: 0 1px 2px rgb(var(--portfolio-shadow-rgb) / 6%), 0 8px 24px -18px rgb(var(--portfolio-shadow-rgb) / 30%); max-inline-size: 1180px; margin-inline: auto; padding-inline: clamp(1.25rem, 5vw, 4rem); }
 .scoping-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; padding-block: 1rem; border-block-end: 1px solid var(--border); }
 .header-tools { display: flex; align-items: center; gap: .5rem; }
 .back { display: inline-flex; align-items: center; min-block-size: 2.75rem; font-size: .9rem; color: var(--portfolio-ink-mute); text-decoration: underline; text-underline-offset: .25rem; }
@@ -57,7 +58,7 @@ main:focus { outline: none; }
 .scoping-shell .serif { font-family: var(--font-serif); font-weight: 500; letter-spacing: -.01em; }
 .scoping-shell .muted { color: var(--portfolio-ink-mute); }
 .scoping-shell .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-block-size: 3rem; padding-inline: 1.25rem; border-radius: .6rem; border: 1px solid transparent; font: inherit; font-size: .92rem; font-weight: 600; text-decoration: none; cursor: pointer; }
-.scoping-shell .btn-primary { background: var(--portfolio-accent); color: #fff; }
+.scoping-shell .btn-primary { background: var(--portfolio-accent); color: var(--portfolio-on-accent); }
 .scoping-shell .btn-primary:hover { background: var(--portfolio-accent-strong); }
 .scoping-shell .btn-soft { background: var(--portfolio-accent-soft); color: var(--portfolio-accent); }
 .scoping-shell .btn-soft:hover { background: var(--portfolio-accent-soft-hover); }

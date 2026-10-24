@@ -24,7 +24,7 @@ h2 { margin: 0; font-size: .9rem; font-weight: 600; }
 ul { list-style: none; margin: .75rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .65rem; }
 li { display: flex; gap: .6rem; align-items: flex-start; font-size: .85rem; line-height: 1.5; }
 .badge { flex: none; padding: .1rem .5rem; border-radius: 999px; font-size: .7rem; font-weight: 600; white-space: nowrap; }
-.badge.ok { background: #dcefe4; color: #1d5c3b; }
-.badge.warning { background: #fbe8cf; color: #7a4405; }
+.badge.ok { background: var(--success-surface); color: var(--success-ink); }
+.badge.warning { background: var(--warning-surface); color: var(--warning-ink); }
 .none { margin: .75rem 0 0; font-size: .85rem; line-height: 1.5; color: var(--portfolio-ink-mute); }
 </style>

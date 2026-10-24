@@ -1,12 +1,18 @@
 import express, { type Express } from 'express';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
+import { parseCookie } from 'cookie';
 import type { Locale, PublicBootstrap, PublicSiteConfig } from '@portfolio/contracts';
 import type { CvRepository } from './cv/repository.js';
 import { publicSiteConfig } from './public-config.js';
 interface Renderer {
   renderPage(template: string, path: string, bootstrap: PublicBootstrap): Promise<{ html: string }>;
   discoveryFile(path: string, site: PublicSiteConfig): { status: number; type: string; body: string } | null;
+}
+/** Theme chosen with the site's toggle (portfolio_theme cookie); anything else follows the system setting. */
+export function themeFromCookie(header: string | undefined): 'light' | 'dark' | null {
+  const value = parseCookie(header ?? '').portfolio_theme;
+  return value === 'light' || value === 'dark' ? value : null;
 }
 export async function installBuiltWeb(app: Express, repository: CvRepository) {
   const directory = fileURLToPath(new URL('../../web/dist/', import.meta.url));
@@ -39,8 +45,10 @@ export async function installBuiltWeb(app: Express, repository: CvRepository) {
     if (request.path === '/' && !cv) { response.status(404).send('CV_NOT_FOUND'); return; }
     if (request.path.startsWith('/admin')) response.set('X-Robots-Tag', 'noindex, nofollow');
     try {
-      const page = await renderer.renderPage(template.replace('</head>', `${styles(request.path)}</head>`), request.path, { locale, cv, site: publicSiteConfig(repository) });
-      response.set('Cache-Control', 'no-cache').type('html').send(page.html);
+      const theme = themeFromCookie(request.headers.cookie);
+      const themed = theme ? template.replace(/<html lang="[^"]*"/, html => `${html} data-theme="${theme}"`) : template;
+      const page = await renderer.renderPage(themed.replace('</head>', `${styles(request.path)}</head>`), request.path, { locale, cv, site: publicSiteConfig(repository) });
+      response.set({ 'Cache-Control': 'no-cache', Vary: 'Cookie' }).type('html').send(page.html);
     } catch { response.status(500).send('PAGE_RENDER_FAILED'); }
   });
   app.use((_request, response) => response.status(404).send('NOT_FOUND'));

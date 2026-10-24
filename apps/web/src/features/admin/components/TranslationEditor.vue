@@ -47,7 +47,7 @@ function remove() { item.value = { ...item.value, translations: { ...item.value.
 .translation-editor { display: grid; gap: 1.25rem; }
 .translation-tabs, .translation-status { display: flex; align-items: center; flex-wrap: wrap; gap: .6rem; }
 .translation-status { font-size: .8rem; color: var(--muted-foreground); }
-.status-dot { inline-size: .5rem; block-size: .5rem; border-radius: 50%; background: #a26a1a; }
+.status-dot { inline-size: .5rem; block-size: .5rem; border-radius: 50%; background: var(--warning-icon); }
 .status-dot.current { background: var(--portfolio-accent); }
 .source-reference { padding: 1rem; background: var(--muted); border-radius: .4rem; font-size: .9rem; }
 .source-reference summary { cursor: pointer; min-block-size: 2rem; }

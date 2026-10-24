@@ -24,8 +24,8 @@ watch(locale, value => { selectedLanguage.value = value as Locale; });
 label { font-size: .75rem; color: var(--muted-foreground); }
 .pdf-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
 select, .pdf-button { min-block-size: 2.75rem; padding: .5rem 1.125rem; border: 1px solid var(--border); border-radius: .625rem; background: transparent; font-size: .875rem; }
-.pdf-button { gap: .5rem; color: white; font-weight: 600; background: var(--portfolio-accent); border-color: var(--portfolio-accent); block-size: auto; white-space: normal; }
-.pdf-button:hover { color: white; background: var(--portfolio-accent-strong); border-color: var(--portfolio-accent-strong); }
+.pdf-button { gap: .5rem; color: var(--portfolio-on-accent); font-weight: 600; background: var(--portfolio-accent); border-color: var(--portfolio-accent); block-size: auto; white-space: normal; }
+.pdf-button:hover { color: var(--portfolio-on-accent); background: var(--portfolio-accent-strong); border-color: var(--portfolio-accent-strong); }
 select { border-color: transparent; padding-inline: .4rem; color: var(--muted-foreground); font-size: .8125rem; cursor: pointer; }
 select:hover { background: var(--portfolio-accent-soft); }
 select:focus-visible { outline: 2px solid var(--portfolio-accent); outline-offset: 3px; }
