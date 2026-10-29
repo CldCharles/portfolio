@@ -187,3 +187,16 @@ principale, avec choix de langue accessible et discret. Les projets conservent
 leur texte, leurs technologies et leur lien : la miniature textuelle a été retirée
 après la revue visuelle du propriétaire. Aucune association d’image ni modification
 de contrat ou de base n’est nécessaire.
+
+## Icônes et aperçu de partage
+
+`apps/web/public` contient le monogramme CCV (bleu pétrole `#1f5566`, Newsreader) :
+`favicon.svg` (onglets récents), `favicon.ico` 16/32/48 px, `apple-touch-icon.png`
+180 px et `og-image.png` 1200 × 630 pour les aperçus de liens (KakaoTalk, LinkedIn,
+Slack…). Les lettres du SVG sont des tracés : aucune police n’est chargée.
+Vite copie ces fichiers à la racine du build ; en production, `apps/api/src/web.ts`
+sert uniquement la liste fixe `publicFiles`, sans exposer le reste de `dist`.
+Les balises `og:image` et `twitter:card` utilisent une URL absolue : elles ne sont
+émises que si `SITE_URL`/`PUBLIC_ORIGIN` est configuré, et jamais pour l’admin.
+L’image de partage est statique et neutre (nom, « Software Engineer », technologies,
+FR · EN · 한국어) : la régénérer si le nom ou le positionnement change.

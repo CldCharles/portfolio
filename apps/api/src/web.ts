@@ -14,6 +14,7 @@ export function themeFromCookie(header: string | undefined): 'light' | 'dark' | 
   const value = parseCookie(header ?? '').portfolio_theme;
   return value === 'light' || value === 'dark' ? value : null;
 }
+export const publicFiles = ['/favicon.ico', '/favicon.svg', '/apple-touch-icon.png', '/og-image.png'];
 export async function installBuiltWeb(app: Express, repository: CvRepository) {
   const directory = fileURLToPath(new URL('../../web/dist/', import.meta.url));
   const moduleUrl = new URL('../../web/dist/server/entry-server.js', import.meta.url).href;
@@ -33,6 +34,8 @@ export async function installBuiltWeb(app: Express, repository: CvRepository) {
     return [...found].map(css => `<link rel="stylesheet" href="/${css}">`).join('\n');
   }
   app.use('/assets', express.static(`${directory}assets`, { immutable: true, maxAge: '1y', index: false }));
+  // Fixed list of files copied from apps/web/public; the build root itself is never exposed.
+  app.get(publicFiles, (request, response) => response.sendFile(request.path.slice(1), { root: directory, maxAge: '1d', dotfiles: 'deny' }));
   app.get(['/robots.txt', '/sitemap.xml', '/llms.txt'], (request, response) => {
     const file = renderer.discoveryFile(request.path, publicSiteConfig(repository))!;
     response.status(file.status).type(file.type).send(file.body);
