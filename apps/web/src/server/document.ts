@@ -2,6 +2,8 @@ import type { Locale, PublicBootstrap, PublicCv, PublicSiteConfig } from '@portf
 
 export const escapeHtml = (value: string) => value.replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]!));
 export const scriptJson = (value: unknown) => JSON.stringify(value).replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
+/** Static share preview in apps/web/public; absolute URLs require a configured public origin. */
+export const shareImage = { path: '/og-image.png', width: 1200, height: 630 } as const;
 export function pageMetadata(path: string, locale: Locale, site: PublicSiteConfig, cv: PublicCv | null, title: string, description: string) {
   const canonical = site.publicOrigin ? `${site.publicOrigin}${path}?lang=${locale}` : null;
   const tags = [`<meta name="description" content="${escapeHtml(description)}">`, `<meta property="og:title" content="${escapeHtml(title)}">`, `<meta property="og:description" content="${escapeHtml(description)}">`, '<meta property="og:type" content="website">', `<meta property="og:locale" content="${{ fr: 'fr_FR', en: 'en_US', ko: 'ko_KR' }[locale]}">`];
@@ -9,6 +11,9 @@ export function pageMetadata(path: string, locale: Locale, site: PublicSiteConfi
   if (canonical && !path.startsWith('/admin')) {
     tags.push(`<link rel="canonical" href="${escapeHtml(canonical)}">`, `<meta property="og:url" content="${escapeHtml(canonical)}">`);
     for (const language of ['fr', 'en', 'ko']) tags.push(`<link rel="alternate" hreflang="${language}" href="${escapeHtml(`${site.publicOrigin}${path}?lang=${language}`)}">`);
+    tags.push(`<meta property="og:image" content="${escapeHtml(`${site.publicOrigin}${shareImage.path}`)}">`, '<meta property="og:image:type" content="image/png">',
+      `<meta property="og:image:width" content="${shareImage.width}">`, `<meta property="og:image:height" content="${shareImage.height}">`,
+      `<meta property="og:image:alt" content="${escapeHtml(`${site.editorName} — Portfolio & CV`)}">`, '<meta name="twitter:card" content="summary_large_image">');
   }
   if (path === '/' && cv) {
     const person = { '@type': 'Person', name: cv.profile.name, jobTitle: cv.profile.text.title, description: cv.profile.text.description, ...(cv.profile.githubUrl ? { sameAs: [cv.profile.githubUrl] } : {}),

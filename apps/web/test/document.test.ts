@@ -32,3 +32,13 @@ test('public dollar sequences stay literal when assembling metadata', () => {
   assert.match(html, /Role \$&amp; \$` \$&#39; \$\$/);
   assert.equal((html.match(/<\/head>/g) ?? []).length, 1);
 });
+
+test('share preview uses an absolute image URL only when the public origin is known', () => {
+  const withOrigin = pageMetadata('/', 'ko', site, null, 'CV', 'CV');
+  assert.match(withOrigin, /<meta property="og:image" content="https:\/\/example\.com\/og-image\.png">/);
+  assert.match(withOrigin, /og:image:width" content="1200"/);
+  assert.match(withOrigin, /twitter:card" content="summary_large_image"/);
+  const local = pageMetadata('/', 'fr', { ...site, publicOrigin: null }, null, 'CV', 'CV');
+  assert.doesNotMatch(local, /og:image|twitter:card/);
+  assert.doesNotMatch(pageMetadata('/admin', 'fr', site, null, 'Admin', 'Admin'), /og:image/);
+});
