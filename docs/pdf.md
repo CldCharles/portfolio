@@ -35,19 +35,17 @@ sont sélectionnables, les URL cliquables et les pages numérotées. Un titre de
 reste avec l’en-tête de son tableau et le début de sa première ligne. Une ligne commence
 sur la page suivante (en-tête répété) si ses colonnes fixes et le début de sa dernière
 colonne ne tiennent pas ; seule la dernière colonne, la description, continue sur
-plusieurs pages. La photo est relue à chaque génération : l’ajouter, la remplacer ou la
-retirer invalide le cache sans redémarrage.
+plusieurs pages.
 
 L’API utilise PDFKit avec Noto Sans CJK KR Regular et Bold intégrées (sous-ensembles
 des glyphes utilisés) pour le latin, les accents, le coréen et les caractères chinois.
 Les polices et leur licence sont dans `apps/api/assets/fonts`. Ces fichiers doivent
-être inclus au déploiement à côté de `dist`, de même que `apps/web/src/assets` pour la
-photo ; aucun navigateur headless ni dépendance système n’est nécessaire à la génération.
+être inclus au déploiement à côté de `dist` ; aucun navigateur headless ni dépendance système n’est nécessaire à la génération.
 Les PDF ne sont pas stockés en SQLite ni écrits sur disque.
 
 Un cache mémoire garde uniquement la dernière génération de chacune des trois
 langues et mutualise les requêtes identiques en cours. Chaque demande relit le CV
-publié et l’e-mail public ; une modification de l’un ou de l’autre invalide sa génération. Une erreur n’est pas
+publié, l’e-mail et le téléphone publics ; une modification de l’un d’eux invalide sa génération. Une erreur n’est pas
 conservée en cache. La réponse HTTP est `application/pdf`, en pièce jointe et
 `Cache-Control: no-store` pour ne pas conserver une ancienne version côté client.
 

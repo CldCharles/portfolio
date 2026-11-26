@@ -187,13 +187,19 @@ export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | n
         ...(options.contactPhone ? [[pdfPhone(options.contactPhone, cv.locale), `tel:${options.contactPhone}`] as [string, string]] : []),
         ...(country ? [[country] as [string]] : []),
       ];
+      // Segments chained with `continued`, each with its own link (or none).
+      const contactTop = doc.y;
       contact.forEach(([value, link], index) => {
         const last = index === contact.length - 1;
         doc.font('regular').fontSize(9).fillColor(link ? color.accent : color.ink)
-          .text(value, index ? doc.x : left, doc.y, { continued: !last, lineBreak: false, ...(link ? { link } : { link: null }) });
-        if (!last) doc.fillColor(color.muted).text('  ·  ', { continued: true, link: null });
+          .text(value, index ? doc.x : left, contactTop, { continued: !last, lineBreak: false, link: link ?? null });
+        if (!last) doc.fillColor(color.muted).text('  ·  ', { continued: true, lineBreak: false, link: null });
       });
-      if (contact.length) doc.y += 8;
+      // PDFKit moves doc.y differently with one or several segments: place the next row explicitly.
+      if (contact.length) {
+        doc.x = left;
+        doc.y = contactTop + doc.currentLineHeight(true) + 8;
+      }
       const languages = byKind('language').map(entry => entry.text.subtitle ? `${entry.text.title} (${entry.text.subtitle})` : entry.text.title);
       const facts: [string, string][] = [
         ...(languages.length ? [[labels.languages, languages.join(' · ')] as [string, string]] : []),

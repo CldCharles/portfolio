@@ -76,10 +76,25 @@ test('the PDF header links the public e-mail and phone only when configured, and
   } finally { db.close(); }
 });
 
+test('the row under the contact line keeps its place whatever the number of contact items', async () => {
+  const { db, repository } = openDatabase(':memory:');
+  try {
+    const cv = repository.read('fr')!;
+    // Baseline (y) of each text line, top to bottom: label, name, title, contact line, next row…
+    const lines = async (options: Parameters<typeof generateCvPdf>[1]) => [...(await generateCvPdf(cv, { ...options, compress: false }))
+      .toString('latin1').matchAll(/1 0 0 1 [\d.]+ ([\d.]+) Tm/g)].map(match => Number(match[1]));
+    const one = await lines({ contactEmail: 'contact@example.com' });
+    const two = await lines({ contactEmail: 'contact@example.com', contactPhone: '+821012345678' });
+    const contactY = one[3]!;
+    assert.equal(two.find(y => y < contactY), one.find(y => y < contactY));
+    assert.ok(contactY - one.find(y => y < contactY)! >= 15, 'The next row must not overlap the contact line');
+  } finally { db.close(); }
+});
+
 test('phone numbers are validated in E.164 and Korean mobiles follow local usage', () => {
   assert.equal(contactPhone({}), null);
   assert.equal(contactPhone({ PUBLIC_CONTACT_PHONE: '+82 10-1234-5678' }), '+821012345678');
-  for (const invalid of ['010-1234-5678', '+82 10 1234 5678 ext', 'tel:+821012345678']) assert.throws(() => contactPhone({ PUBLIC_CONTACT_PHONE: invalid }));
+  for (const invalid of ['010-1234-5678', '+82 010-1234-5678', '+82 10 1234 5678 ext', 'tel:+821012345678']) assert.throws(() => contactPhone({ PUBLIC_CONTACT_PHONE: invalid }));
   assert.equal(pdfPhone('+821012345678', 'ko'), '010-1234-5678');
   assert.equal(pdfPhone('+821012345678', 'en'), '+82 10-1234-5678');
   assert.equal(pdfPhone('+82101234567', 'fr'), '+82 10-123-4567');

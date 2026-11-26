@@ -2,6 +2,7 @@ import { createApp } from './app.js';
 import { installBuiltWeb } from './web.js';
 import { openDatabase } from './database.js';
 import { trustProxySetting } from './proxy.js';
+import { contactPhone } from './public-config.js';
 import { adminOptionsFromEnv } from './admin/routes.js';
 import { readAnthropicApiKey } from './translation/api-key.js';
 import { createClaudeTranslator } from './translation/claude-translator.js';
@@ -14,6 +15,7 @@ if (!Number.isInteger(port) || port < 1 || port > 65535) {
 }
 const trustProxy = trustProxySetting(process.env.TRUST_PROXY);
 
+contactPhone(); // Fails at startup on a malformed PUBLIC_CONTACT_PHONE, not on the first PDF download.
 const { db, repository, admin } = openDatabase();
 // AI translation stays off until an API key is configured (see docs/ai-translation.md).
 const apiKey = readAnthropicApiKey();

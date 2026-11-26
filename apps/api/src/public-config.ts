@@ -7,7 +7,8 @@ import type { CvRepository } from './cv/repository.js';
  */
 export function contactPhone(env: NodeJS.ProcessEnv = process.env): string | null {
   const phone = env.PUBLIC_CONTACT_PHONE?.replace(/[\s-]/g, '') || null;
-  if (phone && !/^\+[1-9]\d{6,14}$/.test(phone)) throw new Error('PUBLIC_CONTACT_PHONE doit être au format international, par exemple +821012345678.');
+  // A national 0 after the country code (+82 010…) is a common mistake: it breaks the tel: link.
+  if (phone && (!/^\+[1-9]\d{6,14}$/.test(phone) || phone.startsWith('+820'))) throw new Error('PUBLIC_CONTACT_PHONE doit être au format international, par exemple +821012345678.');
   return phone;
 }
 
