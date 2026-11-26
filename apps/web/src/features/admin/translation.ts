@@ -32,14 +32,17 @@ export const useTranslationStore = defineStore('aiTranslation', () => {
 
   /** Asks for a translation of the section's current French text and stores it as a draft. */
   async function propose(itemId: string, target: TranslationTarget) {
-    const source = findItem(itemId)?.translations.fr.text;
-    if (!source) return;
-    const request: AiTranslationRequest = { source: { ...source }, target };
+    const item = findItem(itemId);
+    if (!item) return;
+    const request: AiTranslationRequest = { source: { ...item.translations.fr.text }, target };
+    const before = snapshot(itemId, target);
     try {
       const { text } = await adminRequest<AiTranslationResponse>('/translation', 'POST', request, auth.session?.csrfToken);
-      // Looked up again by id: the section may have moved, or the editor may show another one meanwhile.
-      const item = findItem(itemId);
-      if (item) item.translations[target] = { text, reviewedSource: null };
+      // Looked up again by id, and written only if nothing changed during the request:
+      // the proposal never overwrites a manual edit, a reload or a newly saved draft.
+      const current = findItem(itemId);
+      if (!current || snapshot(itemId, target) !== before) throw new AdminApiError('TRANSLATION_STALE', 409);
+      current.translations[target] = { text, reviewedSource: null };
     } catch (error) {
       if (error instanceof AdminApiError && (error.status === 401 || error.code === 'CSRF_REJECTED')) auth.expire();
       throw error;
@@ -62,6 +65,10 @@ export const useTranslationStore = defineStore('aiTranslation', () => {
   }
 
   function findItem(itemId: string) { return editor.document?.items.find(item => item.id === itemId); }
+  function snapshot(itemId: string, target: TranslationTarget) {
+    const item = findItem(itemId);
+    return JSON.stringify(item ? [item.translations.fr.text, item.translations[target]] : null);
+  }
 
   return { status, busy, refreshStatus, run };
 });

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, shallowRef } from 'vue';
+import { computed, shallowRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Sparkles } from '@lucide/vue';
 import type { DraftItem, TranslationTarget } from '@portfolio/contracts';
@@ -15,7 +15,8 @@ const existing = computed(() => {
   const text = props.item.translations[props.target]?.text;
   return !!text && Object.values(text).some(value => value.trim());
 });
-onMounted(() => { void ai.refreshStatus(); });
+// The component is reused from one language tab to the other: forget the previous message.
+watch(() => props.target, () => { message.value = null; });
 
 async function propose() {
   // A proposal replaces the current text: ask first when there is something to lose.

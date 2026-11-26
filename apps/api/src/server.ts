@@ -18,6 +18,7 @@ const { db, repository, admin } = openDatabase();
 // AI translation stays off until an API key is configured (see docs/ai-translation.md).
 const apiKey = readAnthropicApiKey();
 const translation = createTranslationService(db, apiKey ? createClaudeTranslator(apiKey) : null);
+console.log(apiKey ? 'Traduction IA activée.' : 'Traduction IA désactivée : aucune clé API configurée.');
 const app = createApp(repository, admin, adminOptionsFromEnv(), translation);
 if (trustProxy !== false) app.set('trust proxy', trustProxy);
 if (process.env.NODE_ENV === 'production' || process.env.SERVE_WEB === '1') await installBuiltWeb(app, repository);

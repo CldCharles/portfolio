@@ -84,6 +84,7 @@ export default {
     "remaining": "AI quota used up for today | 1 AI translation left today | {count} AI translations left today"
   },
   "errors": {
+    "TRANSLATION_STALE": "The section changed during the translation: the suggestion was not applied. Run it again if needed.",
     "TRANSLATION_UNAVAILABLE": "AI translation is not configured on the server.",
     "TRANSLATION_QUOTA": "Daily AI translation quota reached. Try again tomorrow.",
     "TRANSLATION_FAILED": "The AI could not suggest a translation. Try again or translate by hand.",

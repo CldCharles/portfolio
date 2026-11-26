@@ -4,7 +4,7 @@ import { AdminError } from '../admin/service.js';
 import { textSchema } from '../cv/schema.js';
 import { TranslatorError, type Translator } from './claude-translator.js';
 
-/** Paid API calls allowed per day (UTC): enough for the whole CV in two languages, twice. */
+/** Paid API calls allowed per day (UTC). The spend limit set in the Anthropic Console stays the real cost cap. */
 export const DAILY_LIMIT = 100;
 
 /**

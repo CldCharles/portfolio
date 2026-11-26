@@ -83,6 +83,7 @@ export default {
     "remaining": "Quota IA épuisé pour aujourd’hui | 1 traduction IA restante aujourd’hui | {count} traductions IA restantes aujourd’hui"
   },
   "errors": {
+    "TRANSLATION_STALE": "La section a changé pendant la traduction : la proposition n’a pas été appliquée. Relancez-la si besoin.",
     "TRANSLATION_UNAVAILABLE": "La traduction par IA n’est pas configurée sur le serveur.",
     "TRANSLATION_QUOTA": "Quota quotidien de traductions IA atteint. Réessayez demain.",
     "TRANSLATION_FAILED": "L’IA n’a pas pu proposer de traduction. Réessayez ou traduisez à la main.",

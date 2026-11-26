@@ -10,10 +10,9 @@ Group=portfolio
 WorkingDirectory=/opt/portfolio/app/apps/api
 EnvironmentFile=/etc/portfolio/portfolio.env
 # Clé de l'API Claude (traduction IA de l'admin) : fichier root 600, jamais dans portfolio.env.
-# systemd la copie dans un dossier privé au service ($CREDENTIALS_DIRECTORY). Sans fichier,
-# SetCredential fournit une valeur vide et la fonctionnalité reste désactivée.
+# systemd la copie dans un dossier privé au service ($CREDENTIALS_DIRECTORY). Le fichier est créé
+# vide par setup.sh/update.sh : vide, la fonctionnalité reste désactivée.
 LoadCredential=anthropic-api-key:/etc/portfolio/anthropic-api-key
-SetCredential=anthropic-api-key:
 ExecStart=/usr/bin/node dist/server.js
 Restart=on-failure
 RestartSec=3

@@ -84,6 +84,7 @@ export default {
     "remaining": "오늘의 AI 번역 한도를 모두 사용했습니다 | 오늘 남은 AI 번역 1회 | 오늘 남은 AI 번역 {count}회"
   },
   "errors": {
+    "TRANSLATION_STALE": "번역 중에 항목이 변경되어 제안을 적용하지 않았습니다. 필요하면 다시 실행하세요.",
     "TRANSLATION_UNAVAILABLE": "서버에 AI 번역이 설정되어 있지 않습니다.",
     "TRANSLATION_QUOTA": "오늘의 AI 번역 한도에 도달했습니다. 내일 다시 시도하세요.",
     "TRANSLATION_FAILED": "AI가 번역을 제안하지 못했습니다. 다시 시도하거나 직접 번역하세요.",

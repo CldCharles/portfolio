@@ -36,8 +36,9 @@ const outputSchema = z.object({ title: z.string(), subtitle: z.string(), descrip
 
 /** `fetch` is only replaced in tests, to check the request without calling the paid API. */
 export function createClaudeTranslator(apiKey: string, fetch?: typeof globalThis.fetch): Translator {
-  // The key is passed explicitly: the SDK never falls back to other credentials on the server.
-  const client = new Anthropic({ apiKey, timeout: 60_000, maxRetries: 2, fetch });
+  // Key and address are explicit: the SDK reads neither credentials nor a base URL from the environment.
+  // One retry at most: each attempt may be billed, and the daily quota counts calls, not attempts.
+  const client = new Anthropic({ apiKey, baseURL: 'https://api.anthropic.com', timeout: 120_000, maxRetries: 1, fetch });
 
   return {
     async translate(source, target) {
@@ -45,7 +46,7 @@ export function createClaudeTranslator(apiKey: string, fetch?: typeof globalThis
       try {
         response = await client.beta.messages.parse({
           model: TRANSLATION_MODEL,
-          max_tokens: 16_000,
+          max_tokens: 8_000,
           system: SYSTEM_PROMPT,
           messages: [{ role: 'user', content: `Translate into ${languageNames[target]}.\n\n<cv_entry>\n${JSON.stringify(source, null, 2)}\n</cv_entry>` }],
           // Translation is a simple task: low effort keeps the cost and the wait down.

@@ -34,14 +34,14 @@ traducteur, et changer de fournisseur ne toucherait qu’un fichier.
 
 | Risque | Protection |
 | --- | --- |
-| Fuite de la clé API | La clé ne quitte jamais le serveur. Elle est stockée dans `/etc/portfolio/anthropic-api-key` (root, 600) et fournie au service par `LoadCredential` de systemd. Elle n’apparaît ni dans le dépôt, ni dans `portfolio.env`, ni dans l’environnement du processus, ni dans le navigateur, ni dans les journaux. |
+| Fuite de la clé API | La clé ne quitte jamais le serveur. Elle est stockée dans `/etc/portfolio/anthropic-api-key` (root, 600) et fournie au service par `LoadCredential` de systemd. Elle n’apparaît ni dans le dépôt, ni dans `portfolio.env`, ni dans l’environnement du processus, ni dans le navigateur, ni dans les journaux. L’adresse de l’API est fixée dans le code : une variable d’environnement ne peut pas envoyer la clé ailleurs. |
 | Usage par un visiteur | La route est derrière la session admin (cookie HttpOnly, SameSite=Strict) et le token CSRF. Sans session : 401. Requête forgée depuis un autre site : 403. |
-| Facture qui s’emballe | Au plus 100 appels par jour (UTC), comptés dans SQLite **avant** l’appel, échecs compris. Le compteur survit aux redémarrages. En complément, une limite de dépense dans la console Anthropic. |
+| Facture qui s’emballe | Au plus 100 appels par jour (UTC), comptés dans SQLite **avant** l’appel, échecs compris, et un seul nouvel essai automatique par appel. Le compteur survit aux redémarrages. Le vrai plafond de dépense reste la limite fixée dans la console Anthropic. |
 | Proxy ouvert vers Claude | Le navigateur n’envoie pas de prompt : seulement le texte de la section (titre, sous-titre, description, longueurs limitées) et la langue cible (`en` ou `ko`). Les consignes sont fixes, côté serveur. Tout champ en trop est refusé (Zod `strict`). |
 | Injection de consignes dans le texte | Le texte est encadré par `<cv_entry>` et les consignes précisent qu’il s’agit de contenu à traduire, jamais d’instructions. Au pire, une mauvaise traduction : elle reste à relire et n’est jamais publiée sans validation. |
 | Réponse invalide ou piégée | Claude doit répondre dans un schéma JSON imposé (sortie structurée). La réponse repasse ensuite par le même schéma Zod que l’éditeur : texte nettoyé, longueurs, titre obligatoire. Côté Vue, tout est affiché en texte, jamais en HTML. |
 | Fuite de données dans les journaux | En cas d’échec, seul le motif est journalisé (code HTTP, raison d’arrêt). Ni le texte du CV ni la clé. |
-| Écrasement d’un travail manuel | Le bouton par section demande confirmation avant de remplacer une traduction existante. Le bouton global ne remplit que les traductions **absentes**. |
+| Écrasement d’un travail manuel | Le bouton par section demande confirmation avant de remplacer une traduction existante. Le bouton global ne remplit que les traductions **absentes**. Pendant une traduction, l’éditeur est verrouillé (saisie, enregistrement, rechargement, import), et la proposition n’est appliquée que si la section n’a pas changé entre-temps. |
 | Confidentialité | Seul le texte du CV du propriétaire est envoyé, aucune donnée de visiteur. La notice de confidentialité (FR, EN, KO) le mentionne. |
 
 ## Choix techniques
@@ -52,15 +52,18 @@ traducteur, et changer de fournisseur ne toucherait qu’un fichier.
   directement un objet `{ title, subtitle, description }`, sans analyse de texte libre.
 - **Repli en cas de refus** (`fallbacks: "default"`) : si le modèle refuse une demande
   par excès de prudence, l’API relance la requête sur un autre modèle.
-- **Pas de streaming** : la réponse est courte et validée d’un bloc ; délai maximal de
-  60 s, deux nouvelles tentatives automatiques en cas d’erreur réseau.
+- **Pas de streaming** : la réponse est courte et validée d’un bloc. Délai maximal de
+  120 s et 8 000 tokens de sortie, un seul nouvel essai automatique (erreur réseau,
+  surcharge ou délai dépassé), car chaque essai peut être facturé.
 
 ## Coût
 
 Environ 1 à 2 centimes de dollar par section et par langue (tarif Claude Opus 5.5 :
 4 $ par million de tokens en entrée, 20 $ en sortie). Traduire tout le CV en anglais
-et en coréen coûte quelques dizaines de centimes. Le quota de 100 appels par jour
-plafonne la dépense quotidienne à environ 2 $.
+et en coréen coûte quelques dizaines de centimes. Avec le quota de 100 appels par jour,
+une journée d’usage intensif coûte de l’ordre de 2 $. Ce n’est pas une garantie (une
+réponse longue ou un nouvel essai coûtent plus) : la limite de dépense de la console
+Anthropic est le vrai plafond.
 
 ## Activer en production
 
@@ -70,13 +73,17 @@ plafonne la dépense quotidienne à environ 2 $.
    l’historique du shell ni dans la liste des processus :
 
    ```sh
-   ssh -t ubuntu@IP 'read -rsp "Clé API Anthropic : " key && echo && printf %s "$key" | sudo sh -c "umask 077 && cat > /etc/portfolio/anthropic-api-key" && sudo systemctl restart portfolio && echo "Clé enregistrée."'
+   ssh -t ubuntu@IP 'read -rsp "Clé API Anthropic : " key && echo && printf %s "$key" | sudo sh -c "umask 077 && rm -f /etc/portfolio/anthropic-api-key && cat > /etc/portfolio/anthropic-api-key" && sudo systemctl restart portfolio && echo "Clé enregistrée."'
    ```
 
 3. Se reconnecter à l’admin : les boutons « Proposer une traduction (IA) » apparaissent.
 
-Pour désactiver la fonctionnalité : `sudo rm /etc/portfolio/anthropic-api-key` puis
-`sudo systemctl restart portfolio`. Pour changer de clé : relancer l’étape 2.
+Le journal du service indique « Traduction IA activée. » au démarrage
+(`journalctl -u portfolio -n 20`).
+
+Pour désactiver la fonctionnalité, vider le fichier (systemd exige qu’il existe ; vide,
+la traduction est désactivée) : `sudo truncate -s 0 /etc/portfolio/anthropic-api-key`
+puis `sudo systemctl restart portfolio`. Pour changer de clé : relancer l’étape 2.
 
 ## En local
 

@@ -49,7 +49,8 @@ export function createApp(repository: CvRepository, admin?: AdminService, option
   });
   app.use((error: unknown, _request: express.Request, response: express.Response, _next: express.NextFunction) => {
     if (error instanceof AdminError) {
-      if (error.status === 429) response.set('Retry-After', '900');
+      // Login throttling lasts 15 minutes; the AI translation quota resets at midnight UTC.
+      if (error.code === 'RATE_LIMITED') response.set('Retry-After', '900');
       response.status(error.status).json({ error: error.code }); return;
     }
     if (error instanceof ZodError) { response.status(400).json({ error: 'INVALID_INPUT', fields: error.issues.map(issue => issue.path.join('.')) }); return; }
