@@ -68,7 +68,24 @@ export default {
     "education": "Formation",
     "language": "Langue"
   },
+  "ai": {
+    "title": "Traduction par IA",
+    "translate": "Proposer une traduction (IA)",
+    "translating": "Traduction en cours…",
+    "hint": "Envoie le texte français de cette section à l’API Claude d’Anthropic. La proposition reste à vérifier : rien n’est publié sans votre validation.",
+    "sourceMissing": "Renseignez d’abord le titre en français.",
+    "replaceConfirm": "Remplacer le texte actuel de cette traduction par une proposition de l’IA ?",
+    "proposed": "Traduction proposée. Relisez-la, corrigez si besoin, validez-la puis enregistrez le brouillon.",
+    "translateMissing": "Aucune traduction manquante | Proposer la traduction manquante (IA) | Proposer les {count} traductions manquantes (IA)",
+    "progress": "Traduction {done} sur {total}…",
+    "batchDone": "Aucune traduction proposée. | 1 traduction proposée : relisez-la, validez-la puis enregistrez le brouillon. | {count} traductions proposées : relisez et validez chacune, puis enregistrez le brouillon.",
+    "batchStopped": "Arrêt avant la première traduction. | Arrêt après 1 traduction. | Arrêt après {count} traductions.",
+    "remaining": "Quota IA épuisé pour aujourd’hui | 1 traduction IA restante aujourd’hui | {count} traductions IA restantes aujourd’hui"
+  },
   "errors": {
+    "TRANSLATION_UNAVAILABLE": "La traduction par IA n’est pas configurée sur le serveur.",
+    "TRANSLATION_QUOTA": "Quota quotidien de traductions IA atteint. Réessayez demain.",
+    "TRANSLATION_FAILED": "L’IA n’a pas pu proposer de traduction. Réessayez ou traduisez à la main.",
     "UNKNOWN": "Une erreur est survenue. Vérifiez votre connexion et réessayez.",
     "INVALID_CREDENTIALS": "Identifiant ou mot de passe incorrect.",
     "ADMIN_NOT_CONFIGURED": "Le compte administrateur doit être créé dans le terminal.",

@@ -8,8 +8,9 @@ import type { CvRepository } from './cv/repository.js';
 import { localeSchema } from './cv/schema.js';
 import { findPortrait, generateCvPdf, pdfFilename } from './cv/pdf.js';
 import type { Locale } from '@portfolio/contracts';
+import type { TranslationService } from './translation/service.js';
 
-export function createApp(repository: CvRepository, admin?: AdminService, options?: AdminOptions) {
+export function createApp(repository: CvRepository, admin?: AdminService, options?: AdminOptions, translation?: TranslationService) {
   const app = express();
   const pdfCache = new Map<Locale, { snapshot: string; pdf: Promise<Buffer> }>();
   app.disable('x-powered-by');
@@ -19,7 +20,7 @@ export function createApp(repository: CvRepository, admin?: AdminService, option
     contentSecurityPolicy: { directives: { 'font-src': ["'self'"], 'style-src': ["'self'", "'unsafe-inline'"] } },
   }));
   app.use(express.json({ limit: '1mb' }));
-  if (admin) app.use('/api/admin', adminRoutes(admin, options ?? adminOptionsFromEnv()));
+  if (admin) app.use('/api/admin', adminRoutes(admin, options ?? adminOptionsFromEnv(), translation));
   app.get('/api/site', (_request, response) => response.set('Cache-Control', 'no-cache').json(publicSiteConfig(repository)));
   app.get('/api/health', (_request, response) => response.json({ status: 'ok' }));
   app.get('/api/cv/pdf', async (request, response) => {

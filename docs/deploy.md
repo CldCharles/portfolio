@@ -99,6 +99,7 @@ change le schéma reste prudente (voir ci-dessous).
 | Sauvegardes disponibles | `sudo ls /var/backups/portfolio` (14 jours conservés) |
 | Copier une sauvegarde sur l’ordinateur | voir ci-dessous |
 | Modifier la configuration | `sudoedit /etc/portfolio/portfolio.env` puis `sudo systemctl restart portfolio` |
+| Activer la traduction IA | voir [docs/ai-translation.md](ai-translation.md#activer-en-production) |
 
 Les sauvegardes contiennent l’empreinte du mot de passe admin et les sessions : elles
 ne sont lisibles que par `portfolio`. Pour en récupérer une, la copier temporairement :

@@ -14,6 +14,7 @@ import DraftPreview from '@/features/admin/components/DraftPreview.vue';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
 import ThemeToggle from '@/features/theme/ThemeToggle.vue';
 import AdminNav from '@/features/admin/components/AdminNav.vue';
+import AiTranslateMissing from '@/features/admin/components/AiTranslateMissing.vue';
 const { t, te, locale } = useI18n({ useScope: 'global' });
 const editor = useEditorStore();
 const auth = useAuthStore();
@@ -96,7 +97,9 @@ async function logout() {
           </section>
           <DraftPreview :cv="editor.preview" />
         </template>
-        <div v-else class="editor-grid">
+        <template v-else>
+        <AiTranslateMissing :document="editor.document" />
+        <div class="editor-grid">
           <aside class="editor-sidebar">
             <nav :aria-label="t('admin.sections')"><button v-for="item in editor.document.items" :key="item.id" type="button" :class="{ selected: selectedId === item.id }" :aria-current="selectedId === item.id ? 'true' : undefined" @click="selectedId = item.id"><span class="section-kind">{{ t(item.kind === 'profile' ? 'admin.profile' : `admin.kinds.${item.kind}`) }}</span><span>{{ item.translations.fr.text.title || t('admin.untitled') }}</span></button></nav>
             <div class="add-entry"><label for="add-kind">{{ t('admin.addSection') }}</label><select id="add-kind" v-model="addingKind"><option v-for="kind in ['skill','project','experience','education','language']" :key="kind" :value="kind">{{ t(`admin.kinds.${kind}`) }}</option></select><Button type="button" variant="outline" class="admin-button" :disabled="editor.busy || editor.document.items.length >= 100" @click="add">+ {{ t('admin.add') }}</Button></div>
@@ -106,6 +109,7 @@ async function logout() {
             <fieldset :disabled="editor.busy"><ItemEditor v-if="selectedItem" :key="selectedId" v-model="selectedItem" :first="selectedIndex <= 1" :last="selectedIndex === editor.document.items.length - 1" @remove="remove" @move="move" /></fieldset>
           </form>
         </div>
+        </template>
         </template>
       </template>
     </template>

@@ -55,3 +55,9 @@ export interface LearningSessionProgress {
 }
 export interface LearningProgress { sessions: Record<string, LearningSessionProgress> }
 export type LearningSessionInput = Omit<LearningSessionProgress, 'doneAt'>;
+
+/** AI-assisted translation of a CV entry, from French (the source language) to another locale. */
+export type TranslationTarget = Exclude<Locale, 'fr'>;
+export interface AiTranslationRequest { source: CvText; target: TranslationTarget }
+export interface AiTranslationResponse { text: CvText }
+export interface AiTranslationStatus { available: boolean; remainingToday: number }

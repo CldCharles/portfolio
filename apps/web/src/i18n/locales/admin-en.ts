@@ -69,7 +69,24 @@ export default {
     "education": "Education",
     "language": "Language"
   },
+  "ai": {
+    "title": "AI translation",
+    "translate": "Suggest a translation (AI)",
+    "translating": "Translating…",
+    "hint": "Sends this section’s French text to Anthropic’s Claude API. The suggestion still needs your review: nothing is published until you approve it.",
+    "sourceMissing": "Fill in the French title first.",
+    "replaceConfirm": "Replace the current text of this translation with an AI suggestion?",
+    "proposed": "Translation suggested. Review it, correct it if needed, approve it, then save the draft.",
+    "translateMissing": "No missing translation | Suggest the missing translation (AI) | Suggest the {count} missing translations (AI)",
+    "progress": "Translating {done} of {total}…",
+    "batchDone": "No translation suggested. | 1 translation suggested: review it, approve it, then save the draft. | {count} translations suggested: review and approve each one, then save the draft.",
+    "batchStopped": "Stopped before the first translation. | Stopped after 1 translation. | Stopped after {count} translations.",
+    "remaining": "AI quota used up for today | 1 AI translation left today | {count} AI translations left today"
+  },
   "errors": {
+    "TRANSLATION_UNAVAILABLE": "AI translation is not configured on the server.",
+    "TRANSLATION_QUOTA": "Daily AI translation quota reached. Try again tomorrow.",
+    "TRANSLATION_FAILED": "The AI could not suggest a translation. Try again or translate by hand.",
     "UNKNOWN": "Something went wrong. Check your connection and try again.",
     "INVALID_CREDENTIALS": "Incorrect username or password.",
     "ADMIN_NOT_CONFIGURED": "Create the administrator account in the terminal first.",

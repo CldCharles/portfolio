@@ -6,10 +6,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { localeLabels, supportedLocales } from '@/i18n';
+import AiTranslateButton from './AiTranslateButton.vue';
 const item = defineModel<DraftItem>({ required: true });
 const { t } = useI18n({ useScope: 'global' });
 const language = shallowRef<Locale>('fr');
 const translation = computed(() => item.value.translations[language.value]);
+const target = computed(() => language.value === 'fr' ? null : language.value);
 const source = computed(() => item.value.translations.fr.text);
 const current = computed(() => language.value === 'fr' || !!translation.value?.reviewedSource && JSON.stringify(translation.value.reviewedSource) === JSON.stringify(source.value));
 function edit(field: 'title' | 'subtitle' | 'description', value: string | number) {
@@ -33,6 +35,7 @@ function remove() { item.value = { ...item.value, translations: { ...item.value.
       <Button v-for="lang in supportedLocales" :key="lang" type="button" class="admin-button" :variant="language === lang ? 'default' : 'outline'" :aria-pressed="language === lang" :lang="lang" @click="language = lang">{{ localeLabels[lang] }}</Button>
     </div>
     <div class="translation-status"><span class="status-dot" :class="{ current }" />{{ t(language === 'fr' ? 'admin.source' : !translation ? 'admin.missing' : current ? 'admin.current' : 'admin.needsReview') }}</div>
+    <AiTranslateButton v-if="target" :item="item" :target="target" />
     <template v-if="translation">
       <details v-if="language !== 'fr'" class="source-reference"><summary>{{ t('admin.viewSource') }}</summary><div lang="fr"><strong>{{ source.title }}</strong><p>{{ source.subtitle }}</p><p>{{ source.description }}</p></div></details>
       <div class="field"><Label :for="`${item.id}-title-${language}`">{{ t('admin.title') }} *</Label><Input :id="`${item.id}-title-${language}`" :lang="language" :model-value="translation.text.title" maxlength="200" required @update:model-value="edit('title', $event)" /></div>
