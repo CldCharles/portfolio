@@ -1,6 +1,17 @@
 import type { PublicSiteConfig } from '@portfolio/contracts';
 import type { CvRepository } from './cv/repository.js';
 
+/**
+ * Phone number shown on the PDF résumé only (not on the site pages), in E.164: +821012345678.
+ * Set by the owner in PUBLIC_CONTACT_PHONE; absent means no phone line.
+ */
+export function contactPhone(env: NodeJS.ProcessEnv = process.env): string | null {
+  const phone = env.PUBLIC_CONTACT_PHONE?.replace(/[\s-]/g, '') || null;
+  // A national 0 after the country code (+82 010…) is a common mistake: it breaks the tel: link.
+  if (phone && (!/^\+[1-9]\d{6,14}$/.test(phone) || phone.startsWith('+820'))) throw new Error('PUBLIC_CONTACT_PHONE doit être au format international, par exemple +821012345678.');
+  return phone;
+}
+
 export function publicSiteConfig(repository: CvRepository, env: NodeJS.ProcessEnv = process.env): PublicSiteConfig {
   // Adresse explicitement autorisée par le propriétaire pour le contact public.
   const contactEmail = (env.PUBLIC_CONTACT_EMAIL ?? 'claudecharles94@gmail.com').trim() || null;

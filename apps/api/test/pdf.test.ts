@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import { once } from 'node:events';
 import { openDatabase } from '../src/database.js';
 import { createApp } from '../src/app.js';
-import { generateCvPdf, pdfDate, pdfDuration } from '../src/cv/pdf.js';
+import { generateCvPdf, pdfDate, pdfDuration, pdfPhone } from '../src/cv/pdf.js';
+import { contactPhone } from '../src/public-config.js';
 
 test('PDF download supports each locale, validates queries and never exposes the private draft', async () => {
   const { db, repository, admin } = openDatabase(':memory:');
@@ -61,15 +62,43 @@ test('Korean-style periods use YYYY.MM and inclusive durations only when months 
   assert.equal(pdfDuration('2021-03', null), null);
 });
 
-test('the PDF header links the public contact email only when one is configured', async () => {
+test('the PDF header links the public e-mail and phone only when configured, and never GitHub', async () => {
   const { db, repository } = openDatabase(':memory:');
   try {
     const cv = repository.read('ko')!;
-    const withEmail = (await generateCvPdf(cv, { contactEmail: 'contact@example.com' })).toString('latin1');
-    assert.match(withEmail, /\/URI \(mailto:contact@example\.com\)/);
-    const withoutEmail = (await generateCvPdf(cv)).toString('latin1');
-    assert.doesNotMatch(withoutEmail, /mailto:/);
+    assert.ok(cv.profile.githubUrl, 'The seed profile has a GitHub link');
+    const withContact = (await generateCvPdf(cv, { contactEmail: 'contact@example.com', contactPhone: '+821012345678' })).toString('latin1');
+    assert.match(withContact, /\/URI \(mailto:contact@example\.com\)/);
+    assert.match(withContact, /\/URI \(tel:\+821012345678\)/);
+    assert.doesNotMatch(withContact, /github\.com\/CldCharles\)/);
+    const withoutContact = (await generateCvPdf(cv)).toString('latin1');
+    assert.doesNotMatch(withoutContact, /mailto:|tel:/);
   } finally { db.close(); }
+});
+
+test('the row under the contact line keeps its place whatever the number of contact items', async () => {
+  const { db, repository } = openDatabase(':memory:');
+  try {
+    const cv = repository.read('fr')!;
+    // Baseline (y) of each text line, top to bottom: label, name, title, contact line, next row…
+    const lines = async (options: Parameters<typeof generateCvPdf>[1]) => [...(await generateCvPdf(cv, { ...options, compress: false }))
+      .toString('latin1').matchAll(/1 0 0 1 [\d.]+ ([\d.]+) Tm/g)].map(match => Number(match[1]));
+    const one = await lines({ contactEmail: 'contact@example.com' });
+    const two = await lines({ contactEmail: 'contact@example.com', contactPhone: '+821012345678' });
+    const contactY = one[3]!;
+    assert.equal(two.find(y => y < contactY), one.find(y => y < contactY));
+    assert.ok(contactY - one.find(y => y < contactY)! >= 15, 'The next row must not overlap the contact line');
+  } finally { db.close(); }
+});
+
+test('phone numbers are validated in E.164 and Korean mobiles follow local usage', () => {
+  assert.equal(contactPhone({}), null);
+  assert.equal(contactPhone({ PUBLIC_CONTACT_PHONE: '+82 10-1234-5678' }), '+821012345678');
+  for (const invalid of ['010-1234-5678', '+82 010-1234-5678', '+82 10 1234 5678 ext', 'tel:+821012345678']) assert.throws(() => contactPhone({ PUBLIC_CONTACT_PHONE: invalid }));
+  assert.equal(pdfPhone('+821012345678', 'ko'), '010-1234-5678');
+  assert.equal(pdfPhone('+821012345678', 'en'), '+82 10-1234-5678');
+  assert.equal(pdfPhone('+82101234567', 'fr'), '+82 10-123-4567');
+  assert.equal(pdfPhone('+33612345678', 'ko'), '+33612345678');
 });
 
 /** Text-show operators per page, read from uncompressed page streams. */
