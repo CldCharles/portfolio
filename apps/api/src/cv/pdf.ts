@@ -1,5 +1,5 @@
 import PDFDocument from 'pdfkit';
-import { existsSync, statSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import type { CvEntry, Locale, PublicCv } from '@portfolio/contracts';
 
@@ -7,43 +7,32 @@ const fonts = {
   regular: fileURLToPath(new URL('../../assets/fonts/NotoSansCJKkr-Regular.otf', import.meta.url)),
   bold: fileURLToPath(new URL('../../assets/fonts/NotoSansCJKkr-Bold.otf', import.meta.url)),
 };
-/**
- * Same optional portrait as the public site (apps/web/src/assets); PDFKit reads JPEG and PNG.
- * Looked up per generation; `version` lets the caller's cache notice a new or removed photo.
- */
-export function findPortrait(): { path: string; version: number } | null {
-  const path = ['jpg', 'png']
-    .map(extension => fileURLToPath(new URL(`../../../web/src/assets/portrait.${extension}`, import.meta.url)))
-    .find(candidate => existsSync(candidate));
-  return path ? { path, version: statSync(path).mtimeMs } : null;
-}
-
 type Labels = {
-  document: string; summary: string; experience: string; project: string; skill: string; language: string; education: string;
-  email: string; github: string; country: string; stack: string; languages: string;
-  period: string; company: string; projectName: string; details: string; field: string; school: string; program: string; languageName: string; level: string; notes: string;
+  document: string; summary: string; experience: string; project: string; skill: string; education: string;
+  stack: string; languages: string;
+  period: string; company: string; projectName: string; details: string; field: string; school: string; program: string;
   technologies: string; present: string; ended: string; fallback: string; duration: (years: number, months: number) => string;
 };
 const plural = (value: number, one: string, many: string) => `${value} ${value > 1 ? many : one}`;
 export const pdfLabels: Record<Locale, Labels> = {
   fr: {
-    document: 'CV', summary: 'Profil', experience: 'Expérience professionnelle', project: 'Projets', skill: 'Compétences', language: 'Langues', education: 'Formation',
-    email: 'E-mail', github: 'GitHub', country: 'Pays', stack: 'Technologies', languages: 'Langues',
-    period: 'Période', company: 'Entreprise · Poste', projectName: 'Projet', details: 'Description', field: 'Domaine', school: 'Établissement', program: 'Cursus', languageName: 'Langue', level: 'Niveau', notes: 'Précisions',
+    document: 'CV', summary: 'Profil', experience: 'Expérience professionnelle', project: 'Projets', skill: 'Compétences', education: 'Formation',
+    stack: 'Technologies', languages: 'Langues',
+    period: 'Période', company: 'Entreprise · Poste', projectName: 'Projet', details: 'Description', field: 'Domaine', school: 'Établissement', program: 'Cursus',
     technologies: 'Technologies :', present: 'en cours', ended: 'Fin', fallback: 'Texte présenté en français : traduction à compléter ou à vérifier.',
     duration: (years, months) => [years ? plural(years, 'an', 'ans') : '', months ? `${months} mois` : ''].filter(Boolean).join(' '),
   },
   en: {
-    document: 'Résumé', summary: 'Profile', experience: 'Work experience', project: 'Projects', skill: 'Skills', language: 'Languages', education: 'Education',
-    email: 'Email', github: 'GitHub', country: 'Country', stack: 'Technologies', languages: 'Languages',
-    period: 'Period', company: 'Company · Role', projectName: 'Project', details: 'Description', field: 'Area', school: 'School', program: 'Programme', languageName: 'Language', level: 'Level', notes: 'Notes',
+    document: 'Résumé', summary: 'Profile', experience: 'Work experience', project: 'Projects', skill: 'Skills', education: 'Education',
+    stack: 'Technologies', languages: 'Languages',
+    period: 'Period', company: 'Company · Role', projectName: 'Project', details: 'Description', field: 'Area', school: 'School', program: 'Programme',
     technologies: 'Technologies:', present: 'present', ended: 'Ended', fallback: 'Shown in French: translation missing or awaiting review.',
     duration: (years, months) => [years ? plural(years, 'yr', 'yrs') : '', months ? plural(months, 'mo', 'mos') : ''].filter(Boolean).join(' '),
   },
   ko: {
-    document: '이력서', summary: '소개', experience: '경력 사항', project: '프로젝트', skill: '보유 기술', language: '어학 능력', education: '학력 사항',
-    email: '이메일', github: 'GitHub', country: '거주 국가', stack: '주요 기술', languages: '사용 언어',
-    period: '기간', company: '회사명 · 직무', projectName: '프로젝트명', details: '내용', field: '분야', school: '학교명', program: '전공 / 과정', languageName: '언어', level: '수준', notes: '비고',
+    document: '이력서', summary: '소개', experience: '경력 사항', project: '프로젝트', skill: '보유 기술', education: '학력 사항',
+    stack: '주요 기술', languages: '사용 언어',
+    period: '기간', company: '회사명 · 직무', projectName: '프로젝트명', details: '내용', field: '분야', school: '학교명', program: '전공 / 과정',
     technologies: '사용 기술:', present: '재직 중', ended: '종료', fallback: '번역이 없거나 검토가 필요하여 프랑스어로 표시됩니다.',
     duration: (years, months) => [years ? `${years}년` : '', months ? `${months}개월` : ''].filter(Boolean).join(' '),
   },
@@ -54,6 +43,17 @@ type Run = { text: string; bold?: boolean; size?: number; color?: string; link?:
 type Column = { label: string; width: number };
 
 export function pdfFilename(locale: Locale): string { return `cv-${locale}.pdf`; }
+
+/**
+ * Phone number from E.164 (+821012345678). Korean mobiles follow local usage: 010-1234-5678
+ * on the Korean résumé, +82 10-1234-5678 elsewhere. Other numbers stay in E.164.
+ */
+export function pdfPhone(e164: string, locale: Locale): string {
+  const korean = /^\+82(1\d)(\d{3,4})(\d{4})$/.exec(e164);
+  if (!korean) return e164;
+  const [, prefix, middle, last] = korean;
+  return locale === 'ko' ? `0${prefix}-${middle}-${last}` : `+82 ${prefix}-${middle}-${last}`;
+}
 
 /** Korean-style dates: 2021.03, or the year alone when the month is unknown. */
 export function pdfDate(value: string): string { return value.length === 4 ? value : value.slice(0, 7).replace('-', '.'); }
@@ -69,7 +69,7 @@ function descriptionRuns(description: string, size = 9): Run[] {
 }
 
 /** `compress: false` keeps page streams readable for layout tests. */
-export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | null; compress?: boolean } = {}): Promise<Buffer> {
+export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | null; contactPhone?: string | null; compress?: boolean } = {}): Promise<Buffer> {
   const labels = pdfLabels[cv.locale];
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ compress: options.compress ?? true, size: 'A4', margins: { top: 40, bottom: 48, left: 42, right: 42 }, bufferPages: true,
@@ -173,40 +173,39 @@ export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | n
       };
       const byKind = (kind: CvEntry['kind']) => cv.entries.filter(entry => entry.kind === kind);
 
-      // 인적사항: identity, contact details and photo.
-      const photo = { width: 84, height: 112 };
-      const portraitPath = findPortrait()?.path;
-      const infoWidth = portraitPath ? width - photo.width - 18 : width;
+      // 인적사항: identity and contact details. No photo or GitHub link, by the owner's choice.
       const top = doc.y;
-      doc.font('bold').fontSize(8).fillColor(color.accent).text(labels.document.toUpperCase(), left, top, { width: infoWidth, characterSpacing: 1.2 });
+      doc.font('bold').fontSize(8).fillColor(color.accent).text(labels.document.toUpperCase(), left, top, { width: width, characterSpacing: 1.2 });
       doc.y += 2;
-      doc.font('bold').fontSize(22).fillColor(color.ink).text(cv.profile.name, left, doc.y, { width: infoWidth });
-      doc.font('regular').fontSize(11).fillColor(color.accent).text(cv.profile.text.title, left, doc.y + 1, { width: infoWidth });
-      doc.y += 8;
-      const languages = byKind('language').map(entry => entry.text.subtitle ? `${entry.text.title} (${entry.text.subtitle})` : entry.text.title);
+      doc.font('bold').fontSize(22).fillColor(color.ink).text(cv.profile.name, left, doc.y, { width: width });
+      doc.font('regular').fontSize(11).fillColor(color.accent).text(cv.profile.text.title, left, doc.y + 1, { width: width });
+      doc.y += 6;
+      // One contact line: e-mail, phone and country, links clickable.
       const country = cv.profile.countryCode ? new Intl.DisplayNames([cv.locale], { type: 'region' }).of(cv.profile.countryCode) ?? cv.profile.countryCode : null;
-      const facts: [string, string, string?][] = [
-        ...(options.contactEmail ? [[labels.email, options.contactEmail, `mailto:${options.contactEmail}`] as [string, string, string]] : []),
-        ...(cv.profile.githubUrl ? [[labels.github, cv.profile.githubUrl.replace(/^https?:\/\//, ''), cv.profile.githubUrl] as [string, string, string]] : []),
-        ...(country ? [[labels.country, country] as [string, string]] : []),
+      const contact: [string, string?][] = [
+        ...(options.contactEmail ? [[options.contactEmail, `mailto:${options.contactEmail}`] as [string, string]] : []),
+        ...(options.contactPhone ? [[pdfPhone(options.contactPhone, cv.locale), `tel:${options.contactPhone}`] as [string, string]] : []),
+        ...(country ? [[country] as [string]] : []),
+      ];
+      contact.forEach(([value, link], index) => {
+        const last = index === contact.length - 1;
+        doc.font('regular').fontSize(9).fillColor(link ? color.accent : color.ink)
+          .text(value, index ? doc.x : left, doc.y, { continued: !last, lineBreak: false, ...(link ? { link } : { link: null }) });
+        if (!last) doc.fillColor(color.muted).text('  ·  ', { continued: true, link: null });
+      });
+      if (contact.length) doc.y += 8;
+      const languages = byKind('language').map(entry => entry.text.subtitle ? `${entry.text.title} (${entry.text.subtitle})` : entry.text.title);
+      const facts: [string, string][] = [
         ...(languages.length ? [[labels.languages, languages.join(' · ')] as [string, string]] : []),
         ...(cv.profile.text.subtitle ? [[labels.stack, cv.profile.text.subtitle] as [string, string]] : []),
       ];
-      for (const [label, value, link] of facts) {
+      for (const [label, value] of facts) {
         const y = doc.y;
         doc.font('bold').fontSize(8.5).fillColor(color.muted).text(label, left, y, { width: 64 });
-        doc.font('regular').fontSize(8.5).fillColor(link ? color.accent : color.ink).text(value, left + 66, y, { width: infoWidth - 66, lineGap: 1, ...(link ? { link } : {}) });
+        doc.font('regular').fontSize(8.5).fillColor(color.ink).text(value, left + 66, y, { width: width - 66, lineGap: 1 });
         doc.y += 3;
       }
-      let headerEnd = doc.y;
-      if (portraitPath) {
-        const x = left + width - photo.width;
-        doc.save().rect(x, top, photo.width, photo.height).clip();
-        doc.image(portraitPath, x, top, { cover: [photo.width, photo.height], align: 'center', valign: 'center' });
-        doc.restore().rect(x, top, photo.width, photo.height).lineWidth(.5).strokeColor(color.rule).stroke();
-        headerEnd = Math.max(headerEnd, top + photo.height);
-      }
-      doc.y = headerEnd + 10;
+      doc.y += 10;
       rule(doc.y, 1.2, color.strong);
       doc.y += 4;
 
@@ -250,12 +249,7 @@ export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | n
               ...(entry.url ? [{ text: entry.url, size: 8, color: color.accent, link: entry.url }] : [])],
           ]));
       }
-      const spoken = byKind('language');
-      if (spoken.length) {
-        table(labels.language, [{ label: labels.languageName, width: 108 }, { label: labels.level, width: 170 }, { label: labels.notes, width: 0 }],
-          spoken.map(entry => [[{ text: entry.text.title, bold: true, size: 9 }], [{ text: entry.text.subtitle, size: 9 }],
-            [...fallback(entry), ...descriptionRuns(entry.text.description, 8.5).map(run => ({ ...run, color: color.muted }))]]));
-      }
+      // Languages and levels are already in the header: no separate table.
 
       const range = doc.bufferedPageRange();
       for (let index = range.start; index < range.start + range.count; index++) {

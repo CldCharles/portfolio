@@ -16,14 +16,16 @@ un profil absent 404. Les erreurs de génération passent par le gestionnaire 50
 Mise en page d’이력서 adaptée aux entreprises coréennes, identique en FR/EN/KO
 (libellés traduits) :
 
-1. **인적사항** : nom, métier, e-mail public (`PUBLIC_CONTACT_EMAIL`, lien `mailto:`),
-   GitHub, pays (nom localisé par `Intl.DisplayNames`), langues parlées avec leur
-   niveau et technologies principales ; photo au format 3:4 à droite, recadrée
-   depuis le portrait du site (`apps/web/src/assets/portrait.jpg` ou `.png`) si présent.
+1. **인적사항** : nom, métier, puis une ligne de contact : e-mail public
+   (`PUBLIC_CONTACT_EMAIL`, lien `mailto:`), téléphone (`PUBLIC_CONTACT_PHONE`, au
+   format international `+821012345678`, lien `tel:` ; affiché `010-1234-5678` sur le CV
+   coréen et `+82 10-1234-5678` ailleurs) et pays (nom localisé par `Intl.DisplayNames`).
+   Ensuite les langues parlées avec leur niveau et les technologies principales. Pas de
+   photo ni de lien GitHub, au choix du propriétaire (le site, lui, les garde).
 2. **소개** : présentation du profil.
 3. Tableaux à en-tête : **학력** (période, établissement, cursus), **경력** (période
-   avec durée, entreprise, poste, missions et technologies), **프로젝트**, **보유 기술**
-   et **어학** (langue, niveau, précisions). L’ordre suit l’usage coréen : formation
+   avec durée, entreprise, poste, missions et technologies), **프로젝트** et **보유 기술**.
+   Les langues ne sont pas répétées dans un tableau : elles figurent dans l’en-tête. L’ordre suit l’usage coréen : formation
    avant expérience.
 
 Les dates sont au format `2021.03` (ou l’année seule si le mois est inconnu). La durée
