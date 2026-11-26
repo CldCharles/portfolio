@@ -41,7 +41,7 @@ traducteur, et changer de fournisseur ne toucherait qu’un fichier.
 | Injection de consignes dans le texte | Le texte est encadré par `<cv_entry>` et les consignes précisent qu’il s’agit de contenu à traduire, jamais d’instructions. Au pire, une mauvaise traduction : elle reste à relire et n’est jamais publiée sans validation. |
 | Réponse invalide ou piégée | Claude doit répondre dans un schéma JSON imposé (sortie structurée). La réponse repasse ensuite par le même schéma Zod que l’éditeur : texte nettoyé, longueurs, titre obligatoire. Côté Vue, tout est affiché en texte, jamais en HTML. |
 | Fuite de données dans les journaux | En cas d’échec, seul le motif est journalisé (code HTTP, raison d’arrêt). Ni le texte du CV ni la clé. |
-| Écrasement d’un travail manuel | Le bouton par section demande confirmation avant de remplacer une traduction existante. Le bouton global ne remplit que les traductions **absentes**. Pendant une traduction, l’éditeur est verrouillé (saisie, enregistrement, rechargement, import), et la proposition n’est appliquée que si la section n’a pas changé entre-temps. |
+| Écrasement d’un travail manuel | Le bouton par section demande confirmation avant de remplacer une traduction existante. Le bouton global ne remplit que les traductions **absentes**. Pendant une traduction, l’éditeur est verrouillé (saisie, enregistrement, rechargement, import), et la proposition n’est appliquée que si la section n’a pas changé entre-temps. Une traduction globale de tout le CV peut donc bloquer l’éditeur quelques minutes. |
 | Confidentialité | Seul le texte du CV du propriétaire est envoyé, aucune donnée de visiteur. La notice de confidentialité (FR, EN, KO) le mentionne. |
 
 ## Choix techniques

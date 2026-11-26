@@ -24,10 +24,12 @@ test('a proposal lands in the draft as unreviewed, unless the section changed du
   const ai = useTranslationStore();
   editor.document = { items: [item('a', 'Projet A')] };
   const proposal = { text: { title: 'Project A', subtitle: '', description: '' } };
-  let respond: () => void = () => {};
-  context.mock.method(globalThis, 'fetch', async (url: string) => {
-    if (url.endsWith('/translation') && respond) await new Promise<void>(resolve => { respond = resolve; });
-    return Response.json(url.endsWith('/translation') ? proposal : {});
+  // Each POST /translation waits for respond(), so the test can edit the draft mid-request.
+  let respond = () => {};
+  context.mock.method(globalThis, 'fetch', async (_url: string, init?: RequestInit) => {
+    if (init?.method !== 'POST') return Response.json({ available: true, remainingToday: 100 });
+    await new Promise<void>(resolve => { respond = resolve; });
+    return Response.json(proposal);
   });
 
   const first = ai.run([{ itemId: 'a', target: 'en' }]);
@@ -37,7 +39,6 @@ test('a proposal lands in the draft as unreviewed, unless the section changed du
   assert.deepEqual(editor.document.items[0]!.translations.en, { text: proposal.text, reviewedSource: null });
 
   const second = ai.run([{ itemId: 'a', target: 'ko' }]);
-  await new Promise(resolve => setImmediate(resolve));
   editor.document.items[0]!.translations.ko = { text: { title: 'Saisie manuelle', subtitle: '', description: '' }, reviewedSource: null };
   respond();
   await assert.rejects(second, { code: 'TRANSLATION_STALE' });
