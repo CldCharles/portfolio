@@ -107,11 +107,16 @@ accessibles sans connexion. Les autres vérifient la session ; les écritures v�
 | POST | `/publish` | Publication atomique avec révision attendue |
 | GET | `/learning` | Progression privée du programme d’apprentissage |
 | PUT | `/learning/:id` | Statut et notes d’une séance (`w01-d1` à `w26-d6`) |
+| GET | `/translation` | Traduction IA disponible ou non, quota restant du jour |
+| POST | `/translation` | Proposition de traduction d’une section par Claude (voir `docs/ai-translation.md`) |
 
 Le profil accepte un pays facultatif (code ISO à deux lettres, par exemple `KR`),
 affiché dans la langue de chaque version. Le type d’entrée « Langue » accepte un
 titre (langue), un sous-titre (niveau) et une description (certification, école),
 traduits comme les autres entrées. Un brouillon enregistré avant ces champs reste valide.
+
+La migration v5 ajoute `ai_translation_usage` (compteur quotidien des appels de
+traduction IA). Le code antérieur refuse une base v5.
 
 La migration v4 ajoute `learning_progress` (une ligne par séance commencée ou annotée),
 sans toucher aux tables du CV. Le code antérieur refuse une base v4. Voir

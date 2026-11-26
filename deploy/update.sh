@@ -9,6 +9,8 @@ if [[ -z "${UPDATE_PULLED:-}" ]]; then
 fi
 sudo -u portfolio bash -c "cd '$app' && npm ci && npm run build"
 # Unités systemd et Caddyfile sont versionnés avec le code : les réinstaller.
+# Fichier de la clé API Claude : créé vide s'il manque (systemd exige qu'il existe), jamais écrasé.
+[[ -e /etc/portfolio/anthropic-api-key ]] || install -m 600 -o root -g root /dev/null /etc/portfolio/anthropic-api-key
 install -m 644 "$app/deploy/portfolio.service" "$app/deploy/portfolio-backup.service" "$app/deploy/portfolio-backup.timer" /etc/systemd/system/
 systemctl daemon-reload
 domain="$(sed -n 's#^PUBLIC_ORIGIN=https://##p' /etc/portfolio/portfolio.env)"

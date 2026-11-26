@@ -82,6 +82,8 @@ systemctl restart fail2ban
 rm -f /var/log/fail2ban.log* /etc/logrotate.d/fail2ban
 
 echo "== Services"
+# Fichier de la clé API Claude : créé vide s'il manque (systemd exige qu'il existe), jamais écrasé.
+[[ -e /etc/portfolio/anthropic-api-key ]] || install -m 600 -o root -g root /dev/null /etc/portfolio/anthropic-api-key
 install -m 644 "$app/deploy/portfolio.service" "$app/deploy/portfolio-backup.service" "$app/deploy/portfolio-backup.timer" /etc/systemd/system/
 systemctl daemon-reload
 systemctl enable portfolio portfolio-backup.timer

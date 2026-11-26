@@ -2,6 +2,10 @@ import { createApp } from './app.js';
 import { installBuiltWeb } from './web.js';
 import { openDatabase } from './database.js';
 import { trustProxySetting } from './proxy.js';
+import { adminOptionsFromEnv } from './admin/routes.js';
+import { readAnthropicApiKey } from './translation/api-key.js';
+import { createClaudeTranslator } from './translation/claude-translator.js';
+import { createTranslationService } from './translation/service.js';
 
 const port = Number(process.env.PORT ?? 3000);
 const host = process.env.HOST ?? '127.0.0.1';
@@ -11,7 +15,11 @@ if (!Number.isInteger(port) || port < 1 || port > 65535) {
 const trustProxy = trustProxySetting(process.env.TRUST_PROXY);
 
 const { db, repository, admin } = openDatabase();
-const app = createApp(repository, admin);
+// AI translation stays off until an API key is configured (see docs/ai-translation.md).
+const apiKey = readAnthropicApiKey();
+const translation = createTranslationService(db, apiKey ? createClaudeTranslator(apiKey) : null);
+console.log(apiKey ? 'Traduction IA activée.' : 'Traduction IA désactivée : aucune clé API configurée.');
+const app = createApp(repository, admin, adminOptionsFromEnv(), translation);
 if (trustProxy !== false) app.set('trust proxy', trustProxy);
 if (process.env.NODE_ENV === 'production' || process.env.SERVE_WEB === '1') await installBuiltWeb(app, repository);
 admin.purgeExpired();

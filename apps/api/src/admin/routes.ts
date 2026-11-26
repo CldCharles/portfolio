@@ -4,7 +4,8 @@ import { z } from 'zod';
 import type { AdminService } from './service.js';
 import { AdminError } from './service.js';
 import { revisionSchema, saveDraftSchema } from './schema.js';
-import { localeSchema } from '../cv/schema.js';
+import { localeSchema, textSchema } from '../cv/schema.js';
+import type { TranslationService } from '../translation/service.js';
 
 export interface AdminOptions { origin: string; secureCookies: boolean }
 export function adminOptionsFromEnv(env: NodeJS.ProcessEnv = process.env): AdminOptions {
@@ -14,7 +15,7 @@ export function adminOptionsFromEnv(env: NodeJS.ProcessEnv = process.env): Admin
   if (raw !== url.origin || !['http:', 'https:'].includes(url.protocol) || (production && url.protocol !== 'https:')) throw new Error('PUBLIC_ORIGIN doit être une origine exacte, HTTPS en production.');
   return { origin: url.origin, secureCookies: production || url.protocol === 'https:' };
 }
-export function adminRoutes(admin: AdminService, options: AdminOptions) {
+export function adminRoutes(admin: AdminService, options: AdminOptions, translation?: TranslationService) {
   const router = Router();
   const cookieName = 'portfolio_session';
   const cookieOptions = { httpOnly: true, sameSite: 'strict' as const, secure: options.secureCookies, path: '/api/admin' };
@@ -62,6 +63,15 @@ export function adminRoutes(admin: AdminService, options: AdminOptions) {
   router.post('/publish', (request, response) => {
     const { revision } = revisionSchema.parse(request.body);
     response.json(admin.publish(revision));
+  });
+  // AI translation: behind the same session and CSRF checks as every other admin route.
+  router.get('/translation', (_request, response) => {
+    response.json(translation?.status() ?? { available: false, remainingToday: 0 });
+  });
+  router.post('/translation', async (request, response) => {
+    const input = z.object({ source: textSchema, target: z.enum(['en', 'ko']) }).strict().parse(request.body);
+    if (!translation) throw new AdminError(503, 'TRANSLATION_UNAVAILABLE');
+    response.json({ text: await translation.translate(input.source, input.target) });
   });
   router.get('/learning', (_request, response) => response.json(admin.learning.list()));
   router.put('/learning/:id', (request, response) => response.json(admin.learning.save(request.params.id, request.body)));

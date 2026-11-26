@@ -7,7 +7,7 @@ export function migrateDatabase(db: Database.Database) {
   db.pragma('journal_mode = WAL');
   db.transaction(() => {
     const version = db.pragma('user_version', { simple: true }) as number;
-    if (version > 4) throw new Error('Unsupported database version');
+    if (version > 5) throw new Error('Unsupported database version');
     if (version === 0) {
       db.exec(`
         CREATE TABLE cv_items (
@@ -58,8 +58,12 @@ export function migrateDatabase(db: Database.Database) {
         );
       `);
     }
+    if (version < 5) {
+      // Daily counter of paid AI translation calls (one row per UTC day, older days purged).
+      db.exec('CREATE TABLE ai_translation_usage (day TEXT PRIMARY KEY, count INTEGER NOT NULL)');
+    }
     if ((db.pragma('foreign_key_check') as unknown[]).length) throw new Error('Foreign key check failed after migration');
-    db.pragma('user_version = 4');
+    db.pragma('user_version = 5');
   })();
   db.pragma('foreign_keys = ON');
 }

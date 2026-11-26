@@ -69,7 +69,25 @@ export default {
     "education": "학력",
     "language": "언어"
   },
+  "ai": {
+    "title": "AI 번역",
+    "translate": "번역 제안 받기 (AI)",
+    "translating": "번역 중…",
+    "hint": "이 항목의 프랑스어 텍스트를 Anthropic의 Claude API로 보냅니다. 제안은 검토가 필요하며, 승인하기 전에는 아무것도 공개되지 않습니다.",
+    "sourceMissing": "먼저 프랑스어 제목을 입력하세요.",
+    "replaceConfirm": "현재 번역 내용을 AI 제안으로 바꿀까요?",
+    "proposed": "번역이 제안되었습니다. 검토하고 필요하면 수정한 뒤 승인하고 초안을 저장하세요.",
+    "translateMissing": "누락된 번역 없음 | 누락된 번역 제안 받기 (AI) | 누락된 번역 {count}개 제안 받기 (AI)",
+    "progress": "{total}개 중 {done}개 번역 중…",
+    "batchDone": "제안된 번역이 없습니다. | 번역 1개를 제안했습니다. 검토하고 승인한 뒤 초안을 저장하세요. | 번역 {count}개를 제안했습니다. 각각 검토하고 승인한 뒤 초안을 저장하세요.",
+    "batchStopped": "첫 번역 전에 중단되었습니다. | 번역 1개 후 중단되었습니다. | 번역 {count}개 후 중단되었습니다.",
+    "remaining": "오늘의 AI 번역 한도를 모두 사용했습니다 | 오늘 남은 AI 번역 1회 | 오늘 남은 AI 번역 {count}회"
+  },
   "errors": {
+    "TRANSLATION_STALE": "번역 중에 항목이 변경되어 제안을 적용하지 않았습니다. 필요하면 다시 실행하세요.",
+    "TRANSLATION_UNAVAILABLE": "서버에 AI 번역이 설정되어 있지 않습니다.",
+    "TRANSLATION_QUOTA": "오늘의 AI 번역 한도에 도달했습니다. 내일 다시 시도하세요.",
+    "TRANSLATION_FAILED": "AI가 번역을 제안하지 못했습니다. 다시 시도하거나 직접 번역하세요.",
     "UNKNOWN": "오류가 발생했습니다. 연결을 확인하고 다시 시도하세요.",
     "INVALID_CREDENTIALS": "아이디 또는 비밀번호가 올바르지 않습니다.",
     "ADMIN_NOT_CONFIGURED": "먼저 터미널에서 관리자 계정을 만드세요.",

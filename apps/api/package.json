@@ -12,6 +12,7 @@
     "admin:setup": "tsx src/admin/setup.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^1.14.0",
     "@portfolio/contracts": "*",
     "better-sqlite3": "^13.0.3",
     "cookie": "^2.0.1",

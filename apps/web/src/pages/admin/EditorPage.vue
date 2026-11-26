@@ -14,11 +14,16 @@ import DraftPreview from '@/features/admin/components/DraftPreview.vue';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
 import ThemeToggle from '@/features/theme/ThemeToggle.vue';
 import AdminNav from '@/features/admin/components/AdminNav.vue';
+import AiTranslateMissing from '@/features/admin/components/AiTranslateMissing.vue';
+import { useTranslationStore } from '@/features/admin/translation';
 const { t, te, locale } = useI18n({ useScope: 'global' });
 const editor = useEditorStore();
 const auth = useAuthStore();
 const router = useRouter();
 const learning = useLearningStore();
+const ai = useTranslationStore();
+// Locked while saving and while an AI translation runs, so a proposal never lands on a replaced draft.
+const locked = computed(() => editor.busy || ai.busy);
 const selectedId = shallowRef('profile');
 const addingKind = shallowRef<EntryKind>('experience');
 const importMode = shallowRef(false);
@@ -71,7 +76,7 @@ async function logout() {
 </script>
 <template>
   <main class="admin-shell">
-    <header class="admin-header"><RouterLink to="/">← {{ t('admin.backToSite') }}</RouterLink><div class="admin-actions"><ThemeToggle /><LanguageSwitcher /><Button v-if="auth.session?.authenticated" type="button" variant="outline" class="admin-button" :disabled="editor.busy" @click="logout">{{ t('admin.logout') }}</Button></div></header>
+    <header class="admin-header"><RouterLink to="/">← {{ t('admin.backToSite') }}</RouterLink><div class="admin-actions"><ThemeToggle /><LanguageSwitcher /><Button v-if="auth.session?.authenticated" type="button" variant="outline" class="admin-button" :disabled="locked" @click="logout">{{ t('admin.logout') }}</Button></div></header>
     <template v-if="auth.session?.authenticated">
       <AdminNav />
       <div class="editor-heading"><div><p class="admin-eyebrow">{{ t('admin.privateArea') }}</p><h1>{{ t('admin.editorTitle') }}</h1><p class="muted">{{ t('admin.editorIntro') }}</p></div><span class="draft-badge">{{ t(editor.dirty ? 'admin.unsaved' : editor.revision === editor.publishedRevision ? 'admin.inSync' : 'admin.draftSaved') }}</span></div>
@@ -80,11 +85,11 @@ async function logout() {
       <p v-if="editor.busy" role="status" class="muted">{{ t('admin.working') }}</p>
       <div v-if="!editor.document && !editor.busy" class="admin-actions"><Button @click="editor.load">{{ t('admin.reload') }}</Button></div>
       <template v-if="editor.document">
-        <LinkedInImport v-if="importMode" :document="editor.document" :disabled="editor.busy" @apply="imported" @pending="importPending = $event" @cancel="cancelImport" />
+        <LinkedInImport v-if="importMode" :document="editor.document" :disabled="locked" @apply="imported" @pending="importPending = $event" @cancel="cancelImport" />
         <template v-else>
         <div class="editor-toolbar">
-          <div class="admin-actions"><Button type="button" variant="outline" class="admin-button" :disabled="editor.busy" @click="previewMode = false; confirmingPublish = false">{{ t('admin.edit') }}</Button><Button type="button" variant="outline" class="admin-button" :disabled="editor.dirty || editor.busy" @click="preview">{{ t('admin.preview') }}</Button></div>
-          <div class="admin-actions"><Button type="button" variant="outline" class="admin-button" :disabled="editor.busy" @click="importMode = true; previewMode = false; confirmingPublish = false">{{ t('linkedin.open') }}</Button><Button type="button" variant="ghost" class="admin-button" :disabled="editor.busy" @click="reload">{{ t('admin.reload') }}</Button><Button type="submit" form="cv-editor" class="admin-button" :disabled="!editor.dirty || editor.busy">{{ t('admin.save') }}</Button></div>
+          <div class="admin-actions"><Button type="button" variant="outline" class="admin-button" :disabled="locked" @click="previewMode = false; confirmingPublish = false">{{ t('admin.edit') }}</Button><Button type="button" variant="outline" class="admin-button" :disabled="editor.dirty || locked" @click="preview">{{ t('admin.preview') }}</Button></div>
+          <div class="admin-actions"><Button type="button" variant="outline" class="admin-button" :disabled="locked" @click="importMode = true; previewMode = false; confirmingPublish = false">{{ t('linkedin.open') }}</Button><Button type="button" variant="ghost" class="admin-button" :disabled="locked" @click="reload">{{ t('admin.reload') }}</Button><Button type="submit" form="cv-editor" class="admin-button" :disabled="!editor.dirty || locked">{{ t('admin.save') }}</Button></div>
         </div>
         <p v-if="editor.dirty" class="muted toolbar-help">{{ t('admin.saveBeforePreview') }}</p>
         <template v-if="previewMode && editor.preview">
@@ -92,20 +97,23 @@ async function logout() {
             <p>{{ t('admin.previewIntro') }}</p>
             <p v-if="editor.preview.locale !== locale" class="notice">{{ t('admin.refreshPreview') }}</p>
             <p v-if="confirmingPublish">{{ t('admin.publishConfirm') }}</p>
-            <div class="admin-actions"><Button type="button" class="admin-button" :disabled="editor.busy || editor.dirty || editor.previewRevision !== editor.revision" @click="confirmingPublish ? publish() : confirmingPublish = true">{{ t(confirmingPublish ? 'admin.confirmPublish' : 'admin.publish') }}</Button><Button v-if="confirmingPublish" type="button" variant="outline" class="admin-button" :disabled="editor.busy" @click="confirmingPublish = false">{{ t('admin.cancel') }}</Button></div>
+            <div class="admin-actions"><Button type="button" class="admin-button" :disabled="locked || editor.dirty || editor.previewRevision !== editor.revision" @click="confirmingPublish ? publish() : confirmingPublish = true">{{ t(confirmingPublish ? 'admin.confirmPublish' : 'admin.publish') }}</Button><Button v-if="confirmingPublish" type="button" variant="outline" class="admin-button" :disabled="locked" @click="confirmingPublish = false">{{ t('admin.cancel') }}</Button></div>
           </section>
           <DraftPreview :cv="editor.preview" />
         </template>
-        <div v-else class="editor-grid">
+        <template v-else>
+        <AiTranslateMissing :document="editor.document" />
+        <div class="editor-grid">
           <aside class="editor-sidebar">
             <nav :aria-label="t('admin.sections')"><button v-for="item in editor.document.items" :key="item.id" type="button" :class="{ selected: selectedId === item.id }" :aria-current="selectedId === item.id ? 'true' : undefined" @click="selectedId = item.id"><span class="section-kind">{{ t(item.kind === 'profile' ? 'admin.profile' : `admin.kinds.${item.kind}`) }}</span><span>{{ item.translations.fr.text.title || t('admin.untitled') }}</span></button></nav>
-            <div class="add-entry"><label for="add-kind">{{ t('admin.addSection') }}</label><select id="add-kind" v-model="addingKind"><option v-for="kind in ['skill','project','experience','education','language']" :key="kind" :value="kind">{{ t(`admin.kinds.${kind}`) }}</option></select><Button type="button" variant="outline" class="admin-button" :disabled="editor.busy || editor.document.items.length >= 100" @click="add">+ {{ t('admin.add') }}</Button></div>
+            <div class="add-entry"><label for="add-kind">{{ t('admin.addSection') }}</label><select id="add-kind" v-model="addingKind"><option v-for="kind in ['skill','project','experience','education','language']" :key="kind" :value="kind">{{ t(`admin.kinds.${kind}`) }}</option></select><Button type="button" variant="outline" class="admin-button" :disabled="locked || editor.document.items.length >= 100" @click="add">+ {{ t('admin.add') }}</Button></div>
           </aside>
           <form id="cv-editor" @submit.prevent="editor.save">
             <p class="muted">{{ t('legal.required') }} {{ t('legal.editorNotice') }} <a :href="`/privacy?lang=${locale}`">{{ t('legal.privacy') }}</a></p>
-            <fieldset :disabled="editor.busy"><ItemEditor v-if="selectedItem" :key="selectedId" v-model="selectedItem" :first="selectedIndex <= 1" :last="selectedIndex === editor.document.items.length - 1" @remove="remove" @move="move" /></fieldset>
+            <fieldset :disabled="locked"><ItemEditor v-if="selectedItem" :key="selectedId" v-model="selectedItem" :first="selectedIndex <= 1" :last="selectedIndex === editor.document.items.length - 1" @remove="remove" @move="move" /></fieldset>
           </form>
         </div>
+        </template>
         </template>
       </template>
     </template>

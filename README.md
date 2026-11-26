@@ -46,6 +46,7 @@ localement avec `npm run admin:setup`, avec mot de passe masqué et haché. Voir
 - `docs/architecture.md` : choix techniques et limites du socle.
 - `docs/frontend.md` : arborescence, Pinia et composants shadcn-vue.
 - `docs/i18n.md` : configuration et utilisation des traductions.
+- `docs/ai-translation.md` : traduction des sections du CV par l’API Claude, sécurité et coûts.
 - `docs/linkedin.md` et `docs/pdf.md` : import LinkedIn et export PDF.
 - `packages/contracts` : types publics partagés, sans code d’exécution.
 
