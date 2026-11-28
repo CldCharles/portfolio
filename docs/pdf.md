@@ -24,9 +24,12 @@ Mise en page d’이력서 adaptée aux entreprises coréennes, identique en FR/
    photo ni de lien GitHub, au choix du propriétaire (le site, lui, les garde).
 2. **소개** : présentation du profil.
 3. Tableaux à en-tête : **학력** (période, établissement, cursus), **경력** (période
-   avec durée, entreprise, poste, missions et technologies), **프로젝트** et **보유 기술**.
-   Les langues ne sont pas répétées dans un tableau : elles figurent dans l’en-tête. L’ordre suit l’usage coréen : formation
-   avant expérience.
+   avec durée, entreprise, poste, missions et technologies) et **프로젝트**.
+4. **보유 기술** : liste compacte, une compétence par ligne (nom en gras puis description),
+   sans ligne « Technologies », déjà présentes dans l’en-tête. Le CV tient ainsi sur deux pages.
+
+Les langues ne sont pas répétées dans un tableau : elles figurent dans l’en-tête. L’ordre suit
+l’usage coréen : formation avant expérience.
 
 Les dates sont au format `2021.03` (ou l’année seule si le mois est inconnu). La durée
 des expériences est comptée en mois inclus (`2021.03 – 2024.12` : 3 ans 10 mois),

@@ -44,7 +44,7 @@ test('long Korean descriptions produce multiple complete PDF pages', async () =>
   try {
     const cv = repository.read('ko')!;
     cv.profile.text.description = '긴 설명과 프랑스어 악센트 é è à ç. '.repeat(100);
-    cv.entries[0]!.text.description = '한글 문장이 여러 페이지에 걸쳐 표시됩니다. '.repeat(100);
+    cv.entries[0]!.text.description = '한글 문장이 여러 페이지에 걸쳐 표시됩니다. '.repeat(250);
     const pdf = await generateCvPdf(cv);
     const pages = pdf.toString('latin1').match(/\/Type \/Page\b/g) ?? [];
     assert.ok(pages.length >= 3);
