@@ -138,6 +138,9 @@ fichiers `-wal`/`-shm`, redémarrer.
 - `admin off` dans le Caddyfile : aucun processus local ne peut reconfigurer Caddy. Un
   changement s’applique avec `systemctl restart caddy` (pas de `reload`). Le Caddyfile
   n’est remplacé qu’après validation (`deploy/render-caddyfile.sh`).
+- Autres applications du serveur : le Caddyfile importe `/etc/caddy/sites/*.caddy`. Chaque
+  application y dépose son propre bloc de site (ex. Spotter, `gym.joglapv.com` → port 3010),
+  sans toucher au Caddyfile du portfolio. Dossier absent ou vide : rien n’est importé.
 - SSH : clé uniquement (réglage Lightsail), connexion root interdite, fail2ban bannit 1 h
   après 5 échecs en 10 min. Ses messages vont dans journald (14 jours) et il oublie les
   bannissements après 1 jour ; aucun fichier `/var/log/fail2ban.log`. Si votre agent SSH
