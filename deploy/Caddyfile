@@ -14,3 +14,7 @@ __DOMAIN__ {
 www.__DOMAIN__ {
 	redir https://__DOMAIN__{uri} permanent
 }
+
+# Autres applications du serveur (ex. Spotter) : chacune dépose son propre bloc de site ici.
+# Aucun fichier : rien n'est importé.
+import /etc/caddy/sites/*.caddy
