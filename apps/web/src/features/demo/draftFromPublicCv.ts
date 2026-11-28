@@ -7,7 +7,7 @@ import type { CvText, DraftDocument, DraftItem, Locale, PublicCv } from '@portfo
 const plain = ({ title, subtitle, description }: CvText): CvText => ({ title, subtitle, description });
 
 export function draftFromPublicCv(cvs: Record<Locale, PublicCv>): DraftDocument {
-  const translation = (locale: 'en' | 'ko', text: CvText & { fallback: boolean }, source: CvText) =>
+  const translation = (text: CvText & { fallback: boolean }, source: CvText) =>
     text.fallback ? null : { text: plain(text), reviewedSource: plain(source) };
 
   const { fr, en, ko } = cvs;
@@ -17,8 +17,8 @@ export function draftFromPublicCv(cvs: Record<Locale, PublicCv>): DraftDocument 
     url: null, tags: [], startDate: null, endDate: null,
     translations: {
       fr: { text: plain(profileSource), reviewedSource: plain(profileSource) },
-      en: translation('en', en.profile.text, profileSource),
-      ko: translation('ko', ko.profile.text, profileSource),
+      en: translation(en.profile.text, profileSource),
+      ko: translation(ko.profile.text, profileSource),
     },
   };
 
@@ -32,8 +32,8 @@ export function draftFromPublicCv(cvs: Record<Locale, PublicCv>): DraftDocument 
       url: entry.url, tags: [...entry.tags], startDate: entry.startDate, endDate: entry.endDate,
       translations: {
         fr: { text: plain(source), reviewedSource: plain(source) },
-        en: enText ? translation('en', enText, source) : null,
-        ko: koText ? translation('ko', koText, source) : null,
+        en: enText ? translation(enText, source) : null,
+        ko: koText ? translation(koText, source) : null,
       },
     };
   });

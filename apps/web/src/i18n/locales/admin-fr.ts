@@ -5,6 +5,8 @@ export default {
   "demoTry": "Essayer l’éditeur en mode démo",
   "demoHint": "Sans compte : vous modifiez une copie du CV public, gardée dans ce navigateur. Le site ne change pas.",
   "demoBanner": "Mode démo : vos modifications restent dans ce navigateur, rien n’est publié sur le site. La traduction IA est réservée au propriétaire. « Se déconnecter » quitte la démo.",
+  "demoPublished": "Publié dans la démo uniquement : le site public n’a pas changé.",
+  "demoPublishConfirm": "En mode démo, la publication reste dans ce navigateur : le CV public n’est pas modifié.",
   "setupRequired": "Créez d’abord votre compte dans le terminal du projet :",
   "username": "Identifiant",
   "password": "Mot de passe",

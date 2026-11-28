@@ -97,9 +97,15 @@ async function answer(path: string, method: string, body?: unknown): Promise<unk
   }
   if (route === '/learning' && method === 'GET') return state.learning;
   if (route?.startsWith('/learning/') && method === 'PUT') {
+    // Same rules as the server (apps/api/src/learning/service.ts): the first completion date is
+    // kept, and a session back to "to do" with no notes is removed.
+    const id = route.slice('/learning/'.length);
     const change = input as unknown as LearningSessionInput;
-    const saved = { ...change, doneAt: change.status === 'done' ? new Date().toISOString() : null };
-    state.learning.sessions[route.slice('/learning/'.length)] = saved;
+    const previous = state.learning.sessions[id];
+    const doneAt = change.status === 'done' ? (previous?.status === 'done' && previous.doneAt) || new Date().toISOString() : null;
+    const saved = { ...change, doneAt };
+    if (change.status === 'todo' && !change.understood.trim() && !change.unclear.trim() && !change.link) delete state.learning.sessions[id];
+    else state.learning.sessions[id] = saved;
     writeState(state);
     return saved;
   }

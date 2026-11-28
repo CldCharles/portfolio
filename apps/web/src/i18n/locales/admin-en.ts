@@ -6,6 +6,8 @@ export default {
   "demoTry": "Try the editor in demo mode",
   "demoHint": "No account needed: you edit a copy of the public résumé, kept in this browser. The website does not change.",
   "demoBanner": "Demo mode: your changes stay in this browser and nothing is published on the website. AI translation is reserved for the owner. “Sign out” leaves the demo.",
+  "demoPublished": "Published in the demo only: the public website has not changed.",
+  "demoPublishConfirm": "In demo mode, publishing stays in this browser: the public résumé is not changed.",
   "setupRequired": "First create your account in the project terminal:",
   "username": "Username",
   "password": "Password",

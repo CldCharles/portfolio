@@ -52,7 +52,7 @@ test('the demo editor works on a copy of the public CV and never calls the admin
   // The French text changed: its English translation is no longer reviewed, the preview falls back.
   assert.equal(editor.preview!.entries[0]!.text.title, 'Sopra Steria (modifié)');
   await editor.publish();
-  assert.equal(editor.notice, 'published');
+  assert.equal(editor.notice, 'demoPublished');
 
   const calledUrls = fetchMock.mock.calls.map(call => String(call.arguments[0]));
   assert.ok(calledUrls.every(url => url.startsWith('/api/cv?lang=')), `admin API called: ${calledUrls.join(', ')}`);

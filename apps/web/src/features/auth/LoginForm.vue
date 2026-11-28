@@ -20,10 +20,10 @@ async function submit() {
   catch (reason) { const key = reason instanceof AdminApiError ? `admin.errors.${reason.code}` : ''; error.value = te(key) ? key : 'admin.errors.UNKNOWN'; }
   finally { busy.value = false; }
 }
-async function tryDemo() {
+// Full reload into the demo: no store can keep data from a previous (owner) session.
+function tryDemo() {
   enterAdminDemo();
-  await auth.check();
-  emit('authenticated');
+  window.location.assign('/admin');
 }
 </script>
 
