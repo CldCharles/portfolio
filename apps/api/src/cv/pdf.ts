@@ -10,7 +10,7 @@ const fonts = {
 type Labels = {
   document: string; summary: string; experience: string; project: string; skill: string; education: string;
   stack: string; languages: string;
-  period: string; company: string; projectName: string; details: string; field: string; school: string; program: string;
+  period: string; company: string; projectName: string; details: string; school: string; program: string;
   technologies: string; present: string; ended: string; fallback: string; duration: (years: number, months: number) => string;
 };
 const plural = (value: number, one: string, many: string) => `${value} ${value > 1 ? many : one}`;
@@ -18,21 +18,21 @@ export const pdfLabels: Record<Locale, Labels> = {
   fr: {
     document: 'CV', summary: 'Profil', experience: 'Expérience professionnelle', project: 'Projets', skill: 'Compétences', education: 'Formation',
     stack: 'Technologies', languages: 'Langues',
-    period: 'Période', company: 'Entreprise · Poste', projectName: 'Projet', details: 'Description', field: 'Domaine', school: 'Établissement', program: 'Cursus',
+    period: 'Période', company: 'Entreprise · Poste', projectName: 'Projet', details: 'Description', school: 'Établissement', program: 'Cursus',
     technologies: 'Technologies :', present: 'en cours', ended: 'Fin', fallback: 'Texte présenté en français : traduction à compléter ou à vérifier.',
     duration: (years, months) => [years ? plural(years, 'an', 'ans') : '', months ? `${months} mois` : ''].filter(Boolean).join(' '),
   },
   en: {
     document: 'Résumé', summary: 'Profile', experience: 'Work experience', project: 'Projects', skill: 'Skills', education: 'Education',
     stack: 'Technologies', languages: 'Languages',
-    period: 'Period', company: 'Company · Role', projectName: 'Project', details: 'Description', field: 'Area', school: 'School', program: 'Programme',
+    period: 'Period', company: 'Company · Role', projectName: 'Project', details: 'Description', school: 'School', program: 'Programme',
     technologies: 'Technologies:', present: 'present', ended: 'Ended', fallback: 'Shown in French: translation missing or awaiting review.',
     duration: (years, months) => [years ? plural(years, 'yr', 'yrs') : '', months ? plural(months, 'mo', 'mos') : ''].filter(Boolean).join(' '),
   },
   ko: {
     document: '이력서', summary: '소개', experience: '경력 사항', project: '프로젝트', skill: '보유 기술', education: '학력 사항',
     stack: '주요 기술', languages: '사용 언어',
-    period: '기간', company: '회사명 · 직무', projectName: '프로젝트명', details: '내용', field: '분야', school: '학교명', program: '전공 / 과정',
+    period: '기간', company: '회사명 · 직무', projectName: '프로젝트명', details: '내용', school: '학교명', program: '전공 / 과정',
     technologies: '사용 기술:', present: '재직 중', ended: '종료', fallback: '번역이 없거나 검토가 필요하여 프랑스어로 표시됩니다.',
     duration: (years, months) => [years ? `${years}년` : '', months ? `${months}개월` : ''].filter(Boolean).join(' '),
   },
@@ -246,14 +246,18 @@ export function generateCvPdf(cv: PublicCv, options: { contactEmail?: string | n
       }
       const skills = byKind('skill');
       if (skills.length) {
-        table(labels.skill, [{ label: labels.field, width: 150 }, { label: labels.details, width: 0 }],
-          skills.map(entry => [
-            [{ text: entry.text.title, bold: true, size: 9.5 }, ...(entry.text.subtitle ? [{ text: entry.text.subtitle, size: 8, color: color.muted }] : [])],
-            [...fallback(entry), ...descriptionRuns(entry.text.description),
-              // A technology line that only repeats the skill name adds nothing.
-              ...(entry.tags.length === 1 && entry.tags[0] === entry.text.title ? [] : tags(entry)),
-              ...(entry.url ? [{ text: entry.url, size: 8, color: color.accent, link: entry.url }] : [])],
-          ]));
+        // Compact list rather than a table: "Name  description" on as few lines as possible.
+        // Technologies are already in the header, so the tag line is left out here.
+        const line = (entry: CvEntry) => entry.text.description.split('\n').map(part => part.replace(/^[•-]\s*/, '').trim()).filter(Boolean).join(' ');
+        const skillHeight = (entry: CvEntry) => doc.font('regular').fontSize(9).heightOfString(`${entry.text.title}  ${line(entry)}`, { width, lineGap }) + 4;
+        heading(labels.skill, skillHeight(skills[0]!));
+        for (const entry of skills) {
+          drawRuns(fallback(entry), left, width);
+          if (doc.y + skillHeight(entry) > bottom()) doc.addPage();
+          doc.font('bold').fontSize(9).fillColor(color.ink).text(entry.text.title, left, doc.y, { width, lineGap, continued: !!line(entry) });
+          if (line(entry)) doc.font('regular').fillColor(color.muted).text(`  ${line(entry)}`, { width, lineGap });
+          doc.y += 4;
+        }
       }
       // Languages and levels are already in the header: no separate table.
 
