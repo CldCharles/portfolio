@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuthStore } from './store';
 import { AdminApiError } from './api';
+import { enterAdminDemo } from '../demo/adminDemo';
 const emit = defineEmits<{ authenticated: [] }>();
 const { t, te, locale } = useI18n({ useScope: 'global' });
 const auth = useAuthStore();
@@ -18,6 +19,11 @@ async function submit() {
   try { await auth.login(username.value, password.value); password.value = ''; emit('authenticated'); }
   catch (reason) { const key = reason instanceof AdminApiError ? `admin.errors.${reason.code}` : ''; error.value = te(key) ? key : 'admin.errors.UNKNOWN'; }
   finally { busy.value = false; }
+}
+// Full reload into the demo: no store can keep data from a previous (owner) session.
+function tryDemo() {
+  enterAdminDemo();
+  window.location.assign('/admin');
 }
 </script>
 
@@ -32,10 +38,16 @@ async function submit() {
     <div class="field"><Label for="admin-password">{{ t('admin.password') }} *</Label><Input id="admin-password" v-model="password" type="password" :aria-describedby="error ? 'login-error login-privacy' : 'login-privacy'" :aria-invalid="error ? true : undefined" autocomplete="current-password" required maxlength="256" :disabled="busy" /></div>
     <p id="login-privacy" class="muted">{{ t('legal.required') }} {{ t('legal.forms') }} <a :href="`/privacy?lang=${locale}`">{{ t('legal.privacy') }}</a></p>
     <Button type="submit" class="admin-button" :disabled="busy || auth.session?.configured === false">{{ t(busy ? 'admin.connecting' : 'admin.login') }}</Button>
+    <div class="demo">
+      <Button type="button" variant="outline" class="admin-button" :disabled="busy" @click="tryDemo">{{ t('admin.demoTry') }}</Button>
+      <p class="muted">{{ t('admin.demoHint') }}</p>
+    </div>
   </form>
 </template>
 
 <style scoped>
 .login-form { max-inline-size: 28rem; margin: 3rem auto; display: grid; gap: 1.5rem; padding: clamp(1.3rem, 4vw, 2.5rem); background: var(--card); border: 1px solid var(--border); border-radius: .5rem; }
 h1 { font-size: 2rem; letter-spacing: -.04em; line-height: 1.2; }
+.demo { display: grid; gap: .5rem; padding-block-start: 1.5rem; border-block-start: 1px solid var(--border); }
+.demo p { margin: 0; font-size: .9rem; }
 </style>

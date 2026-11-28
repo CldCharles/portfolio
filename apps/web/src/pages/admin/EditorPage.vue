@@ -14,6 +14,7 @@ import DraftPreview from '@/features/admin/components/DraftPreview.vue';
 import LanguageSwitcher from '@/features/cv/components/LanguageSwitcher.vue';
 import ThemeToggle from '@/features/theme/ThemeToggle.vue';
 import AdminNav from '@/features/admin/components/AdminNav.vue';
+import { isAdminDemo } from '@/features/demo/adminDemo';
 import AiTranslateMissing from '@/features/admin/components/AiTranslateMissing.vue';
 import { useTranslationStore } from '@/features/admin/translation';
 const { t, te, locale } = useI18n({ useScope: 'global' });
@@ -96,7 +97,7 @@ async function logout() {
           <section class="publication-panel" :aria-label="t('admin.publication')">
             <p>{{ t('admin.previewIntro') }}</p>
             <p v-if="editor.preview.locale !== locale" class="notice">{{ t('admin.refreshPreview') }}</p>
-            <p v-if="confirmingPublish">{{ t('admin.publishConfirm') }}</p>
+            <p v-if="confirmingPublish">{{ t(isAdminDemo() ? 'admin.demoPublishConfirm' : 'admin.publishConfirm') }}</p>
             <div class="admin-actions"><Button type="button" class="admin-button" :disabled="locked || editor.dirty || editor.previewRevision !== editor.revision" @click="confirmingPublish ? publish() : confirmingPublish = true">{{ t(confirmingPublish ? 'admin.confirmPublish' : 'admin.publish') }}</Button><Button v-if="confirmingPublish" type="button" variant="outline" class="admin-button" :disabled="locked" @click="confirmingPublish = false">{{ t('admin.cancel') }}</Button></div>
           </section>
           <DraftPreview :cv="editor.preview" />

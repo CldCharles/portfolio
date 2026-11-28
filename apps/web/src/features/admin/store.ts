@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import type { AdminDraft, DraftDocument, EntryKind, Locale, PublicCv } from '@portfolio/contracts';
 import { adminRequest, AdminApiError } from '../auth/api';
 import { useAuthStore } from '../auth/store';
+import { isAdminDemo } from '../demo/adminDemo';
 
 export const useEditorStore = defineStore('editor', () => {
   const document = ref<DraftDocument | null>(null);
@@ -45,7 +46,7 @@ export const useEditorStore = defineStore('editor', () => {
     if (dirty.value || previewRevision.value !== revision.value) return;
     await run(async () => {
       receive(await adminRequest<AdminDraft>('/publish', 'POST', { revision: revision.value }, auth.session?.csrfToken));
-      notice.value = 'published';
+      notice.value = isAdminDemo() ? 'demoPublished' : 'published';
     });
   }
   function addEntry(kind: EntryKind) {
